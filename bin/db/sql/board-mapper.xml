@@ -75,6 +75,7 @@
                 ,B.AMOUNT
                 ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
                 ,M.ADDRESS
+                ,B.SALE_YN
             FROM BOARD B
             JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
             JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
@@ -124,15 +125,6 @@
                    ,?
                    ,?
                    )
-   </entry>
-   
-   <entry key="selectAttachment">
-      SELECT FILE_NO
-           , ORIGIN_NAME
-           , CHANGE_NAME
-           , FILE_PATH
-       FROM ATTACHMENT
-       WHERE REF_BNO = ?
    </entry>
    
    <entry key="insertNewAttachment">
@@ -379,6 +371,28 @@
 		    SET STATUS = 'N'
 	      WHERE REPLY_NO = ?
 	</entry>
+ 	<entry key="selectPopularBoardList">
+        SELECT *
+    FROM  (SELECT ROWNUM AS "RNUM", C.*
+    FROM        (SELECT	B.BOARD_NO
+				,B.BOARD_TITLE
+				,B.BOARD_CONTENT
+				,M.USER_ID
+				,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+				,B.COUNT
+                ,B.STATUS
+                ,B.AMOUNT
+                ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+                ,M.ADDRESS
+            FROM BOARD B
+            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+            WHERE B.STATUS = 'Y'
+            ORDER BY B.COUNT DESC)C
+            )
+    WHERE RNUM BETWEEN 1 AND 10
+	</entry>
+
 
 </properties>
 
