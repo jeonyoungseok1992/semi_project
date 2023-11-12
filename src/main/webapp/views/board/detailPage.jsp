@@ -3,12 +3,11 @@
 <%
 	Board b = (Board)request.getAttribute("b");
 	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
-	Attachment at = (Attachment)request.getAttribute("at");
-	
+	ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
 %>
 
 <!DOCTYPE html>
-<html>j
+<html>
 <head>
 <meta charset="UTF-8">
 <title>상세페이지</title>
@@ -304,9 +303,27 @@ table.update  tbody tr td input{
                     <!-- Swiper -->
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide"><a href="#none"><img src="./resources/images/img/prd_sample_img.jpg" alt="루이비통 카드지갑의 여성잡화 구월동 1"></a></div>
-                            <div class="swiper-slide"><a href="#none"><img src="./resources/images/img/prd_sample_img.jpg" alt="루이비통 카드지갑의 여성잡화 구월동 1"></a></div>
-                            <div class="swiper-slide"><a href="#none"><img src="./resources/images/img/prd_sample_img.jpg" alt="루이비통 카드지갑의 여성잡화 구월동 1"></a></div>
+                        
+                        <% switch(atlist.size()) { 
+                       		 case 1 :
+                        %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+                            <%break; 
+                            case 2 :  %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+                       		<%break; 
+                            case 3 :  %>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
+                        	<%break; 
+                            case 4 :  %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
+                        	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(3).getFilePath() + atlist.get(3).getChangeName() %>" alt="4번사진"></a></div>
+                        <%} %>
                         </div>
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
@@ -333,6 +350,12 @@ table.update  tbody tr td input{
                     <button id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
 					    거래완료
 					</button>
+					<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserNo()+""))) { %>
+					<% %>
+					<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" >찜하기</button>
+                    <%} else {%>
+                    <button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" display="none">찜하기</button>
+                    <%} %>
                     <p class="category">
                         <span><%=b.getCreateDate()%></span>
                     </p>
@@ -344,7 +367,7 @@ table.update  tbody tr td input{
                     <span class="counts">조회수<span><%=b.getCount() %></span></span>
                 </section>
                 <section class="comment">
-                    <h2>댓글<span>(2)</span></h2>
+                    <h2>댓글<span id="replyCount"></span></h2>
                    		<!-- 댓글이 그려지는곳 -->
 	                    <div id="reply-area" class="profile-detail-info comment">
 	                        <ul>
@@ -381,7 +404,7 @@ table.update  tbody tr td input{
                     				bno: <%=b.getBoardNo()%>
                     			},
                     			success: function (res) {
-                    				console.log(res)
+                    				let replyCount = res.length;
                     				if(res.length === 0){
                     					document.querySelector("#reply-area ul").innerHTML = "<p style='padding: 50px 0; text-align: center;'>등록된 댓글이 없습니다.</p>";
                     				} else {
@@ -411,8 +434,10 @@ table.update  tbody tr td input{
                         						+ "</li>";
                         						
                         				}
+                        				
                         				document.querySelector("#reply-area ul").innerHTML = str;
                                         modalStart();
+                                        document.getElementById('replyCount').innerHTML = replyCount;
                     				}
                     			},
                     			error: function () {
