@@ -7,7 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.semi.board.model.vo.Board;
-import com.semi.board.model.vo.Reply;
+import com.semi.common.model.vo.Attachment;
 import com.semi.common.model.vo.PageInfo;
 
 public class BoardDao2 {
@@ -32,6 +32,16 @@ public class BoardDao2 {
 	
 	public int deleteBoard(SqlSession sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper2.deleteBoard", boardNo);
+	}
+	
+	public Board selectUpdateBoard(SqlSession sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper2.selectUpdateBoard", boardNo);
+		
+	}
+	
+	public Attachment selectUpdateAttachment(SqlSession sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper2.selectUpdateAttachment", boardNo);
+		
 	}
 
 }

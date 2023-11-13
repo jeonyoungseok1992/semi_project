@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.semi.board.model.dao.BoardDao2;
 import com.semi.board.model.vo.Board;
 import com.semi.common.Template;
+import com.semi.common.model.vo.Attachment;
 import com.semi.common.model.vo.PageInfo;
 
 public class BoardServiceImpl implements BoardService2{
@@ -41,9 +42,26 @@ private BoardDao2 bDao = new BoardDao2();
 	public int deleteBoard(int boardNo) {
 		SqlSession sqlSession = Template.getSqlSession();
 		int result = bDao.deleteBoard(sqlSession, boardNo);
-		
+		if (result > 0) {
+			sqlSession.commit();
+		}
+
 		sqlSession.close();
 		return result;
+	}
+
+	@Override
+	public Board selectUpdateBoard(int boardNo) {
+		SqlSession sqlSession = Template.getSqlSession();
+		Board b = bDao.selectUpdateBoard(sqlSession, boardNo);
+		return b;
+	}
+
+	@Override
+	public Attachment selectUpdateAttachment(int boardNo) {
+		SqlSession sqlSession = Template.getSqlSession();
+		Attachment at = bDao.selectUpdateAttachment(sqlSession, boardNo);
+		return at;
 	}
 	
 	

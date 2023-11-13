@@ -364,7 +364,7 @@ z-index: 289;
 						   <img id="alter-btn" src="resources/images/icon/free-icon-menu-483345.png">
 						  </button>
 						  <ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">수정하기</a></li>
+							<li><a class="dropdown-item" href="updateForm.bo?bno=${b.boardNo}">수정하기</a></li>
 							<li><a class="dropdown-item" href="delete.bo?bno=${b.boardNo}">삭제하기</a></li>
 						  </ul>
 						</div>

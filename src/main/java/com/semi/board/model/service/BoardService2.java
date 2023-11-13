@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.semi.board.model.vo.Board;
+import com.semi.common.model.vo.Attachment;
 import com.semi.common.model.vo.PageInfo;
 
 public interface BoardService2 {
@@ -12,4 +13,8 @@ public interface BoardService2 {
 	ArrayList<Board> selectSearchList(HashMap<String, String> map, PageInfo pi);
 	
 	int deleteBoard(int boardNo);
+	
+	Board selectUpdateBoard(int boardNo);
+	
+	Attachment selectUpdateAttachment(int boardNo);
 }

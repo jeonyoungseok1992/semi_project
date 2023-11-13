@@ -2,59 +2,70 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="boardMapper2">
 	<resultMap id="boardResultSet" type="Board">
-		<result column="BOARD_NO" property="boardNo"/>
-		<result column="BOARD_TITLE" property="boardTitle"/>
-		<result column="USER_ID" property="boardWriter"/>
-		<result column="AMOUNT" property="amount"/>
-		
-		<result column="COUNT" property="count"/>
-		<result column="CREATE_DATE" property="createDate"/>
-		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BOARD_TITLE" property="boardTitle" />
+		<result column="USER_ID" property="boardWriter" />
+		<result column="AMOUNT" property="amount" />
+
+		<result column="COUNT" property="count" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="BOARD_CONTENT" property="boardContent" />
 	</resultMap>
 	<resultMap id="replyResultSet" type="Reply">
-		<result column="REPLY_NO" property="replyNo"/>
-		<result column="USER_ID" property="replyWriter"/>
-		<result column="REPLY_CONTETN" property="replyContent"/>
-		<result column="CREATE_DATE" property="createDate"/>
+		<result column="REPLY_NO" property="replyNo" />
+		<result column="USER_ID" property="replyWriter" />
+		<result column="REPLY_CONTETN" property="replyContent" />
+		<result column="CREATE_DATE" property="createDate" />
 	</resultMap>
-	
-	
+	<resultMap id="AttachmentResultSet" type="Attachment">
+		<result column="FILE_NO" property="fileNo" />
+		<result column="REF_BNO" property="refBoardNo" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="UPLOAD_DATE" property="uploadDate" />
+		<result column="FILE_LEVEL" property="fileLevel" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+
+
 	<select id="selectSearchCount" resultType="_int">
-    SELECT COUNT(*)
-    FROM BOARD B
-    JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-    JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-    WHERE B.STATUS = 'Y'
-    <if test="condition == 'writer'">
-        AND M.USER_ID LIKE '%' || #{keyword} || '%'
-    </if>
-    <if test="condition == 'title'">
-        AND B.BOARD_TITLE LIKE '%' || #{keyword} || '%'
-    </if>
-    <if test="condition == 'content'">
-        AND B.BOARD_CONTENT LIKE '%' || #{keyword} || '%'
-    </if>
-</select>
-
-	
-	
-	
-
-<select id="selectSearchList" resultMap="boardResultSet">
-		SELECT BOARD_NO
-	    , BOARD_TITLE
-	    , USER_ID
-	    
-	    ,TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE"
-	    ,COUNT
-	    ,AMOUNT
-	    ,FILE_PATH || CHANGE_NAME "TITLE_IMG"
+		SELECT COUNT(*)
 		FROM BOARD B
-		JOIN MEMBER ON (BOARD_WRITER = USER_NO)
-        JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
+		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+		WHERE B.STATUS = 'Y'
+		<if test="condition == 'writer'">
+			AND M.USER_ID LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="condition == 'title'">
+			AND B.BOARD_TITLE LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="condition == 'content'">
+			AND B.BOARD_CONTENT LIKE '%' || #{keyword} || '%'
+		</if>
+	</select>
+
+
+
+
+
+	<select id="selectSearchList" resultMap="boardResultSet">
+		SELECT BOARD_NO
+		, BOARD_TITLE
+		, USER_ID
+
+		,TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE"
+		,COUNT
+		,AMOUNT
+		,FILE_PATH || CHANGE_NAME "TITLE_IMG"
+		FROM BOARD B
+		JOIN MEMBER ON (BOARD_WRITER =
+		USER_NO)
+		JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
 		WHERE B.STATUS = 'Y'
 		<choose>
 			<when test="condition == 'writer'">
@@ -70,13 +81,38 @@
 		LIKE '%' || #{keyword} || '%'
 		ORDER BY BOARD_NO DESC
 	</select>
-	<update id="deleteBoard" parameterType="_int">
+	<update id="deleteBoard">
 		UPDATE BOARD
-			SET STATUS = 'N'
-		WHERE BOARD_NO = 7
-	
+		SET STATUS = 'N'
+		WHERE BOARD_NO = #{boardNo}
+
 	</update>
 
 
+	<select id="selectUpdateBoard" resultMap="boardResultSet">
+		SELECT BOARD_NO
+		, BOARD_TITLE
+		, BOARD_CONTENT
+		, USER_ID
+		, TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') "CREATE_DATE"
+		, COUNT
+		, AMOUNT
+		, SALE_YN
+		, M.ADDRESS
+		FROM BOARD
+		JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
+		WHERE BOARD_NO = #{boardNo}
+	</select>
 	
+	<select id="selectUpdateAttachment" resultMap="AttachmentResultSet">
+		SELECT FILE_NO
+		, ORIGIN_NAME
+		, CHANGE_NAME
+		, FILE_PATH
+		FROM ATTACHMENT
+		WHERE REF_BNO = #{boardNo}
+	</select>
+
+
+
 </mapper>
