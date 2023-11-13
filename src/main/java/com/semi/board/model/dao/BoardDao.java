@@ -196,7 +196,6 @@ public class BoardDao{
 				pstmt.setInt(1, boardWriter);
 				
 				rset = pstmt.executeQuery();
-				
 				while(rset.next()) {
 					list.add(new Board(rset.getInt("board_no"),
 										rset.getString("board_title"),
@@ -205,6 +204,7 @@ public class BoardDao{
 										rset.getString("create_date"),
 										rset.getInt("count"),
 										rset.getString("status"),
+										rset.getString("SALE_YN"),
 										rset.getInt("amount"),
 										rset.getString("title_img"),
 										rset.getString("address")
@@ -218,7 +218,10 @@ public class BoardDao{
 			close(pstmt);
 		}
 		return list;
+		
 	}
+	
+	
 	public ArrayList<Board> selectSellBoardList(Connection conn, int boardWriter){
 		ArrayList<Board> list = new ArrayList<>();
 		ResultSet rset = null;
@@ -386,7 +389,7 @@ public class BoardDao{
 	      
 	   }
 	
-	public ArrayList<Board> selectBuyBoardList(Connection conn, int buyer){
+	public ArrayList<Board> selectBuyBoardList(Connection conn, String buyer){
 		ArrayList<Board> list = new ArrayList<>();
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
@@ -394,7 +397,7 @@ public class BoardDao{
 		
 		try {
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, buyer);
+				pstmt.setString(1, buyer);
 	
 				
 				rset = pstmt.executeQuery();
@@ -421,7 +424,7 @@ public class BoardDao{
 		}
 		return list;
 	}
-	public int selectBuyListCount(Connection conn, int buyer) {
+	public int selectBuyListCount(Connection conn, String buyer) {
 
 		int listCount = 0;
 		
@@ -432,7 +435,7 @@ public class BoardDao{
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, buyer);
+			pstmt.setString(1, buyer);
 			
 			rset = pstmt.executeQuery();
 			
@@ -451,7 +454,7 @@ public class BoardDao{
 		
 		
 	}
-	public ArrayList<Board> selectMyBuyDetailList(Connection conn, PageInfo pi, int buyer){
+	public ArrayList<Board> selectMyBuyDetailList(Connection conn, PageInfo pi, String buyer){
 		ArrayList<Board> list = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
@@ -466,7 +469,7 @@ public class BoardDao{
 			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
 			int endRow = startRow + pi.getBoardLimit() -1;
 			
-			pstmt.setInt(1, buyer);
+			pstmt.setString(1, buyer);
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
 			//System.out.println(startRow);
@@ -518,7 +521,8 @@ public class BoardDao{
                     rset.getInt("reply_no"),
                     rset.getString("reply_content"),
                     rset.getString("user_id"),
-                    rset.getString("create_Date")
+                    rset.getString("create_Date"),
+                    rset.getInt("user_no")
                    ));
            }
            
@@ -707,10 +711,12 @@ public class BoardDao{
 	     
 	     PreparedStatement pstmt = null;
 	     String sql = prop.getProperty("saleYnAlter");
-	     
+	     System.out.println(boardNo);
+	     System.out.println(sql);
 	     try {
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setInt(1, boardNo);
+
 	        
 	        result = pstmt.executeUpdate();
 	        

@@ -10,4 +10,6 @@ public interface BoardService2 {
 	int selectSearchCount(HashMap<String, String> map);
 	
 	ArrayList<Board> selectSearchList(HashMap<String, String> map, PageInfo pi);
+	
+	int deleteBoard(int boardNo);
 }

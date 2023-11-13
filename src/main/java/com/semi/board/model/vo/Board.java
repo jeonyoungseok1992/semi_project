@@ -15,6 +15,8 @@ public class Board {
 	private String address;
 	
 	
+	
+	
 	public String getAddress() {
 		return address;
 	}
@@ -141,6 +143,24 @@ public class Board {
 		this.count = count;
 		this.saleYn = saleYn;
 		this.amount = amount;
+		this.address = address;
+	}
+	
+	
+	//전체 다 가져오는 생성자
+	public Board(int boardNo, String boardTitle, String boardContent, String boardWriter, String createDate, int count,
+			String status, String saleYn, int amount, String titleImg, String address) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardWriter = boardWriter;
+		this.createDate = createDate;
+		this.count = count;
+		this.status = status;
+		this.saleYn = saleYn;
+		this.amount = amount;
+		this.titleImg = titleImg;
 		this.address = address;
 	}
 

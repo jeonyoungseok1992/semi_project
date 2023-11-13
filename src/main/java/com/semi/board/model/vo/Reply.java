@@ -8,10 +8,26 @@ public class Reply {
 	private String replyWriter;
 	private String createDate;
 	private String status;
+	private int replyUserNo;
 	
 	public Reply() {}
 	
 	
+	
+	
+
+	public Reply(int replyNo, String replyContent, String replyWriter, String createDate, int replyUserNo) {
+		super();
+		this.replyNo = replyNo;
+		this.replyContent = replyContent;
+		this.replyWriter = replyWriter;
+		this.createDate = createDate;
+		this.replyUserNo = replyUserNo;
+	}
+
+
+
+
 
 	public Reply(int replyNo, String replyContent, int refBoardNo, String replyWriter, String createDate,
 			String status) {

@@ -249,6 +249,7 @@
 		, REPLY_CONTENT
 		, USER_ID
 		, TO_CHAR(CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+		, USER_NO
 		FROM REPLY R
 		JOIN MEMBER ON (REPLY_WRITER = USER_NO)
 		WHERE R.STATUS = 'Y'
@@ -312,29 +313,29 @@
 	                )
   	 </entry>
 
-  	 <entry key="searchBoardList">
-
-	SELECT *
-      FROM
-         (SELECT ROWNUM AS "RNUM", A.*
-          FROM (SELECT BOARD_NO,
-            BOARD_TITLE,
-            TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-            COUNT,
-            AMOUNT,
-            FILE_PATH || CHANGE_NAME "TITLE_IMG"
-            
-       FROM BOARD
-       
-       JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
-       
-       WHERE BOARD.STATUS = 'Y'
-       AND         BOARD.SALE_YN = 'N'
-       
-       ORDER BY BOARD_NO DESC) A
-          )
-      WHERE RNUM BETWEEN ? AND ?
-      </entry>
+<entry key="selectBoardList">
+        SELECT *
+    FROM  (SELECT ROWNUM AS "RNUM", C.*
+    FROM        (SELECT	B.BOARD_NO
+				,B.BOARD_TITLE
+				,B.BOARD_CONTENT
+				,M.USER_ID
+				,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+				,B.COUNT
+                ,B.STATUS
+                ,B.AMOUNT
+                ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+                ,M.ADDRESS
+                ,B.SALE_YN
+            FROM BOARD B
+            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+            WHERE B.BOARD_WRITER = ?
+            	AND B.STATUS = 'Y'
+            ORDER BY B.BOARD_NO DESC)C
+            )
+    WHERE RNUM BETWEEN 1 AND 5
+	</entry>
 
   	 <entry key="increaseCount">
 		UPDATE BOARD

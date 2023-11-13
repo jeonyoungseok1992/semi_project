@@ -151,18 +151,24 @@ button:disabled {
 #myPage-section3{
 	
     margin-left: 100px;
+    border-bottom:  1px solid rgb(211, 208, 208);;
 }
 
 .myPage-section4{
 	flex-direction: column;
-    border-top: 1px solid rgb(211, 208, 208);
-    padding: 30px 0;
     display: flex;
     margin-left: 100px;
+
+}
+
+.myPage-section4-inner{
+    border-bottom:  1px solid rgb(211, 208, 208);
+    margin: 20px 0px;
 }
 
 .myPage-section4-1{
     margin-left: 40px;
+
 }
 
 .myPage-section4-contnet{
@@ -198,6 +204,13 @@ table.update  tbody tr td input{
     margin: 15px 0px;
     padding-left: 15px; 
  
+}
+
+
+.myPage-section4-img{
+    width: 200px;
+    height: 200px;
+    margin-left: 40px;
 }
 </style>
 <!-- 231105 박수현 jquery 추가 -->
@@ -422,15 +435,15 @@ table.update  tbody tr td input{
                     	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                        } else{
                     	   for(let board of res){
-                              	str +=  "<div>"+
-                                  "<img src='/carrot/" + board.titleImg + "'>"+
-                              "</div>"+
+                              	str +=  "<div class='myPage-section4-inner'>"+
+                                  "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
+                              
                               "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
                                   "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
                                   "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
-                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"</h2>"+      
-                              "</div>" 
-                         
+                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
+                              "</div>" +
+                              "</div>"
                            
                                   document.querySelector(".myPage-section4").innerHTML = str;
                               		
@@ -465,14 +478,15 @@ table.update  tbody tr td input{
                       	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
                       	   for(let board of res){
-                                	str +=  "<div>"+
-                                    "<img src='/carrot/" + board.titleImg + "'>"+
-                                "</div>"+
-                                "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
-                                    "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
-                                    "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
-                                    "<h2  class='myPage-section4-contnet'>"+board.amount+"</h2>"+      
-                                "</div>" 
+                            str +=  "<div class='myPage-section4-inner'>"+
+                                  "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
+                              
+                              "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
+                                  "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
+                                  "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
+                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
+                              "</div>" +
+                              "</div>"
                            
                              
                                     document.querySelector(".myPage-section4").innerHTML = str;
@@ -493,11 +507,12 @@ table.update  tbody tr td input{
         	   selectBuyBoardList();
            }
            function selectBuyBoardList(){
+        	   console.log("클릭");
         	   $.ajax({
                    url : "buylist.bo",
                    data : {
                 	   /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
-                	   userNo : <%=userNo %><%-- <%=b.getBoardWriter() %> --%>
+                	   userId : "<%=userId %>"<%-- <%=b.getBoardWriter() %> --%>
                    },
                    success : function(res){
                 	   document.querySelector(".myPage-section4").innerHTML = "";
@@ -507,14 +522,15 @@ table.update  tbody tr td input{
                       	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
                       	   for(let board of res){
-                                	str +=  "<div>"+
-                                    "<img src='/carrot/" + board.titleImg + "'>"+
-                                "</div>"+
-                                "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
-                                    "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
-                                    "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
-                                    "<h2  class='myPage-section4-contnet'>"+board.amount+"</h2>"+      
-                                "</div>" 
+                            str +=  "<div class='myPage-section4-inner'>"+
+                                  "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
+                              
+                              "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
+                                  "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
+                                  "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
+                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
+                              "</div>" +
+                              "</div>"
                            
                              
                                     document.querySelector(".myPage-section4").innerHTML = str;

@@ -29,5 +29,9 @@ public class BoardDao2 {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return (ArrayList)sqlSession.selectList("boardMapper2.selectSearchList", map, rowBounds);
 	}
+	
+	public int deleteBoard(SqlSession sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper2.deleteBoard", boardNo);
+	}
 
 }

@@ -36,5 +36,17 @@ private BoardDao2 bDao = new BoardDao2();
 		sqlSession.close();
 		return list;
 	}
+
+	@Override
+	public int deleteBoard(int boardNo) {
+		SqlSession sqlSession = Template.getSqlSession();
+		int result = bDao.deleteBoard(sqlSession, boardNo);
+		
+		sqlSession.close();
+		return result;
+	}
+	
+	
+	
 	
 }
