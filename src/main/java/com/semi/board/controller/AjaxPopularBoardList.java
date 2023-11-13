@@ -9,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.semi.board.model.service.BoardService;
 import com.semi.board.model.vo.Board;
-import com.semi.common.model.vo.Attachment;
 
 /**
- * Servlet implementation class BoardDetailController
+ * Servlet implementation class AjaxPopularBoardList
  */
-@WebServlet("/detailPage.bo")
-public class BoardDetailController extends HttpServlet {
+@WebServlet("/popblist.bo")
+public class AjaxPopularBoardList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardDetailController() {
+    public AjaxPopularBoardList() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,23 +32,11 @@ public class BoardDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int boardNo = Integer.parseInt(request.getParameter("bno"));
+//		int boardWriter = Integer.parseInt(request.getParameter("bwriter"));
+		ArrayList<Board> list = new BoardService().selectPopularBoardList();
 		
-		BoardService bService = new BoardService();
-		//조회수 1 증가시키고 디테일페이지에 보여줄 board객체를 가져와라
-		Board b = bService.increaseCount(boardNo);
-		
-		if (b != null) {
-			ArrayList<Attachment> atlist = bService.selectAttachment(boardNo);
-			
-			request.setAttribute("b", b);
-			request.setAttribute("atlist", atlist);
-			
-			request.getRequestDispatcher("views/board/detailPage.jsp").forward(request, response);
-		} else {
-			request.setAttribute("errorMsg", "게시글 조회 실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		response.setContentType("application/json; charset=utf-8");
+		new Gson().toJson(list,response.getWriter());
 	}
 
 	/**

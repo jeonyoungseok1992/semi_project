@@ -4,13 +4,11 @@
 <%
 	Board b = (Board)request.getAttribute("b");
 	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
-	Attachment at = (Attachment)request.getAttribute("at");
-	
+	ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
 %>
 
 <!DOCTYPE html>
 <html>
-j
 <head>
 <meta charset="UTF-8">
 <title>상세페이지</title>
@@ -353,15 +351,12 @@ z-index: 289;
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
-	<main class="container">
-		<!-- contents -->
-		<div class="contents" id="contents">
-			<div class="contents-wrap">
-				<h1 class="sr-only">루이비통 카드지갑</h1>
-
-				<section class="swiper-images">
-					
-					
+    <main class="container">
+        <!-- contents -->
+        <div class="contents" id="contents">
+            <div class="contents-wrap">
+                <h1 class="sr-only">루이비통 카드지갑</h1>
+                <section class="swiper-images">
 					<!--수정삭제버튼-->
 					<div class="container mt-3">
 						<div class="dropdown">
@@ -375,115 +370,100 @@ z-index: 289;
 						</div>
 					  </div>
 					  <!---->
-					
-					
-					  <!-- Swiper -->
-					<div class="swiper mySwiper">
-						<div class="swiper-wrapper">
-							<div class="swiper-slide">
-								<a href="#none"><img
-									src="./resources/images/img/prd_sample_img.jpg"
-									alt="루이비통 카드지갑의 여성잡화 구월동 1"></a>
-							</div>
-							<div class="swiper-slide">
-								<a href="#none"><img
-									src="./resources/images/img/prd_sample_img.jpg"
-									alt="루이비통 카드지갑의 여성잡화 구월동 1"></a>
-							</div>
-							<div class="swiper-slide">
-								<a href="#none"><img
-									src="./resources/images/img/prd_sample_img.jpg"
-									alt="루이비통 카드지갑의 여성잡화 구월동 1"></a>
-							</div>
-						</div>
-						<div class="swiper-button-next"></div>
-						<div class="swiper-button-prev"></div>
-						<div class="swiper-pagination"></div>
-					</div>
-				</section>
 
-				<section class="profile">
-
-					
-					
-					
-					
-					
-					
-					<a href="#none">
-						<h3 class="sr-only">프로필</h3>
-						<div class="profile-detail-info">
-							<div class="profile-image">
-								<img src="./resources/images/icon/profile_sample_img.png" alt="">
-							</div>
-							<div class="profile-left">
-								<div class="name"><%=b.getBoardWriter()%></div>
-								<div class="adress"><%=b.getAddress() %></div>
-							</div>
-						</div>
-					</a>
-				</section>
-				<section class="prd-detail">
-					<h1 class="prd-title"><%=b.getBoardTitle()%></h1>
-					<%
-						    if (b != null && "Y".equals(b.getSaleYn())) {
-						%>
-											<button class="done-button btn btn-secondary" type="button" disabled>거래완료</button>
-											<%
-						    } else {
-						%>
-											<button class="done-button" type="button" class="btn btn-primary active"
-												data-bs-toggle="modal" data-bs-target="#openModalBtn">
-												거래확정</button>
-											<%
-						    }
-						%>
-					<p class="category">
-						<span><%=b.getCreateDate()%></span>
-					</p>
-					<p class="prd-price">
-						<%=b.getAmount()%>원
-					</p>
-					<p class="detail"><%=b.getBoardContent()%>
-					</p>
-					<span class="counts">조회수<span><%=b.getCount() %></span></span>
-				</section>
-				<section class="comment">
-					<h2>
-						댓글<span>(2)</span>
-					</h2>
-					<!-- 댓글이 그려지는곳 -->
-					<div id="reply-area" class="profile-detail-info comment">
-						<ul>
-
-						</ul>
-					</div>
-
-					<fieldset class="form comment-form">
-						<legend>댓글 쓰기</legend>
-						<%if (loginUser != null) { %>
-						<div class="form-control">
-							<textarea name="reply-content" id="reply-content" rows="3"
-								title="댓글 입력" placeholder="댓글을 입력해주세요."
-								onkeyup="(event.keyCode === 13 ? insertReply() : false)"></textarea>
-						</div>
-						<div class="btns-right">
-							<button type="button">
-								<em>취소</em>
-							</button>
-							<button type="button" onclick="insertReply()">
-								<em>등록</em>
-							</button>
-						</div>
-						<%} else { %>
-						<div class="form-control">
-							<textarea name="reply-content" id="reply-content" rows="3"
-								title="댓글 입력" placeholder="로그인 후 댓글작성 가능합니다." readonly></textarea>
-						</div>
-						<%} %>
-					</fieldset>
-
-					<script>
+                    <!-- Swiper -->
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                        
+                        <% switch(atlist.size()) { 
+                       		 case 1 :
+                        %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+                            <%break; 
+                            case 2 :  %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+                       		<%break; 
+                            case 3 :  %>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
+                        	<%break; 
+                            case 4 :  %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
+                        	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(3).getFilePath() + atlist.get(3).getChangeName() %>" alt="4번사진"></a></div>
+                        <%} %>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </section>
+                 
+                <section class="profile">
+                    <a href="#none">
+                        <h3 class="sr-only">프로필</h3>
+                        <div class="profile-detail-info">
+                            <div class="profile-image">
+                                <img src="./resources/images/icon/profile_sample_img.png" alt="" >
+                            </div>
+                            <div class="profile-left">
+                                <div class="name"><%=b.getBoardWriter()%></div>
+                                <div class="adress"><%=b.getAddress() %></div>
+                            </div>                     
+                        </div>
+                    </a>
+                </section>
+                <section class="prd-detail">
+                    <h1 class="prd-title"><%=b.getBoardTitle()%></h1>
+                    <button id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
+					    거래완료
+					</button>
+					<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserNo()+""))) { %>
+					<% %>
+					<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" >찜하기</button>
+                    <%} else {%>
+                    <button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" display="none">찜하기</button>
+                    <%} %>
+                    <p class="category">
+                        <span><%=b.getCreateDate()%></span>
+                    </p>
+                    <p class="prd-price">
+                        <%=b.getAmount()%>
+                    </p>
+                    <p class="detail"><%=b.getBoardContent()%>
+                    </p>
+                    <span class="counts">조회수<span><%=b.getCount() %></span></span>
+                </section>
+                <section class="comment">
+                    <h2>댓글<span id="replyCount"></span></h2>
+                   		<!-- 댓글이 그려지는곳 -->
+	                    <div id="reply-area" class="profile-detail-info comment">
+	                        <ul>
+	                        	 
+	                        </ul>
+	                    </div>
+	                  
+                        <fieldset class="form comment-form">
+							<legend>댓글 쓰기</legend>
+							<%if (loginUser != null) { %>
+								<div class="form-control">
+									<textarea name="reply-content" id="reply-content" rows="3" title="댓글 입력" placeholder="댓글을 입력해주세요." onkeyup="(event.keyCode === 13 ? insertReply() : false)"></textarea>
+								</div> 
+								<div class="btns-right">
+									<button type="button"><em>취소</em></button>
+									<button type="button" onclick="insertReply()"><em>등록</em></button>
+								</div>
+							<%} else { %>
+								<div class="form-control">
+									<textarea name="reply-content" id="reply-content" rows="3" title="댓글 입력" placeholder="로그인 후 댓글작성 가능합니다." readonly></textarea>
+								</div> 
+							<%} %>
+						</fieldset>
+                    
+                    <script>
                     	window.onload = function(){
                     		//댓글 가져와서 그려주기
                     		selectReplyList();
@@ -495,7 +475,7 @@ z-index: 289;
                     				bno: <%=b.getBoardNo()%>
                     			},
                     			success: function (res) {
-                    				console.log(res)
+                    				let replyCount = res.length;
                     				if(res.length === 0){
                     					document.querySelector("#reply-area ul").innerHTML = "<p style='padding: 50px 0; text-align: center;'>등록된 댓글이 없습니다.</p>";
                     				} else {
@@ -527,8 +507,10 @@ z-index: 289;
                         						+ "</li>";
                         						
                         				}
+                        				
                         				document.querySelector("#reply-area ul").innerHTML = str;
                                         modalStart();
+                                        document.getElementById('replyCount').innerHTML = replyCount;
                     				}
                     			},
                     			error: function () {
