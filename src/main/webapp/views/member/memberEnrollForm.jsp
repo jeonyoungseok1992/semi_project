@@ -76,20 +76,58 @@
                     <td>이름  *</td>
                     <td><input type="text" name="userName" maxlength="6" placeholder="이름을 입력해주세요." required></td>
                     <td></td>
-                </tr>
-                
+                </tr> 
                 <tr>
-                    <td> 주소</td>
-                    <td><input type="text" name="address" placeholder="주소를 입력해주세요." ></td>
-                    <td></td>
+	                <form id = "form1">      
+	                    <td> 주소</td>
+	                   	<td>
+	                    <input type="text" id="zipcode" name="zipcode" size="5" placeholder = "우편번호" readonly>
+						<input type = "button" id = "btn" value="우편번호검색"><br>
+						
+						<input type="text" id="addr1" name="addr1" size="50" placeholder="도로명주소" readonly><br>
+						<input type="text" id="addr2" name="addr2" size="50" placeholder="상세주소">            
+	                  <!--  <td><input type="text" name="address" placeholder="주소를 입력해주세요." ></td>
+	                    <td></td>
+	                    
+	               		 --> 
+	               		 </td>
+	                </form>    
                 </tr>
                 
             </table>
             
+            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+			<script>
+				const btn = document.querySelector("#btn");
+
+               
+				btn.addEventListener("click", () => {
+                    new daum.Postcode({
+			        oncomplete: function(data) {
+			            console.log(data);
+                        let fullAddr = '';
+                        let extraAddr = '';
+
+                        if(data.userSelectedType === 'R'){
+                            fullAddr = data.roadAddress;
+
+                        } else{
+                            fullAddr = data.jibunAddress;
+                        }
+
+                        document.getElementById('addr1').value=fullAddr;
+                       
+                        document.getElementById('zipcode').value =  data.zonecode;
+			        }
+			    }).open();
+
+                });
+			    
+			</script>
 
             <br><br>
 
-            <div align = "center"   >
+            <div align = "center" >
                 <button type="submit" id="joinMember" onclick="return checkPwd()">회원가입</button>
             	<button type = "reset">초기화</button>
             </div>
@@ -97,9 +135,9 @@
             <br><br>
 
         </form>
-
-
-        <script>
+		<script>
+		
+	        
             function checkPwd(){
                 let pwdInpt = document.querySelector("#mem-enroll-form input[name=userPwd]");
                 let pwdCheckInput = document.querySelector("#mem-enroll-form input[name=userPwdCheck]");

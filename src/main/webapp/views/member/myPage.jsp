@@ -45,7 +45,10 @@
     border: 1px solid #ff6f0f;
     background-color: white;
     color: #ff6f0f;
-
+	hover {
+      background-color:#002ead;
+      transition: 0.7s;
+  }
 }
 
 #myPage-section2-1{
@@ -68,7 +71,10 @@
     
 }
 
-
+.button:hover {
+      background-color:#002ead;
+      transition: 0.7s;
+ }
 #enroll-form input{
     border: 1px solid gainsboro;
     height: 40px;
@@ -96,6 +102,10 @@ button:disabled {
 .table-content{
     margin-bottom: 20px;
     height: 40px;
+}
+
+#title-img : hover{
+	background-color : black
 }
 
 .table-button{
@@ -233,9 +243,8 @@ table.update  tbody tr td input{
 
         <div id="myPage-section2">
             <div id="myPage-section2-1">
-                 <img src="${loginUser.profileUrl}"  id="title-img" width="250" height="170" onclick="chooseFile()">
+                 <img src="${loginUser.profileUrl}" style = "cursor:pointer" id="title-img" width="250" height="170" onclick="chooseFile()">
                 <br>
-
 
             <form action="updateImg.me" method="post"enctype="multipart/form-data">
                <input style="display : none" id="file" type="file" name="file" onchange="loadImg(this)" > <br>
@@ -243,6 +252,7 @@ table.update  tbody tr td input{
                <input type="hidden" name="filePath" value="resources/member_upfile/">
                <button type="submit" id="change-profile">프로필 사진 변경</button>
             </form>
+            <%} %>
 	          <br>
                 <button id="delete-member" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
             </div>
