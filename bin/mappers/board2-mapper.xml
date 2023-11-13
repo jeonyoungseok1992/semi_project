@@ -70,6 +70,12 @@
 		LIKE '%' || #{keyword} || '%'
 		ORDER BY BOARD_NO DESC
 	</select>
+	<update id="deleteBoard" parameterType="_int">
+		UPDATE BOARD
+			SET STATUS = 'N'
+		WHERE BOARD_NO = 7
+	
+	</update>
 
 
 	
