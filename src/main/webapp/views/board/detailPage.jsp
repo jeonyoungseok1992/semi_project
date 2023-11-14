@@ -3,6 +3,8 @@
 <%
 	Board b = (Board)request.getAttribute("b");
 	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
+	Attachment at = (Attachment)request.getAttribute("at");
+	Reply r = (Reply)request.getAttribute("r");
 	ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
 %>
 
@@ -390,10 +392,10 @@ table.update  tbody tr td input{
 								</div> 
 							<%} %>
 						</fieldset>
-                   
                     <script>
                     	window.onload = function(){
                     		//댓글 가져와서 그려주기
+                    	
                     		selectReplyList();
                     		selectFavoriteBtn();
                     	}
@@ -414,7 +416,7 @@ table.update  tbody tr td input{
     	                    						+ "<div class='flex'>"
     	                    							+"<div class='profile-image'>"
     	                    								+ "<img src='./resources/images/icon/profile_sample_img.png' alt=''>"
-    	                    								+  "<input class='done-reply' type='hidden' name='userId'+ value="+ reply.replyWriter + ">" 
+    	                    								+  "<input class='done-reply' type='hidden' name='userId'+ value="+ reply.replyWriter + ">"
     	                    							+ "</div>"
     		                    						+ "<div class='profile-left'>"
     		                    							+ "<div class='name'>" + reply.replyWriter + "</div>"
@@ -427,8 +429,8 @@ table.update  tbody tr td input{
     	                    								+ reply.replyContent
     	                    							+ "</p>"
     	                    							+ "<div class='btns'>"
-		                            						+ "<button type='button'>수정</button>"
-		                            						+ "<button type='button' data-bs-toggle='modal' data-bs-target='#replyDeleteModal'>삭제</button>"
+		                            						+ "<button type='button' data-bs-toggle='modal' data-bs-target='#replyUpdateModal' onclick='initingup(" + reply.replyNo + ")'>수정</button>"
+		                            						+ "<button id='replydel' type='button' data-bs-toggle='modal' data-bs-target='#replyDeleteModal' onclick='initing(" + reply.replyNo + ")'>삭제</button>"
 	                           							+ "</div>"
     	                    						+ "</div>"                   						
                         						+ "</li>";
@@ -436,6 +438,12 @@ table.update  tbody tr td input{
                         				}
                         				
                         				document.querySelector("#reply-area ul").innerHTML = str;
+                        				for (let reply of res) {
+                        					console.log("<%=loginUser%>");
+                        				    if (<%=loginUser%> && !(reply.replyWriter.equals("<%=loginUser.getUserId()%>"))) {
+                        				        $(".comment-contents .btns").css("display", "none");
+                        				    }
+                        				}
                                         modalStart();
                                         document.getElementById('replyCount').innerHTML = replyCount;
                     				}
@@ -526,7 +534,8 @@ table.update  tbody tr td input{
                     	 }
                     	 
                     	 
-                    	 
+                        
+                        
                     </script>
                     
                   <!-- 댓글 삭제용 Modal -->
@@ -536,27 +545,116 @@ table.update  tbody tr td input{
 		           
 		                   <!-- Modal Header -->
 		                   <div class="modal-header" style="border-bottom: none; padding: 24px;">
-				                <h4 class="modal-title">댓글삭제</h4>
+		                   <h4 class="modal-title updatest" style="display: block; text-align: center; width: 100%;">댓글 삭제</h4>
 				                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				                </div>
 				        
 				                <!-- Modal body -->
-				                <div class="modal-body" align="center" style="padding: 24px;">
-									<form action="<%=contextPath%>/replydelete.bo?replyNo=?" method="post">
+				                <div class="modal-body delete" align="center" style="padding: 24px;">
+									<input type="hidden" class="body-replydel" id="replydelete">
 				                    	댓글을 삭제하시겠습니까?
 				                    	<br>
 				                    	<br>
-				                    	<button type="submit" class="btn btn-sm btn-danger updatest">삭제하기</button>
-				                    </form>
+				                    	<br>
+				                    	<button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-danger updatest" onclick="deleteReply(document.getElementById('replydelete').value)">삭제하기</button>
 				                </div>
 				            </div>
 				        </div>
 				    </div>
 				    
+				<script>
+                    
+
+                    
+                    function deleteReply(num){
+                             $.ajax({
+                                url : "replydelete.bo",
+                                data : {
+                                    replyNo : num
+                                    
+                                },
+                                success:function(result){
+                                	console.log(result)
+                                    console.log(result > 0)
+                                    if (result > 0) {//댓글삭제 성공
+                                        document.getElementById("reply-content").value = "";
+                                        selectReplyList();
+                                    }
+                                },
+                                error:function(){
+        							console.log("댓글 삭제중 ajax통신 실패")
+                                }
+                            })
+                        }
+
+                        function initing(num){
+                            document.getElementById('replydelete').value=num;
+                          
+                        }
+
+
+                        //  $(".replydel").click(function(){
+                        //      var data = $(this).data("id");
+                        //      console.log(data);
+                        //      $("#replydelete").val(data);
+                        // });  
+
+
+
+
+
+				</script>
 				    
+				 <!-- 댓글 수정용 Modal -->
+				    <div class="modal fade" id="replyUpdateModal">
+				        <div class="modal-dialog modal-dialog-centered">
+			               <div class="modal-content">
+			           				
+				                   <!-- Modal Header -->
+				                   <div class="modal-header" style="border-bottom: none; padding: 24px;">
+				                   		<h4 class="modal-title updatest" style="display: block; text-align: center; width: 100%;">댓글 수정</h4>
+						                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+						           </div>
+						        
+					                <!-- Modal body -->
+					                <div class="modal-body delete" align="center" style="padding: 24px;">
+					                	    <input type="hidden" name="replyNo" id="replyupdate">
+					                    	 <textarea name="replyContent" rows="10" style="resize: none;width: 350px;" placeholder="수정할 댓글을 입력하세요" required></textarea>
+					                    	<button type="submit" data-bs-dismiss="modal" class="btn btn-sm btn-danger updatest" onclick="updateReply(document.getElementById('replyupdate').value)">수정하기</button>
+					                </div>
+					            </div>
+				        </div>
+				    </div>   
+				    <script>
 				    
-				    
-				    
+					    function updateReply(num){
+					    	let text = document.querySelector('[name="replyContent"]').value;
+	                        $.ajax({
+	                           url : "replyupdate.bo",
+	                           data : {
+	                               replyNo : num,
+	                               content : text
+	                           },
+	                           success:function(result){
+		                           	console.log(result)
+	                               console.log(result > 0)
+	                               if (result > 0) {
+	                                   document.getElementById("reply-content").value = "";
+	                                   selectReplyList();
+	                               }
+	                           },
+	                           error:function(){
+	   							console.log("댓글 수정중 ajax통신 실패")
+	                           }
+	                       })
+	                   }
+	
+	                   function initingup(num){
+	                       document.getElementById('replyupdate').value=num;
+	                     
+	                   }
+				    </script>
+
                 </section>
             </div>
         </div>

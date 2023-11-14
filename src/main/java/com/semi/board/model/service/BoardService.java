@@ -247,6 +247,21 @@ public class BoardService {
 				return result;
 			}
 		    
+
+		    public int updateReply(Reply r) {
+		    	Connection conn = getConnection();
+				int result = new BoardDao().updateReply(conn, r);
+				if (result > 0) {
+					commit(conn);
+				} else {
+					rollback(conn);
+				}
+				
+				close(conn);
+
+				return result;
+		    }
+
 		    public ArrayList<Board> selectPopularBoardList(){
 		    	Connection conn = getConnection();
 				ArrayList<Board> list = new BoardDao().selectPopularBoardList(conn);
@@ -276,9 +291,11 @@ public class BoardService {
 				}
 				
 				close(conn);
+	
 				return result;
 		    }
-		    
+
+
 		    public int checkFavorite(int boardNo, int userNo) {
 		    	Connection conn = getConnection();
 		  
@@ -287,5 +304,6 @@ public class BoardService {
 				return cnt;
 		    	
 		    }
+
 
 }
