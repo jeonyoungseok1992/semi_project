@@ -75,6 +75,7 @@
                 ,B.AMOUNT
                 ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
                 ,M.ADDRESS
+                ,B.SALE_YN
             FROM BOARD B
             JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
             JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
@@ -364,9 +365,6 @@
 		    SET STATUS = 'N'
 	      WHERE REPLY_NO = ?
 	</entry>
-<<<<<<< HEAD
-
-=======
 	<entry key="selectPopularBoardList">
 	        SELECT *
     FROM  (SELECT ROWNUM AS "RNUM", C.*
@@ -418,7 +416,6 @@
 	AND USER_NO = ?
 	</entry>
 	
->>>>>>> 264ce1cb5530784f0688ef4a381daa6906f7ff55
 </properties>
 
 
