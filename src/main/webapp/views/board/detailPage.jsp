@@ -348,13 +348,12 @@ table.update  tbody tr td input{
                 <section class="prd-detail">
                     <h1 class="prd-title"><%=b.getBoardTitle()%></h1>
                     <button id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
-					    거래완료
+					    거래완료 
 					</button>
-					<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserNo()+""))) { %>
-					<% %>
-					<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" >찜하기</button>
-                    <%} else {%>
-                    <button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" display="none">찜하기</button>
+					<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserId()))) { %>
+						<div id="favorite-position">
+                        </div>
+						<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" onclick="favorite()" >찜하기</button>
                     <%} %>
                     <p class="category">
                         <span><%=b.getCreateDate()%></span>
@@ -367,7 +366,7 @@ table.update  tbody tr td input{
                     <span class="counts">조회수<span><%=b.getCount() %></span></span>
                 </section>
                 <section class="comment">
-                    <h2>댓글<span id="replyCount"></span></h2>
+                    <h2>댓글(<span id="replyCount"></span>)</h2>
                    		<!-- 댓글이 그려지는곳 -->
 	                    <div id="reply-area" class="profile-detail-info comment">
 	                        <ul>
@@ -391,11 +390,12 @@ table.update  tbody tr td input{
 								</div> 
 							<%} %>
 						</fieldset>
-                    
+                   
                     <script>
                     	window.onload = function(){
                     		//댓글 가져와서 그려주기
                     		selectReplyList();
+                    		selectFavoriteBtn();
                     	}
                     	function selectReplyList(){
                     		$.ajax({
@@ -466,6 +466,65 @@ table.update  tbody tr td input{
                                 }
                             })
                         }
+                    	 let flag = false; //찜안한상태
+                    	 function favorite(){
+                    		 if (flag){
+                    			 $.ajax({
+                                     url : "favorite.bo",
+                                     data : {
+                                    	 bno: <%=b.getBoardNo()%>
+                                     },
+                                     success:function(result){
+                                     	console.log(result);
+                                         if (result > 0) {
+                                         	document.getElementById("favorite-Btn").style.background = "rgb(255, 111, 15)";
+                                         	flag = false;
+                                         }
+                                     },
+                                     error:function(){
+             							console.log("찜안하기 ajax통신 실패")
+                                     }
+                                 })
+                    		 }else{
+                    			 $.ajax({
+                                     url : "favorite.bo",
+                                     data : {
+                                    	 bno: <%=b.getBoardNo()%>
+                                     },
+                                     success:function(result){
+                                     	console.log(result);
+                                         if (result > 0) {//
+                                         	document.getElementById("favorite-Btn").style.background = "grey";
+                                         	flag = true;
+                                         }
+                                     },
+                                     error:function(){
+             							console.log("찜하기 ajax통신 실패")
+                                     }
+                                 })
+                    		 }
+                    		 
+                    	 }
+                    	 
+                    	 function selectFavoriteBtn(){
+                    		 $.ajax({
+                                 url : "drawFavorite.bo",
+                                 data : {
+                                	 bno: <%=b.getBoardNo()%>
+                                 },
+                                 success:function(result){
+                                 	console.log(result);
+                                     if (result > 0) {
+                                    	document.getElementById("favorite-Btn").style.background = "grey";
+                                      	flag = true;
+                                     }
+                                 },
+                                 error:function(){
+         							console.log("찜안하기 ajax통신 실패")
+                                 }
+                             })
+                    	 }
+                    	 
                     	 
                     	 
                     </script>
