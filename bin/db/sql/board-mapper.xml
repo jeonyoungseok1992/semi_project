@@ -364,9 +364,7 @@
 		    SET STATUS = 'N'
 	      WHERE REPLY_NO = ?
 	</entry>
-<<<<<<< HEAD
 
-=======
 	<entry key="selectPopularBoardList">
 	        SELECT *
     FROM  (SELECT ROWNUM AS "RNUM", C.*
@@ -417,8 +415,7 @@
 	WHERE BOARD_NO = ?
 	AND USER_NO = ?
 	</entry>
-	
->>>>>>> 264ce1cb5530784f0688ef4a381daa6906f7ff55
+
 </properties>
 
 
