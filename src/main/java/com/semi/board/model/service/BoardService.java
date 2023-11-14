@@ -253,5 +253,39 @@ public class BoardService {
 				close(conn);
 				return list;
 		    }
+		    
+		    public int favoriteAlter(int boardNo, int userNo) {
+		    	Connection conn = getConnection();
+		    	BoardDao bDao = new BoardDao();
+		    	int cnt=0; 
+		    	int result=0;
+
+				//중복체크 duplchk메소드 
+				cnt = bDao.duplchk(conn,boardNo,userNo); 
+
+				if(cnt == 0){
+					result = bDao.insertFavorite(conn,boardNo,userNo);
+				}else{
+					result = bDao.deleteFavorite(conn,boardNo,userNo);
+				}
+				
+				if (result > 0) {
+					commit(conn);
+				} else {
+					rollback(conn);
+				}
+				
+				close(conn);
+				return result;
+		    }
+		    
+		    public int checkFavorite(int boardNo, int userNo) {
+		    	Connection conn = getConnection();
+		  
+		    	int cnt = new BoardDao().duplchk(conn,boardNo,userNo);
+		    	close(conn);
+				return cnt;
+		    	
+		    }
 
 }
