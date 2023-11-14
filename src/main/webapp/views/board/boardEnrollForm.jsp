@@ -25,9 +25,9 @@
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 <style>
-    .container{
+    .main{
         position: absolute;
-        top: 55%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 450px;
@@ -67,7 +67,7 @@
 </head>
 <body>
     <%@ include file="../common/header.jsp"%>
-    <div class="container">
+    <div class="main">
         <form action="<%=contextPath%>/insert.bo" method="post" enctype="multipart/form-data" style="padding-left: 20px; padding-right: 20px;width: 450px; height: 450px;">
             <input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
            
@@ -144,33 +144,23 @@
                 }
             </script>
             
-          
-            
-           
-          
-          
-          
 
-
-           
-            
             <div class="mb-3" align="left">
                 <label for="exampleFormControlInput1" class="form-label" style="margin-bottom: 10px;">제목</label>
                 <input type="text" name="title"   class="form-control" id="exampleFormControlInput1" placeholder="제목" required>
             </div>
             
-  
             <div class="mb-3" align="left">
                 <label for="exampleFormControlInput1" class="form-label">가격</label>
-                <input type="number" name="amount"  class="form-control" id="exampleFormControlInput1" placeholder="₩ 가격을 입력해주세요." required>
+                <input type="number" name="amount"  class="form-control" id="exampleFormControlInput1" placeholder="₩ 가격을 입력해주세요." style="margin-bottom: 40px;" required>
             </div>
             
-            <div>
-                <label for="exampleFormControlTextarea1" class="form-label" style="margin-top: 30px; ">자세한설명</label>
+            <div style="margin-bottom: -35px;">
+                <label for="exampleFormControlTextarea1" class="form-label" >자세한설명</label>
 
             </div>
-            <div class="mb-3" s>
-                <textarea class="form-control"  name="content" id="exampleFormControlTextarea1" rows="3" placeholder="00동에 올릴 게시글 내용을 작성해주세요. &#10;신뢰할 수 있는 거래를 위해 자세히 적어주세요." style="resize: none;  " required></textarea>
+            <div class="mb-3">
+                <textarea class="form-control"  name="content" id="exampleFormControlTextarea1" rows="3" placeholder="00동에 올릴 게시글 내용을 작성해주세요. &#10;신뢰할 수 있는 거래를 위해 자세히 적어주세요." style="resize: none; margin-top: -50px; " required></textarea>
             </div >
             
             <div class="d-grid gap-2"  align="center" >
@@ -182,20 +172,6 @@
         </form>
 
     </div>
-    
-    
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
 </body>

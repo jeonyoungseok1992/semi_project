@@ -32,19 +32,11 @@ public class  ReplyDeletController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
 		 int replyNo = Integer.parseInt(request.getParameter("replyNo"));
 		 
 		int result = new BoardService().deleteReply(replyNo);
 		
-		request.setAttribute("replyNo", replyNo);
-		
-		if (result > 0) { 
-			request.getSession().setAttribute("alertMsg", "성공적으로 댓글이 삭제되었습니다.");
-		} else { 
-			request.setAttribute("errorMsg", "댓글 삭제 실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		response.getWriter().print(result);
 		
 	}
 

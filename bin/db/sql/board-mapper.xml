@@ -75,6 +75,7 @@
                 ,B.AMOUNT
                 ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
                 ,M.ADDRESS
+                ,B.SALE_YN
             FROM BOARD B
             JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
             JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
@@ -124,15 +125,6 @@
                    ,?
                    ,?
                    )
-   </entry>
-   
-   <entry key="selectAttachment">
-      SELECT FILE_NO
-           , ORIGIN_NAME
-           , CHANGE_NAME
-           , FILE_PATH
-       FROM ATTACHMENT
-       WHERE REF_BNO = ?
    </entry>
    
    <entry key="insertNewAttachment">
@@ -186,12 +178,6 @@
       WHERE RNUM BETWEEN ? AND ?
       </entry>
       
-	  <entry key="selectBoardListCount">
-	      select count(*) as "count"
-	      from board
-	      where status = 'Y'
-	      AND SALE_YN= 'N'
-      </entry>
 	  <entry key="selectBuyBoardList">
              SELECT *
 	    FROM  (SELECT ROWNUM AS "RNUM", C.*
@@ -382,6 +368,69 @@
 		 UPDATE REPLY
 		    SET STATUS = 'N'
 	      WHERE REPLY_NO = ?
+	</entry>
+	<entry key="selectQnaList">
+		SELECT QNA_NO
+		     , QNA_TITLE
+		     , QNA_CONTENT
+		  FROM QNA 
+		  WHERE STATUS = 'Y'
+		  ORDER BY QNA_NO DESC
+	</entry>
+	<entry key="updateReply">
+		 UPDATE REPLY
+		 SET REPLY_CONTENT = ?
+	   WHERE REPLY_NO = ?
+	</entry>
+	<entry key="selectPopularBoardList">
+	        SELECT *
+    FROM  (SELECT ROWNUM AS "RNUM", C.*
+    FROM        (SELECT	B.BOARD_NO
+				,B.BOARD_TITLE
+				,B.BOARD_CONTENT
+				,M.USER_ID
+				,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+				,B.COUNT
+                ,B.STATUS
+                ,B.AMOUNT
+                ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+                ,M.ADDRESS
+            FROM BOARD B
+            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+            WHERE B.STATUS = 'Y'
+            ORDER BY B.COUNT DESC)C
+            )
+    WHERE RNUM BETWEEN 1 AND 10
+	</entry>
+	<entry key="duplchk">
+		select count(*) as "count"
+		from favorite_board
+		where board_no = ?
+		and user_no = ?
+	</entry>
+	<entry key="insertFavorite">
+	INSERT
+      INTO FAVORITE_BOARD (
+      				FB_ID
+                  	,USER_NO
+					,BOARD_NO
+					,IS_FAVORITE
+					,CREATE_DATE
+                  )
+            VALUES (
+                    SEQ_fbId.NEXTVAL
+                   ,?
+                   ,?
+                   ,'Y'
+                   ,SYSDATE
+                   )
+	</entry>
+	<entry key="deleteFavorite">
+	DELETE 
+	FROM FAVORITE_BOARD
+	WHERE BOARD_NO = ?
+	AND USER_NO = ?
 	</entry>
 
 </properties>

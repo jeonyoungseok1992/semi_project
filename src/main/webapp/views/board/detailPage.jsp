@@ -1,10 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
+<<<<<<< HEAD
    pageEncoding="UTF-8"
    import="com.semi.board.model.vo.Board, com.semi.board.model.vo.Reply, java.util.ArrayList, com.semi.common.model.vo.Attachment"%>
 <%
    Board b = (Board)request.getAttribute("b");
    ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
    ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
+=======
+    pageEncoding="UTF-8" import="com.semi.member.model.vo.Member, com.semi.board.model.vo.Board, com.semi.board.model.vo.Reply, java.util.ArrayList, com.semi.common.model.vo.Attachment"%>
+<%
+	Board b = (Board)request.getAttribute("b");
+	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
+	Reply r = (Reply)request.getAttribute("r");
+	ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
+>>>>>>> 5a35775ad9795b579119ee83765dbd7a4cfc1f93
 %>
 
 <!DOCTYPE html>
@@ -369,17 +378,17 @@ z-index: 289;
                             case 2 :  %>
                             <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
                             <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
-                             <%break; 
+                       		<%break; 
                             case 3 :  %>
-                             <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
-                             <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
-                             <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
-                           <%break; 
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
+                        	<%break; 
                             case 4 :  %>
                             <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
-                             <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
-                             <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
-                           <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(3).getFilePath() + atlist.get(3).getChangeName() %>" alt="4번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
+                        	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(3).getFilePath() + atlist.get(3).getChangeName() %>" alt="4번사진"></a></div>
                         <%} %>
                         </div>
                         <div class="swiper-button-next"></div>
@@ -405,13 +414,13 @@ z-index: 289;
                 <section class="prd-detail">
                     <h1 class="prd-title"><%=b.getBoardTitle()%></h1>
                     <button id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
-                   거래완료
-               </button>
-               <%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserNo()+""))) { %>
-               <% %>
-               <button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" >찜하기</button>
-                    <%} else {%>
-                    <button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" display="none">찜하기</button>
+
+					    거래완료 
+					</button>
+					<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserId()))) { %>
+						<div id="favorite-position">
+                        </div>
+						<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" onclick="favorite()" >찜하기</button>
                     <%} %>
                     <p class="category">
                         <span><%=b.getCreateDate()%></span>
@@ -424,88 +433,93 @@ z-index: 289;
                     <span class="counts">조회수<span><%=b.getCount() %></span></span>
                 </section>
                 <section class="comment">
-                    <h2>댓글<span id="replyCount"></span></h2>
-                         <!-- 댓글이 그려지는곳 -->
-                       <div id="reply-area" class="profile-detail-info comment">
-                           <ul>
-                               
-                           </ul>
-                       </div>
-                     
+
+                    <h2>댓글(<span id="replyCount"></span>)</h2>
+                   		<!-- 댓글이 그려지는곳 -->
+	                    <div id="reply-area" class="profile-detail-info comment">
+	                        <ul>
+	                        	 
+	                        </ul>
+	                    </div>
+	                  
                         <fieldset class="form comment-form">
-                     <legend>댓글 쓰기</legend>
-                     <%if (loginUser != null) { %>
-                        <div class="form-control">
-                           <textarea name="reply-content" id="reply-content" rows="3" title="댓글 입력" placeholder="댓글을 입력해주세요." onkeyup="(event.keyCode === 13 ? insertReply() : false)"></textarea>
-                        </div> 
-                        <div class="btns-right">
-                           <button type="button"><em>취소</em></button>
-                           <button type="button" onclick="insertReply()"><em>등록</em></button>
-                        </div>
-                     <%} else { %>
-                        <div class="form-control">
-                           <textarea name="reply-content" id="reply-content" rows="3" title="댓글 입력" placeholder="로그인 후 댓글작성 가능합니다." readonly></textarea>
-                        </div> 
-                     <%} %>
-                  </fieldset>
-                    
+							<legend>댓글 쓰기</legend>
+							<%if (loginUser != null) { %>
+								<div class="form-control">
+									<textarea name="reply-content" id="reply-content" rows="3" title="댓글 입력" placeholder="댓글을 입력해주세요." onkeyup="(event.keyCode === 13 ? insertReply() : false)"></textarea>
+								</div> 
+								<div class="btns-right">
+									<button type="button"><em>취소</em></button>
+									<button type="button" onclick="insertReply()"><em>등록</em></button>
+								</div>
+							<%} else { %>
+								<div class="form-control">
+									<textarea name="reply-content" id="reply-content" rows="3" title="댓글 입력" placeholder="로그인 후 댓글작성 가능합니다." readonly></textarea>
+								</div> 
+							<%} %>
+						</fieldset>
                     <script>
-                       window.onload = function(){
-                          //댓글 가져와서 그려주기
-                          selectReplyList();
-                       }
-                       function selectReplyList(){
-                          $.ajax({
-                             url: "rlist.bo",
-                             data: {
-                                bno: <%=b.getBoardNo()%>
-                             },
-                             success: function (res) {
-                                let replyCount = res.length;
-                                if(res.length === 0){
-                                   document.querySelector("#reply-area ul").innerHTML = "<p style='padding: 50px 0; text-align: center;'>등록된 댓글이 없습니다.</p>";
-                                } else {
-                                   let str = "";
-                                    for (let reply of res) {
-                                       
-                                       str += "<li>"
-                                             + "<div class='flex'>"
-                                                +"<div class='profile-image'>"
-                                                   + "<img src='./resources/images/icon/profile_sample_img.png' alt=''>"
-                                                   +  "<input class='done-reply' type='hidden' name='userId'+ value="+ reply.replyWriter + ">"      
-                                                   +  "<input class='done-reply2' type='hidden' name='ruserNo'+ value="+ reply.replyUserNo + ">"   
-                                                + "</div>"
-                                                + "<div class='profile-left'>"
-                                                   + "<div class='name'>" + reply.replyWriter + "</div>"
-                                                   + "<p class='category'><span>" + reply.createDate + "</span></p>"
-                                                   + "</p>"
-                                                + "</div>"
-                                             + "</div>"
-                                             + "<div class='comment-contents'>"
-                                                + "<p class='detail comment'>"
-                                                   + reply.replyContent
-                                                + "</p>"
-                                                + "<div class='btns'>"
-                                                    + "<button type='button'>수정</button>"
-                                                    + "<button type='button' data-bs-toggle='modal' data-bs-target='#replyDeleteModal'>삭제</button>"
-                                                   + "</div>"
-                                             + "</div>"                                     
-                                          + "</li>";
-                                          
-                                    }
-                                    
-                                    document.querySelector("#reply-area ul").innerHTML = str;
+                    	window.onload = function(){
+                    		//댓글 가져와서 그려주기
+                    	
+                    		selectReplyList();
+                    		selectFavoriteBtn();
+                    	}
+                    	function selectReplyList(){
+                    		$.ajax({
+                    			url: "rlist.bo",
+                    			data: {
+                    				bno: <%=b.getBoardNo()%>
+                    			},
+                    			success: function (res) {
+                    				let replyCount = res.length;
+                    				if(res.length === 0){
+                    					document.querySelector("#reply-area ul").innerHTML = "<p style='padding: 50px 0; text-align: center;'>등록된 댓글이 없습니다.</p>";
+                    				} else {
+                    					let str = "";
+                        				for (let reply of res) {
+                        					str += "<li>"
+    	                    						+ "<div class='flex'>"
+    	                    							+"<div class='profile-image'>"
+    	                    								+ "<img src='./resources/images/icon/profile_sample_img.png' alt=''>"
+    	                    								+  "<input class='done-reply' type='hidden' name='userId'+ value="+ reply.replyWriter + ">"
+    	                    							+ "</div>"
+    		                    						+ "<div class='profile-left'>"
+    		                    							+ "<div class='name'>" + reply.replyWriter + "</div>"
+    		                    							+ "<p class='category'><span>" + reply.createDate + "</span></p>"
+    		                    							+ "</p>"
+    		                    						+ "</div>"
+    	                    						+ "</div>"
+    	                    						+ "<div class='comment-contents'>"
+    	                    							+ "<p class='detail comment'>"
+    	                    								+ reply.replyContent
+    	                    							+ "</p>"
+    	                    							+ "<div class='btns'>"
+		                            						+ "<button type='button' data-bs-toggle='modal' data-bs-target='#replyUpdateModal' onclick='initingup(" + reply.replyNo + ")'>수정</button>"
+		                            						+ "<button id='replydel' type='button' data-bs-toggle='modal' data-bs-target='#replyDeleteModal' onclick='initing(" + reply.replyNo + ")'>삭제</button>"
+	                           							+ "</div>"
+    	                    						+ "</div>"                   						
+                        						+ "</li>";
+                        						
+                        				}
+                        				
+                        				document.querySelector("#reply-area ul").innerHTML = str;
+                        				<%-- for (let reply of res) {            	
+                        				    if (<%=loginUser%> && !(reply.replyWriter.equals("<%=loginUser.getUserId()%>"))) {
+                        				        $(".comment-contents .btns").css("display", "none");
+                        				    }
+                        				} --%>
                                         modalStart();
                                         document.getElementById('replyCount').innerHTML = replyCount;
-                                }
-                             },
-                             error: function () {
-                                console.log("댓글목록 조회중 ajax 통신 실패");
-                             }
-                          })
-                       }
-                       
-                        function insertReply(){
+                    				}
+                    			},
+                    			error: function () {
+                    				console.log("댓글목록 조회중 ajax 통신 실패");
+                    			}
+                    		})
+                    	}
+                    	
+                    	 function insertReply(){
                              $.ajax({
                                 url : "rinsert.bo",
                                 data : {
@@ -525,43 +539,191 @@ z-index: 289;
                                 }
                             })
                         }
+                    	 let flag = false; //찜안한상태
+                    	 function favorite(){
+                    		 if (flag){
+                    			 $.ajax({
+                                     url : "favorite.bo",
+                                     data : {
+                                    	 bno: <%=b.getBoardNo()%>
+                                     },
+                                     success:function(result){
+                                     	console.log(result);
+                                         if (result > 0) {
+                                         	document.getElementById("favorite-Btn").style.background = "rgb(255, 111, 15)";
+                                         	flag = false;
+                                         }
+                                     },
+                                     error:function(){
+             							console.log("찜안하기 ajax통신 실패")
+                                     }
+                                 })
+                    		 }else{
+                    			 $.ajax({
+                                     url : "favorite.bo",
+                                     data : {
+                                    	 bno: <%=b.getBoardNo()%>
+                                     },
+                                     success:function(result){
+                                     	console.log(result);
+                                         if (result > 0) {//
+                                         	document.getElementById("favorite-Btn").style.background = "grey";
+                                         	flag = true;
+                                         }
+                                     },
+                                     error:function(){
+             							console.log("찜하기 ajax통신 실패")
+                                     }
+                                 })
+                    		 }
+                    		 
+                    	 }
+                    	 
+                    	 function selectFavoriteBtn(){
+                    		 $.ajax({
+                                 url : "drawFavorite.bo",
+                                 data : {
+                                	 bno: <%=b.getBoardNo()%>
+                                 },
+                                 success:function(result){
+                                 	console.log(result);
+                                     if (result > 0) {
+                                    	document.getElementById("favorite-Btn").style.background = "grey";
+                                      	flag = true;
+                                     }
+                                 },
+                                 error:function(){
+         							console.log("찜안하기 ajax통신 실패")
+                                 }
+                             })
+                    	 }
+                    	 
+                    	 
                         
                         
                     </script>
+                    
+                  <!-- 댓글 삭제용 Modal -->
+				    <div class="modal fade" id="replyDeleteModal">
+				        <div class="modal-dialog modal-dialog-centered">
+		               <div class="modal-content">
+		           
+		                   <!-- Modal Header -->
+		                   <div class="modal-header" style="border-bottom: none; padding: 24px;">
+		                   <h4 class="modal-title updatest" style="display: block; text-align: center; width: 100%;">댓글 삭제</h4>
+				                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				                </div>
+				        
+				                <!-- Modal body -->
+				                <div class="modal-body delete" align="center" style="padding: 24px;">
+									<input type="hidden" class="body-replydel" id="replydelete">
+				                    	댓글을 삭제하시겠습니까?
+				                    	<br>
+				                    	<br>
+				                    	<br>
+				                    	<button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-danger updatest" onclick="deleteReply(document.getElementById('replydelete').value)">삭제하기</button>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				    
+				<script>
+                    
 
-               <!-- 댓글 삭제용 Modal -->
-               <div class="modal fade" id="replyDeleteModal">
-                  <div class="modal-dialog modal-dialog-centered">
-                     <div class="modal-content">
+                    
+                    function deleteReply(num){
+                             $.ajax({
+                                url : "replydelete.bo",
+                                data : {
+                                    replyNo : num
+                                    
+                                },
+                                success:function(result){
+                                	console.log(result)
+                                    console.log(result > 0)
+                                    if (result > 0) {//댓글삭제 성공
+                                        document.getElementById("reply-content").value = "";
+                                        selectReplyList();
+                                    }
+                                },
+                                error:function(){
+        							console.log("댓글 삭제중 ajax통신 실패")
+                                }
+                            })
+                        }
 
-                        <!-- Modal Header -->
-                        <div class="modal-header"
-                           style="border-bottom: none; padding: 24px;">
-                           <h4 class="modal-title">댓글삭제</h4>
-                           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
+                        function initing(num){
+                            document.getElementById('replydelete').value=num;
+                          
+                        }
 
-                        <!-- Modal body -->
-                        <div class="modal-body" align="center" style="padding: 24px;">
-                           <form action="<%=contextPath%>/replydelete.bo?replyNo=?"
-                              method="post">
-                              댓글을 삭제하시겠습니까? <br> <br>
-                              <button type="submit" class="btn btn-sm btn-danger updatest">삭제하기</button>
-                           </form>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+
+                        //  $(".replydel").click(function(){
+                        //      var data = $(this).data("id");
+                        //      console.log(data);
+                        //      $("#replydelete").val(data);
+                        // });  
 
 
 
+				</script>
+				    
+				 <!-- 댓글 수정용 Modal -->
+				    <div class="modal fade" id="replyUpdateModal">
+				        <div class="modal-dialog modal-dialog-centered">
+			               <div class="modal-content">
+			           				
+				                   <!-- Modal Header -->
+				                   <div class="modal-header" style="border-bottom: none; padding: 24px;">
+				                   		<h4 class="modal-title updatest" style="display: block; text-align: center; width: 100%;">댓글 수정</h4>
+						                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+						           </div>
+						        
+					                <!-- Modal body -->
+					                <div class="modal-body delete" align="center" style="padding: 24px;">
+					                	    <input type="hidden" name="replyNo" id="replyupdate">
+					                    	 <textarea name="replyContent" rows="10" style="resize: none;width: 350px;" placeholder="수정할 댓글을 입력하세요" required></textarea>
+					                    	<button type="submit" data-bs-dismiss="modal" class="btn btn-sm btn-danger updatest" onclick="updateReply(document.getElementById('replyupdate').value)">수정하기</button>
+					                </div>
+					            </div>
+				        </div>
+				    </div>   
+				    <script>
+				    
+					    function updateReply(num){
+					    	let text = document.querySelector('[name="replyContent"]').value;
+	                        $.ajax({
+	                           url : "replyupdate.bo",
+	                           data : {
+	                               replyNo : num,
+	                               content : text
+	                           },
+	                           success:function(result){
+		                           	console.log(result)
+	                               console.log(result > 0)
+	                               if (result > 0) {
+	                                   document.getElementById("reply-content").value = "";
+	                                   selectReplyList();
+	                               }
+	                           },
+	                           error:function(){
+	   							console.log("댓글 수정중 ajax통신 실패")
+	                           }
+	                       })
+	                   }
+	
+	                   function initingup(num){
+	                       document.getElementById('replyupdate').value=num;
+	                     
+	                   }
+				    </script>
 
+                </section>
+            </div>
+        </div>
+    </main>
+    <script>
 
-            </section>
-         </div>
-      </div>
-   </main>
-   <script>
         var swiper = new Swiper(".mySwiper", {
         slidesPerView: 1,
         spaceBetween: 30,
