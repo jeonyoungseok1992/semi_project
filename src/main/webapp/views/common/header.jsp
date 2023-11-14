@@ -44,9 +44,26 @@
                         <li><a href="<%=contextPath %>/boardlist.bo?cpage=1">중고거래</a></li>
                     </ul>
                     
-                    <ul class="menu">
-                        <li><a href="<%=contextPath %>/searchForm.bo">검색하기</a></li>
-                    </ul>
+                    <div id="search-area">
+                        <form action="search.bo" method="get">
+                            <input type="hidden" name="cpage" value="1">
+                            <select name="condition">
+                                <option value="writer">작성자</option>
+                                <option value="title">제목</option>
+                                <option value="content">내용</option>
+                            </select>
+                            <input type="text" name="keyword" value="${keyword}">
+                            <button type="submit">검색</button>
+                        </form>
+                    </div>
+                    <c:if test="${not empty condition}">
+                        <script>
+                            window.onload = function() {
+                                const opt = document.querySelector("#search-area option[value=${condition}]")
+                                opt.setAttribute("selected", true);
+                            }
+                        </script>
+                    </c:if>
                      
                     <% if(loginUser == null) { %>
                     <div class="utill">

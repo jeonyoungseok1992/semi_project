@@ -13,7 +13,10 @@
 		<result column="COUNT" property="count"/>
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="title_img" property="titleImg"/>	
 	</resultMap>
+	
+
 	<resultMap id="replyResultSet" type="Reply">
 		<result column="REPLY_NO" property="replyNo"/>
 		<result column="USER_ID" property="replyWriter"/>
@@ -28,6 +31,8 @@
     JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
     JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
     WHERE B.STATUS = 'Y'
+       AND   B.SALE_YN = 'N'
+   		 AND FILE_LEVEL = 1
     <if test="condition == 'writer'">
         AND M.USER_ID LIKE '%' || #{keyword} || '%'
     </if>
@@ -55,7 +60,9 @@
 		FROM BOARD B
 		JOIN MEMBER ON (BOARD_WRITER = USER_NO)
         JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
-		WHERE B.STATUS = 'Y'
+	  WHERE B.STATUS = 'Y'
+       AND   B.SALE_YN = 'N'
+   		 AND FILE_LEVEL = 1
 		<choose>
 			<when test="condition == 'writer'">
 				AND USER_ID
@@ -70,7 +77,7 @@
 		LIKE '%' || #{keyword} || '%'
 		ORDER BY BOARD_NO DESC
 	</select>
-
-
+	
+	 
 	
 </mapper>
