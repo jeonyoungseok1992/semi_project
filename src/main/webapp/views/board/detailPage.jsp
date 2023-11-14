@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.semi.board.model.vo.Board, com.semi.board.model.vo.Reply, java.util.ArrayList, com.semi.common.model.vo.Attachment"%>
+    pageEncoding="UTF-8" import="com.semi.member.model.vo.Member, com.semi.board.model.vo.Board, com.semi.board.model.vo.Reply, java.util.ArrayList, com.semi.common.model.vo.Attachment"%>
 <%
 	Board b = (Board)request.getAttribute("b");
 	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
