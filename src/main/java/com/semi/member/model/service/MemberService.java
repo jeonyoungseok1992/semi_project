@@ -130,5 +130,21 @@ public class MemberService {
 	             
 	             return updateMem;
 	       }
+	      
+	      public int idCheck(String checkId) {
+	    	  Connection conn = getConnection();
+	    	  
+	    	  int count = new MemberDao().idCheck(conn, checkId);
+	    	  
+	    	  if(count > 0) {
+	    		  commit(conn);
+	    	  }else {
+	    		  rollback(conn);
+	    	  }
+	    	  
+	    	  close(conn);
+	    	    
+	    	  return count;
+	      }
 	
 }
