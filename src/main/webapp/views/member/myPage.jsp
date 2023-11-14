@@ -252,6 +252,7 @@ table.update  tbody tr td input{
                <input type="hidden" name="filePath" value="resources/member_upfile/">
                <button type="submit" id="change-profile">프로필 사진 변경</button>
             </form>
+            
 	          <br>
                 <button id="delete-member" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
             </div>

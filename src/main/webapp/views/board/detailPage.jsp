@@ -3,7 +3,6 @@
 <%
 	Board b = (Board)request.getAttribute("b");
 	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
-	Attachment at = (Attachment)request.getAttribute("at");
 	Reply r = (Reply)request.getAttribute("r");
 	ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
 %>
@@ -438,7 +437,11 @@ table.update  tbody tr td input{
                         				}
                         				
                         				document.querySelector("#reply-area ul").innerHTML = str;
-                        				
+                        				<%-- for (let reply of res) {            	
+                        				    if (<%=loginUser%> && !(reply.replyWriter.equals("<%=loginUser.getUserId()%>"))) {
+                        				        $(".comment-contents .btns").css("display", "none");
+                        				    }
+                        				} --%>
                                         modalStart();
                                         document.getElementById('replyCount').innerHTML = replyCount;
                     				}
