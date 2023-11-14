@@ -10,6 +10,7 @@
 		height: 315px;
     	padding: 0 16px 0 16px;
 		background-color: #FFF1AA;
+		margin-top: 72px;
 	}
 	.Usedtrade .content{
 		padding-top: 50px;
@@ -50,6 +51,6 @@
 			<span class="detail">이곳에서 거래하며<br>즐거운 시간 보내세요!</span>
 		</div>
 	</section>
-
+	<%@ include file="views/board/boardMain.jsp" %>
 </body>
 </html>

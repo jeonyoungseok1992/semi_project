@@ -379,7 +379,19 @@
 		    SET STATUS = 'N'
 	      WHERE REPLY_NO = ?
 	</entry>
-
+	<entry key="selectQnaList">
+		SELECT QNA_NO
+		     , QNA_TITLE
+		     , QNA_CONTENT
+		  FROM QNA 
+		  WHERE STATUS = 'Y'
+		  ORDER BY QNA_NO DESC
+	</entry>
+	<entry key="updateReply">
+		 UPDATE REPLY
+		 SET REPLY_CONTENT = ?
+	   WHERE REPLY_NO = ?
+	</entry>
 </properties>
 
 

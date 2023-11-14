@@ -1,10 +1,10 @@
-body{
+/*body{
     width: 100%;
     min-width: 1200px;
     min-height: 100%;
-}
+}*/
 /* header */
-header {
+/*header {
     width: 100%;
     background: #ffffff;
     position: sticky;
@@ -17,7 +17,7 @@ header {
     height: 72px;
     box-sizing: border-box;
     transition: top .2s ease-in-out;
-}
+}/*
 .inner-wrap {
     max-width: 1200px;
     margin: 0 auto;
@@ -121,7 +121,7 @@ header .gnb .search button {
     height: 16px;
 }
 
-
+*/
 
 /* contents */
 .contents{

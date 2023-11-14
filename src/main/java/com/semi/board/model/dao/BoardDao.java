@@ -766,5 +766,31 @@ public class BoardDao{
 			
 			return result;
 		}
+	  public int updateReply(Connection conn, Reply r) {
+			//UPDATE문 => 처리된 행수 => 트랜잭션 처리
+			int result = 0;
+			
+			PreparedStatement pstmt = null;
+			String sql = prop.getProperty("updateReply");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, r.getReplyContent());
+				pstmt.setInt(2, r.getReplyNo());
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+			
+			return result;
+		}
+	  
+	  
+
 }
 
