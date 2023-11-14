@@ -5,11 +5,11 @@
 	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
 	Attachment at = (Attachment)request.getAttribute("at");
 	Reply r = (Reply)request.getAttribute("r");
-	
+	ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
 %>
 
 <!DOCTYPE html>
-<html>j
+<html>
 <head>
 <meta charset="UTF-8">
 <title>상세페이지</title>
@@ -305,9 +305,27 @@ table.update  tbody tr td input{
                     <!-- Swiper -->
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide"><a href="#none"><img src="./resources/images/img/prd_sample_img.jpg" alt="루이비통 카드지갑의 여성잡화 구월동 1"></a></div>
-                            <div class="swiper-slide"><a href="#none"><img src="./resources/images/img/prd_sample_img.jpg" alt="루이비통 카드지갑의 여성잡화 구월동 1"></a></div>
-                            <div class="swiper-slide"><a href="#none"><img src="./resources/images/img/prd_sample_img.jpg" alt="루이비통 카드지갑의 여성잡화 구월동 1"></a></div>
+                        
+                        <% switch(atlist.size()) { 
+                       		 case 1 :
+                        %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+                            <%break; 
+                            case 2 :  %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+                       		<%break; 
+                            case 3 :  %>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
+                        	<%break; 
+                            case 4 :  %>
+                            <div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(0).getFilePath() + atlist.get(0).getChangeName() %>" alt="1번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(1).getFilePath() + atlist.get(1).getChangeName() %>" alt="2번사진"></a></div>
+	                       	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(2).getFilePath() + atlist.get(2).getChangeName() %>" alt="3번사진"></a></div>
+                        	<div class="swiper-slide"><a href="#none"><img src="<%=contextPath %>/<%=atlist.get(3).getFilePath() + atlist.get(3).getChangeName() %>" alt="4번사진"></a></div>
+                        <%} %>
                         </div>
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
@@ -332,8 +350,13 @@ table.update  tbody tr td input{
                 <section class="prd-detail">
                     <h1 class="prd-title"><%=b.getBoardTitle()%></h1>
                     <button id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
-					    거래완료
+					    거래완료 
 					</button>
+					<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserId()))) { %>
+						<div id="favorite-position">
+                        </div>
+						<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" onclick="favorite()" >찜하기</button>
+                    <%} %>
                     <p class="category">
                         <span><%=b.getCreateDate()%></span>
                     </p>
@@ -345,7 +368,7 @@ table.update  tbody tr td input{
                     <span class="counts">조회수<span><%=b.getCount() %></span></span>
                 </section>
                 <section class="comment">
-                    <h2>댓글<span>(2)</span></h2>
+                    <h2>댓글(<span id="replyCount"></span>)</h2>
                    		<!-- 댓글이 그려지는곳 -->
 	                    <div id="reply-area" class="profile-detail-info comment">
 	                        <ul>
@@ -369,13 +392,12 @@ table.update  tbody tr td input{
 								</div> 
 							<%} %>
 						</fieldset>
-						<span id="replyno" class="sr-only"></span>
-                    
                     <script>
                     	window.onload = function(){
                     		//댓글 가져와서 그려주기
                     	
                     		selectReplyList();
+                    		selectFavoriteBtn();
                     	}
                     	function selectReplyList(){
                     		$.ajax({
@@ -384,7 +406,7 @@ table.update  tbody tr td input{
                     				bno: <%=b.getBoardNo()%>
                     			},
                     			success: function (res) {
-                    				console.log(res)
+                    				let replyCount = res.length;
                     				if(res.length === 0){
                     					document.querySelector("#reply-area ul").innerHTML = "<p style='padding: 50px 0; text-align: center;'>등록된 댓글이 없습니다.</p>";
                     				} else {
@@ -414,6 +436,7 @@ table.update  tbody tr td input{
                         						+ "</li>";
                         						
                         				}
+                        				
                         				document.querySelector("#reply-area ul").innerHTML = str;
                         				for (let reply of res) {
                         					console.log("<%=loginUser%>");
@@ -422,6 +445,7 @@ table.update  tbody tr td input{
                         				    }
                         				}
                                         modalStart();
+                                        document.getElementById('replyCount').innerHTML = replyCount;
                     				}
                     			},
                     			error: function () {
@@ -450,6 +474,65 @@ table.update  tbody tr td input{
                                 }
                             })
                         }
+                    	 let flag = false; //찜안한상태
+                    	 function favorite(){
+                    		 if (flag){
+                    			 $.ajax({
+                                     url : "favorite.bo",
+                                     data : {
+                                    	 bno: <%=b.getBoardNo()%>
+                                     },
+                                     success:function(result){
+                                     	console.log(result);
+                                         if (result > 0) {
+                                         	document.getElementById("favorite-Btn").style.background = "rgb(255, 111, 15)";
+                                         	flag = false;
+                                         }
+                                     },
+                                     error:function(){
+             							console.log("찜안하기 ajax통신 실패")
+                                     }
+                                 })
+                    		 }else{
+                    			 $.ajax({
+                                     url : "favorite.bo",
+                                     data : {
+                                    	 bno: <%=b.getBoardNo()%>
+                                     },
+                                     success:function(result){
+                                     	console.log(result);
+                                         if (result > 0) {//
+                                         	document.getElementById("favorite-Btn").style.background = "grey";
+                                         	flag = true;
+                                         }
+                                     },
+                                     error:function(){
+             							console.log("찜하기 ajax통신 실패")
+                                     }
+                                 })
+                    		 }
+                    		 
+                    	 }
+                    	 
+                    	 function selectFavoriteBtn(){
+                    		 $.ajax({
+                                 url : "drawFavorite.bo",
+                                 data : {
+                                	 bno: <%=b.getBoardNo()%>
+                                 },
+                                 success:function(result){
+                                 	console.log(result);
+                                     if (result > 0) {
+                                    	document.getElementById("favorite-Btn").style.background = "grey";
+                                      	flag = true;
+                                     }
+                                 },
+                                 error:function(){
+         							console.log("찜안하기 ajax통신 실패")
+                                 }
+                             })
+                    	 }
+                    	 
                     	 
                         
                         
