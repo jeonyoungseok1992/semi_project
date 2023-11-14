@@ -365,7 +365,6 @@
 		    SET STATUS = 'N'
 	      WHERE REPLY_NO = ?
 	</entry>
-<<<<<<< HEAD
 	<entry key="selectQnaList">
 		SELECT QNA_NO
 		     , QNA_TITLE
