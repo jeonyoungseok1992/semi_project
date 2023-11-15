@@ -27,6 +27,7 @@ public class BoardDao2 {
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
+		  
 		return (ArrayList)sqlSession.selectList("boardMapper2.selectSearchList", map, rowBounds);
 	}
 	
@@ -61,4 +62,5 @@ public class BoardDao2 {
 	
 	
 
+	
 }

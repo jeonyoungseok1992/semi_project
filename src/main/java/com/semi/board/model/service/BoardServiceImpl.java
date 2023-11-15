@@ -106,4 +106,11 @@ private BoardDao2 bDao = new BoardDao2();
 	
 	
 	
+	
+	
+	
+	
+	  
+	
+	
 }

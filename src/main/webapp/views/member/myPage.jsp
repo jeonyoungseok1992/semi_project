@@ -45,7 +45,10 @@
     border: 1px solid #ff6f0f;
     background-color: white;
     color: #ff6f0f;
-
+	hover {
+      background-color:#002ead;
+      transition: 0.7s;
+  }
 }
 
 #myPage-section2-1{
@@ -68,7 +71,10 @@
     
 }
 
-
+.button:hover {
+      background-color:#002ead;
+      transition: 0.7s;
+ }
 #enroll-form input{
     border: 1px solid gainsboro;
     height: 40px;
@@ -77,8 +83,8 @@
     padding-left: 15px;
 }
 button:disabled {
-	background: #999;
-	cursor: auto;
+   background: #999;
+   cursor: auto;
 }
 
 #enroll-form table{
@@ -96,6 +102,10 @@ button:disabled {
 .table-content{
     margin-bottom: 20px;
     height: 40px;
+}
+
+#title-img : hover{
+	background-color : black
 }
 
 .table-button{
@@ -132,7 +142,7 @@ button:disabled {
     font-weight: 700;
  }
  .menu-nav a:hover{
- 	color: #ff6f0f;
+    color: #ff6f0f;
  }
  .menu-nav a:after {/*after 가상요소*/
     display:block;/*a요소를 블록 요소라고 선언*/
@@ -149,7 +159,7 @@ button:disabled {
 
 
 #myPage-section3{
-	
+   
     margin-left: 100px;
     border-bottom:  1px solid rgb(211, 208, 208);;
 }
@@ -269,8 +279,8 @@ table.update  tbody tr td input{
     <%@ include file="../common/header.jsp"%>
 
     <%
-    	String userName = loginUser.getUserName();
-    	int userNo = loginUser.getUserNo();
+       String userName = loginUser.getUserName();
+       int userNo = loginUser.getUserNo();
         String userId = loginUser.getUserId();
         String userPwd = loginUser.getUserPwd();
         String Address = loginUser.getAddress();
@@ -282,9 +292,8 @@ table.update  tbody tr td input{
 
         <div id="myPage-section2">
             <div id="myPage-section2-1">
-                 <img src="${loginUser.profileUrl}"  id="title-img" width="250" height="170" onclick="chooseFile()">
+                 <img src="${loginUser.profileUrl}" style = "cursor:pointer" id="title-img" width="250" height="170" onclick="chooseFile()">
                 <br>
-
 
             <form action="updateImg.me" method="post"enctype="multipart/form-data">
                <input style="display : none" id="file" type="file" name="file" onchange="loadImg(this)" > <br>
@@ -292,7 +301,9 @@ table.update  tbody tr td input{
                <input type="hidden" name="filePath" value="resources/member_upfile/">
                <button type="submit" id="change-profile">프로필 사진 변경</button>
             </form>
+
 	          <br>
+
                 <button id="delete-member" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
             </div>
             <div id="myPage-section2-2">
@@ -420,11 +431,52 @@ table.update  tbody tr td input{
                                  <td style="width: 100px; font-weight: 600;  font-size: 14px;">현재 주소</td>
                                  <td><input type="text" name="address" value="<%=Address%>" readonly></td>
                               </tr>
-                               <tr>
-                                   <td style="width: 100px; font-weight: 600;  font-size: 14px;">변경할 주소</td>
-                                   <td><input type="text" name="updateAddress" required></td>
-                               </tr>
+                                <tr>
+					                <form id = "form1">      
+					                    <td style="height: 300px;  "> 주소</td>
+					                   	<td style="list-style: none;">
+				                        <li><input type = "button" id = "btn" value="우편번호검색"><br> </li>
+					                   	<li><input type="text" id="zipcode" name="zipcode" size="5" placeholder = "우편번호" readonly></li>     
+										<li><input type="text" id="addr1" name="addr1" size="50" placeholder="도로명주소" readonly><br> </li>
+				                       
+										<li><input type="text" id="addr2" name="addr2" size="50" placeholder="상세주소"></li>          
+					                  <!--  <td><input type="text" name="address" placeholder="주소를 입력해주세요." ></td>
+					                    <td></td>
+					               		 --> 
+					               		 </td>
+					                </form>    
+				                </tr>
                            </table>
+                           
+                            <!-- 도로명 주소 -->
+				            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+							<script>
+								const btn = document.querySelector("#btn");
+				
+				               
+								btn.addEventListener("click", () => {
+				                    new daum.Postcode({
+							        oncomplete: function(data) {
+							            console.log(data);
+				                        let fullAddr = '';
+				                        let extraAddr = '';
+				
+				                        if(data.userSelectedType === 'R'){
+				                            fullAddr = data.roadAddress;
+				
+				                        } else{
+				                            fullAddr = data.jibunAddress;
+				                        }
+				
+				                        document.getElementById('addr1').value=fullAddr;
+				                       
+				                        document.getElementById('zipcode').value =  data.zonecode;
+							        }
+							    }).open();
+				
+				                });
+							    
+							</script>
                            <br>
                            <button id="edit-adress-btn" type="submit" class="btn btn-sm btn-secondary updatest" >주소변경</button>
                        </form>
@@ -432,7 +484,7 @@ table.update  tbody tr td input{
                </div>
            </div>
        </div>
-		<!-- 231105 임동건 / a태그 온클릭 되어도 ajax호출 -->
+      <!-- 231105 임동건 / a태그 온클릭 되어도 ajax호출 -->
         <div class="menu-nav" id="myPage-section3"  align="left">
             <ul>                
                 <li><a onclick="listinit()">내 글 보기</a></li>
@@ -440,15 +492,15 @@ table.update  tbody tr td input{
                 <li><a onclick="buyinit()">구매내역 보기</a></li>
              </ul>
           </div>
-		
-		<!-- 231105 임동건 / ajax 내글, 판매내역, 구매내역 그려주는 영역 -->
-		<div class="myPage-section4">
-		 
-		 </div>
-		 
-		
-		 
-		<script>
+      
+      <!-- 231105 임동건 / ajax 내글, 판매내역, 구매내역 그려주는 영역 -->
+      <div class="myPage-section4">
+       
+       </div>
+       
+      
+       
+      <script>
            function listinit(){
                     //게시글 가져와서 그려주기
                     selectBoardList();
@@ -464,11 +516,11 @@ table.update  tbody tr td input{
                        bwriter : <%=userNo %>
                    },
                    success : function(res){
-                	document.querySelector(".myPage-section4").innerHTML = "";
-                   	console.log(res.length === 0);
+                   document.querySelector(".myPage-section4").innerHTML = "";
+                      console.log(res.length === 0);
                        let str ="";
                        if(res.length === 0){
-                    	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                          document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                        } else{
                     	   for(let board of res){
                               	str +=  "<div class='myPage-section4-inner'>"+
@@ -487,9 +539,9 @@ table.update  tbody tr td input{
                    
                            
                                   document.querySelector(".myPage-section4").innerHTML = str;
-                              		
+                                    
                               }
-                             	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/detail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                                 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/detail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
                        }
                        
                        
@@ -502,21 +554,21 @@ table.update  tbody tr td input{
 
            
            function sellinit(){
-        	   selectSellBoardList();
+              selectSellBoardList();
            }
            function selectSellBoardList(){
-        	   $.ajax({
+              $.ajax({
                    url : "slist.bo",
                    data : {
-                	   /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
-                	   userNo : <%=userNo %><%-- <%=b.getBoardWriter() %> --%>
+                      /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
+                      userNo : <%=userNo %><%-- <%=b.getBoardWriter() %> --%>
                    },
                    success : function(res){
-               	   document.querySelector(".myPage-section4").innerHTML = "";
-                     	console.log(res.length === 0);
+                     document.querySelector(".myPage-section4").innerHTML = "";
+                        console.log(res.length === 0);
                          let str ="";
                          if(res.length === 0){
-                      	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                            document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
                       	   for(let board of res){
                             str +=  "<div class='myPage-section4-inner'>"+
@@ -531,9 +583,9 @@ table.update  tbody tr td input{
                            
                              
                                     document.querySelector(".myPage-section4").innerHTML = str;
-                                		
+                                      
                                 }
-                      	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/purchase.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                          document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/purchase.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
                          }
                           
                           
@@ -545,22 +597,22 @@ table.update  tbody tr td input{
            }
           
            function buyinit(){
-        	   selectBuyBoardList();
+              selectBuyBoardList();
            }
            function selectBuyBoardList(){
-        	   console.log("클릭");
-        	   $.ajax({
+              console.log("클릭");
+              $.ajax({
                    url : "buylist.bo",
                    data : {
-                	   /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
-                	   userId : "<%=userId %>"<%-- <%=b.getBoardWriter() %> --%>
+                      /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
+                      userId : "<%=userId %>"<%-- <%=b.getBoardWriter() %> --%>
                    },
                    success : function(res){
-                	   document.querySelector(".myPage-section4").innerHTML = "";
-                     	console.log(res.length === 0);
+                      document.querySelector(".myPage-section4").innerHTML = "";
+                        console.log(res.length === 0);
                          let str ="";
                          if(res.length === 0){
-                      	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                            document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
                       	   for(let board of res){
                             str +=  "<div class='myPage-section4-inner'>"+
@@ -575,9 +627,9 @@ table.update  tbody tr td input{
                            
                              
                                     document.querySelector(".myPage-section4").innerHTML = str;
-                                		
+                                      
                                 }
-                      	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/buyDetail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                          document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/buyDetail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
                          }
                    },
                    error : function(){
@@ -590,12 +642,12 @@ table.update  tbody tr td input{
     </section>
     <!--  <script>
 
-    	$(function(){
-        		$(".myPage-section4 > div > img").click(function(){
-        			
-        			location.href = "<%=contextPath%>/detailPage.bo?bno=" + $(this).children().eq(0).text();
-        		})
-        	})
+       $(function(){
+              $(".myPage-section4 > div > img").click(function(){
+                 
+                 location.href = "<%=contextPath%>/detailPage.bo?bno=" + $(this).children().eq(0).text();
+              })
+           })
     
     </script>-->
     <script>
@@ -651,13 +703,13 @@ table.update  tbody tr td input{
             <form action="<%=contextPath %>/delete.me" id="pwdCheck" method="post" style="margin-top: 5px;">
               <div class="form-floating" style="width: 350px;" >
             <input type="hidden" name="userId" value="<%=loginUser.getUserId() %>">
-			  <input type="password" name="userPwd" class="form-control" id="floatingPassword" placeholder="password">
-			  <label for="floatingPassword">비밀번호</label>
-			</div>
-			<div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-	        <button type="submit" class="btn btn-primary">회원탈퇴</button>
-	      	</div>
+           <input type="password" name="userPwd" class="form-control" id="floatingPassword" placeholder="password">
+           <label for="floatingPassword">비밀번호</label>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+           <button type="submit" class="btn btn-primary">회원탈퇴</button>
+            </div>
             </form>
         </div>
       </div>
@@ -702,7 +754,7 @@ table.update  tbody tr td input{
            
 
        </script>
-			
+         
 
 
 </body>

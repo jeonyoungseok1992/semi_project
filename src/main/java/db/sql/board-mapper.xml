@@ -39,6 +39,7 @@
 		from board
 		where status='Y'
 		and board_writer = ?
+
 	</entry>
 
 	<entry key="selectMyBoardList">
@@ -46,19 +47,95 @@
 		FROM
 		(SELECT ROWNUM AS "RNUM", C.*
 		FROM (SELECT B.BOARD_NO,
-		B.BOARD_TITLE,
-		M.USER_ID,
-		TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-		B.COUNT,
-		B.AMOUNT,
-		A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
-		FROM BOARD B
-		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-		WHERE B.BOARD_WRITER = ?
-		and B.status='Y'
-		ORDER BY BOARD_NO DESC) C
-		)
+				B.BOARD_TITLE,
+				M.USER_ID,
+				TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+				B.COUNT,
+				B.AMOUNT,
+				A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+			FROM BOARD B
+			JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+			WHERE B.BOARD_WRITER = ?
+			and B.status='Y'
+			ORDER BY BOARD_NO DESC) C
+			)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectMyBoardList">
+	SELECT *
+      FROM
+         (SELECT ROWNUM AS "RNUM", A.*
+          FROM (SELECT BOARD_NO,
+            BOARD_TITLE,
+            TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+            COUNT,
+            AMOUNT,
+            FILE_PATH || CHANGE_NAME "TITLE_IMG"
+            
+       FROM BOARD
+       
+       JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
+       
+       WHERE BOARD.STATUS = 'Y'
+       AND   BOARD.SALE_YN = 'N'
+   		 AND FILE_LEVEL = 1
+    
+       
+       ORDER BY BOARD_NO DESC) A
+          )
+      WHERE RNUM BETWEEN ? AND ?
+      </entry>
+      
+	  <entry key="selectBuyBoardList">
+             SELECT *
+	    FROM  (SELECT ROWNUM AS "RNUM", C.*
+	    FROM        (SELECT	B.BOARD_NO
+					,B.BOARD_TITLE
+					,B.BOARD_CONTENT
+					,M.USER_ID
+					,TO_CHAR(S.SALE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+					,B.COUNT
+	                ,B.STATUS
+	                ,B.AMOUNT
+	                ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+	                ,M.ADDRESS
+	            FROM BOARD B
+	            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+	            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+	            JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO )
+	            WHERE S.BUYER = ?
+	            	AND B.STATUS = 'Y'
+	            	
+	            ORDER BY B.BOARD_NO DESC)C
+	            )
+	    WHERE RNUM BETWEEN 1 AND 5
+	   </entry>
+	   
+	   <entry key="selectBuyListCount">
+		select count(*) as "count"
+		from SALE_LOG
+		where buyer = ?
+		</entry>
+	   <entry key="selectMyBuyDetailList">
+	    SELECT *
+			FROM
+			(SELECT ROWNUM AS "RNUM", C.*
+			FROM (SELECT B.BOARD_NO,
+			B.BOARD_TITLE,
+			M.USER_ID,
+			TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+			B.COUNT,
+			B.AMOUNT,
+			A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+			FROM BOARD B
+			JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+			WHERE B.BOARD_WRITER = ?
+			and B.status='Y'
+			ORDER BY BOARD_NO DESC) C
+			)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
 
@@ -168,7 +245,6 @@
 		COUNT,
 		AMOUNT,
 		FILE_PATH || CHANGE_NAME "TITLE_IMG"
-
 		FROM BOARD
 
 		JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
@@ -239,15 +315,12 @@
 		SELECT REPLY_NO
 		, REPLY_CONTENT
 		, USER_ID
-		,
-		TO_CHAR(CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
-		, USER_NO
-		FROM
-		REPLY R
+		, TO_CHAR(CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+		, PROFILE_URL
+		FROM REPLY R
 		JOIN MEMBER ON (REPLY_WRITER = USER_NO)
 		WHERE R.STATUS = 'Y'
-		AND
-		REF_BNO = ?
+		AND REF_BNO = ?
 		ORDER BY REPLY_NO ASC
 	</entry>
 	<entry key="insertReply">
@@ -315,17 +388,18 @@
 	</entry>
 	<entry key="selectBoard">
 		SELECT BOARD_NO
-		, BOARD_TITLE
-		, BOARD_CONTENT
-		, USER_ID
-		, TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') "CREATE_DATE"
-		, COUNT
-		, AMOUNT
-		, SALE_YN
-		, M.ADDRESS
-		FROM BOARD
-		JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
-		WHERE BOARD_NO = ?
+		     , BOARD_TITLE
+		     , BOARD_CONTENT
+		     , USER_ID
+		     , TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') "CREATE_DATE"
+		     , COUNT
+		     , AMOUNT
+		     , SALE_YN
+		     , M.ADDRESS
+		     , M.PROFILE_URL
+		  FROM BOARD
+		  JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
+		 WHERE BOARD_NO = ?
 	</entry>
 	<entry key="selectAttachment">
 		SELECT FILE_NO
@@ -351,28 +425,70 @@
 		WHERE REPLY_NO = ?
 	</entry>
 
-	<entry key="selectPopularBoardList">
-		SELECT *
-		FROM (SELECT ROWNUM AS "RNUM", C.*
-		FROM (SELECT B.BOARD_NO
-		,B.BOARD_TITLE
-		,B.BOARD_CONTENT
-		,M.USER_ID
-		,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
-		,B.COUNT
-		,B.STATUS
-		,B.AMOUNT
-		,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
-		,M.ADDRESS
-		FROM BOARD B
-		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-		WHERE B.STATUS = 'Y'
-		ORDER BY B.COUNT DESC)C
-		)
-		WHERE RNUM BETWEEN 1 AND 10
-	</entry>
 
+	<entry key="selectQnaList">
+		SELECT QNA_NO
+		     , QNA_TITLE
+		     , QNA_CONTENT
+		  FROM QNA 
+		  WHERE STATUS = 'Y'
+		  ORDER BY QNA_NO DESC
+	</entry>
+	<entry key="updateReply">
+		 UPDATE REPLY
+		 SET REPLY_CONTENT = ?
+	   WHERE REPLY_NO = ?
+	</entry>
+	<entry key="selectPopularBoardList">
+	        SELECT *
+    FROM  (SELECT ROWNUM AS "RNUM", C.*
+    FROM        (SELECT	B.BOARD_NO
+				,B.BOARD_TITLE
+				,B.BOARD_CONTENT
+				,M.USER_ID
+				,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+				,B.COUNT
+                ,B.STATUS
+                ,B.AMOUNT
+                ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+                ,M.ADDRESS
+            FROM BOARD B
+            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+            WHERE B.STATUS = 'Y'
+            ORDER BY B.COUNT DESC)C
+            )
+    WHERE RNUM BETWEEN 1 AND 10
+	</entry>
+	<entry key="duplchk">
+		select count(*) as "count"
+		from favorite_board
+		where board_no = ?
+		and user_no = ?
+	</entry>
+	<entry key="insertFavorite">
+	INSERT
+      INTO FAVORITE_BOARD (
+      				FB_ID
+                  	,USER_NO
+					,BOARD_NO
+					,IS_FAVORITE
+					,CREATE_DATE
+                  )
+            VALUES (
+                    SEQ_fbId.NEXTVAL
+                   ,?
+                   ,?
+                   ,'Y'
+                   ,SYSDATE
+                   )
+	</entry>
+	<entry key="deleteFavorite">
+		DELETE 
+		FROM FAVORITE_BOARD
+		WHERE BOARD_NO = ?
+		AND USER_NO = ?
+	</entry>
 
 </properties>
 

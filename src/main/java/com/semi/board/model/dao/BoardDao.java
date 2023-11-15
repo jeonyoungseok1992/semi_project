@@ -522,6 +522,7 @@ public class BoardDao{
                     rset.getString("user_id"),
                     rset.getString("create_Date"),
                     rset.getInt("user_no")
+                    rset.getString("profile_url")
                    ));
            }
            
@@ -649,6 +650,7 @@ public class BoardDao{
 				rset = pstmt.executeQuery();
 				if(rset.next()) {
 					b = new Board(
+								rset.getString("profile_url"),
 								rset.getInt("board_no"),
 								rset.getString("board_title"),
 								rset.getString("board_content"),
@@ -658,6 +660,7 @@ public class BoardDao{
 								rset.getString("sale_yn"),
 								rset.getInt("amount"),
 								rset.getString("address")
+								
 							);
 				}
 				
@@ -772,6 +775,30 @@ public class BoardDao{
 			
 			return result;
 		}
+
+	  public int updateReply(Connection conn, Reply r) {
+			//UPDATE문 => 처리된 행수 => 트랜잭션 처리
+			int result = 0;
+			
+			PreparedStatement pstmt = null;
+			String sql = prop.getProperty("updateReply");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, r.getReplyContent());
+				pstmt.setInt(2, r.getReplyNo());
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+			
+			return result;
+		}
 	  
 	  public ArrayList<Board> selectPopularBoardList(Connection conn){
 		  ArrayList<Board> list = new ArrayList<>();
@@ -806,6 +833,77 @@ public class BoardDao{
 				close(pstmt);
 			}
 			return list;
+	  }
+	  
+	  public int duplchk(Connection conn, int boardNo, int userNo) {
+		  	int count = 0;
+			
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			
+			String sql = prop.getProperty("duplchk");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, boardNo);
+				pstmt.setInt(2, userNo);
+				rset = pstmt.executeQuery();
+				
+				if (rset.next()) {
+					count = rset.getInt("count");
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(pstmt);
+			}
+			
+			return count;
+	  }
+	  public int insertFavorite(Connection conn, int boardNo, int userNo) {
+	        int result = 0;
+	        
+	        PreparedStatement pstmt = null;
+	        String sql = prop.getProperty("insertFavorite");
+	        
+	        try {
+	           pstmt = conn.prepareStatement(sql);
+	           
+	           pstmt.setInt(1, userNo);
+	           pstmt.setInt(2, boardNo);
+	           
+	           result = pstmt.executeUpdate();
+	        } catch (SQLException e) {
+	           e.printStackTrace();
+	        } finally {
+	           close(pstmt);
+	        }
+	        
+	        return result;
+	  }
+	  
+	  public int deleteFavorite(Connection conn, int boardNo, int userNo) {
+		  int result = 0;
+	        
+	        PreparedStatement pstmt = null;
+	        String sql = prop.getProperty("deleteFavorite");
+	        
+	        try {
+	           pstmt = conn.prepareStatement(sql);
+	           
+	           pstmt.setInt(1, boardNo);
+	           pstmt.setInt(2, userNo);
+	           
+	           result = pstmt.executeUpdate();
+	        } catch (SQLException e) {
+	           e.printStackTrace();
+	        } finally {
+	           close(pstmt);
+	        }
+	        
+	        return result;
 	  }
 }
 

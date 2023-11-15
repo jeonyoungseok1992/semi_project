@@ -13,6 +13,7 @@ public class Board {
 	private int amount;
 	private String titleImg;
 	private String address;
+	private String profileUrl;
 	
 	
 	
@@ -43,6 +44,38 @@ public class Board {
 
 	public Board() {}
 	
+	
+	//메인에서 조회수높은순으로 받아오는 vo 
+	public Board(int boardNo, String boardTitle, String boardContent, String boardWriter, String createDate, int count,
+			String status, int amount, String titleImg, String address) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardWriter = boardWriter;
+		this.createDate = createDate;
+		this.count = count;
+		this.status = status;
+		this.amount = amount;
+		this.titleImg = titleImg;
+		this.address = address;
+	}
+	//selectBoard VO 
+	public Board(String profileUrl,int boardNo, String boardTitle, String boardContent, String boardWriter, String createDate, int count,
+			String saleYn, int amount, String address) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardWriter = boardWriter;
+		this.createDate = createDate;
+		this.count = count;
+		this.saleYn = saleYn;
+		this.amount = amount;
+		this.address = address;
+		this.profileUrl = profileUrl;
+	}
+
 	public Board(int boardNo, String boardTitle, String boardContent, String boardWriter, String createDate, int count,
 			String status, String saleYn) {
 		super();
@@ -80,7 +113,7 @@ public class Board {
 	}
 	//Ajax 로 내글보기 받아오는VO
 	public Board(int boardNo, String boardTitle, String boardContent, String boardWriter, String createDate, int count,
-			String status, int amount, String titleImg, String address) {
+			String status, int amount, String titleImg, String address, String profileUrl) {
 		super();
 		this.boardNo = boardNo;
 		this.boardTitle = boardTitle;
@@ -92,6 +125,7 @@ public class Board {
 		this.amount = amount;
 		this.titleImg = titleImg;
 		this.address=address;
+		this.profileUrl = profileUrl;
 	}
 	
 	//나의 판매내역 담아오는 vo (ajax)
@@ -228,14 +262,24 @@ public class Board {
 	public void setSaleYn(String saleYn) {
 		this.saleYn = saleYn;
 	}
+	
+	public String getProfileUrl() {
+		return profileUrl;
+	}
+
+	public void setProfileUrl(String profileUrl) {
+		this.profileUrl = profileUrl;
+	}
 
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
 				+ ", boardWriter=" + boardWriter + ", createDate=" + createDate + ", count=" + count + ", status="
 				+ status + ", saleYn=" + saleYn + ", amount=" + amount + ", titleImg=" + titleImg + ", address="
-				+ address + "]";
+				+ address + ", profileUrl=" + profileUrl + "]";
 	}
+
+	
 
 	
 

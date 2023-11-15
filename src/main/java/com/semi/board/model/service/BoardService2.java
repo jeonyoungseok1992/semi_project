@@ -22,4 +22,7 @@ public interface BoardService2 {
 	
 	//int updateAttachment(Attachment at);
 
+	   
+	   
+	   
 }

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-
 import com.oreilly.servlet.MultipartRequest;
 import com.semi.board.model.service.BoardService;
 import com.semi.board.model.vo.Board;
@@ -87,7 +86,7 @@ public class InsertBoardController extends HttpServlet {
             }
             
             int result = new BoardService().insertBoard(b, list);
-            System.out.println(result);
+
             if (result > 0) { 
                request.getSession().setAttribute("alertMsg", "성공적으로 게시글 등록하였습니다");
                response.sendRedirect(request.getContextPath());

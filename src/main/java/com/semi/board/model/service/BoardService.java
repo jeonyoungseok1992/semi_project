@@ -247,11 +247,63 @@ public class BoardService {
 				return result;
 			}
 		    
+
+		    public int updateReply(Reply r) {
+		    	Connection conn = getConnection();
+				int result = new BoardDao().updateReply(conn, r);
+				if (result > 0) {
+					commit(conn);
+				} else {
+					rollback(conn);
+				}
+				
+				close(conn);
+
+				return result;
+		    }
+
 		    public ArrayList<Board> selectPopularBoardList(){
 		    	Connection conn = getConnection();
 				ArrayList<Board> list = new BoardDao().selectPopularBoardList(conn);
 				close(conn);
 				return list;
 		    }
+		    
+		    public int favoriteAlter(int boardNo, int userNo) {
+		    	Connection conn = getConnection();
+		    	BoardDao bDao = new BoardDao();
+		    	int cnt=0; 
+		    	int result=0;
+
+				//중복체크 duplchk메소드 
+				cnt = bDao.duplchk(conn,boardNo,userNo); 
+
+				if(cnt == 0){
+					result = bDao.insertFavorite(conn,boardNo,userNo);
+				}else{
+					result = bDao.deleteFavorite(conn,boardNo,userNo);
+				}
+				
+				if (result > 0) {
+					commit(conn);
+				} else {
+					rollback(conn);
+				}
+				
+				close(conn);
+	
+				return result;
+		    }
+
+
+		    public int checkFavorite(int boardNo, int userNo) {
+		    	Connection conn = getConnection();
+		  
+		    	int cnt = new BoardDao().duplchk(conn,boardNo,userNo);
+		    	close(conn);
+				return cnt;
+		    	
+		    }
+
 
 }
