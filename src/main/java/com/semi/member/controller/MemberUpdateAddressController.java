@@ -38,7 +38,9 @@ public class MemberUpdateAddressController extends HttpServlet {
 		//요청시 전달된 데이터 추출하고 변수또는 객체에 저장
 		String userId = request.getParameter("userId");
 		String address = request.getParameter("address");
-		String updateAddress = request.getParameter("updateAddress");
+		String updateAddress = request.getParameter("addr1") + " " + request.getParameter("addr2");
+		
+		
 
 		Member updateAdMem = new MemberService().updateAdMember(userId, address, updateAddress);
 		

@@ -38,8 +38,8 @@ public class MemberInsertController extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		String userName = request.getParameter("userName");
-		String address = request.getParameter("addr1") + request.getParameter("addr2");
-		System.out.println(address);
+		String address = request.getParameter("addr1") + " " + request.getParameter("addr2");
+		
 		
 		Member m = new Member(userId, userPwd, userName, address);
 		
