@@ -235,6 +235,7 @@
 		, REPLY_CONTENT
 		, USER_ID
 		, TO_CHAR(CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+		, PROFILE_URL
 		FROM REPLY R
 		JOIN MEMBER ON (REPLY_WRITER = USER_NO)
 		WHERE R.STATUS = 'Y'
@@ -338,6 +339,7 @@
 		     , AMOUNT
 		     , SALE_YN
 		     , M.ADDRESS
+		     , M.PROFILE_URL
 		  FROM BOARD
 		  JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
 		 WHERE BOARD_NO = ?
@@ -423,10 +425,10 @@
                    )
 	</entry>
 	<entry key="deleteFavorite">
-	DELETE 
-	FROM FAVORITE_BOARD
-	WHERE BOARD_NO = ?
-	AND USER_NO = ?
+		DELETE 
+		FROM FAVORITE_BOARD
+		WHERE BOARD_NO = ?
+		AND USER_NO = ?
 	</entry>
 
 </properties>
