@@ -37,6 +37,13 @@
 
 
 	<select id="selectSearchCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM BOARD B
+    JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+    JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+    WHERE B.STATUS = 'Y'
+       AND   B.SALE_YN = 'N'
+   		 AND FILE_LEVEL = 1
 	    SELECT COUNT(*)
 	    
 	    FROM BOARD B
