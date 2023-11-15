@@ -127,7 +127,6 @@
                         <div class = "product" onclick="location.href='<%=contextPath%>/detailPage.bo?bno=<%=b.getBoardNo() %>'" >
                      <img src="<%=contextPath %>/<%=b.getTitleImg() %>">
                             <ul class="product-menu">
-                               <li><%= b.getBoardNo() %></li>
                                 <li ><%=b.getBoardTitle() %></li>
                         <br>
                                 <li>판매중</li>

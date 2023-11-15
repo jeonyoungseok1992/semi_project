@@ -12,6 +12,16 @@ public interface BoardService2 {
 	
 	ArrayList<Board> selectSearchList(HashMap<String, String> map, PageInfo pi);
 	
+	int deleteBoard(int boardNo);
+	
+	Board selectUpdateBoard(int boardNo);
+	
+	ArrayList<Attachment> selectUpdateAttachment(int boardNo);
+	
+	int updateBoard(Board b, ArrayList<Attachment> atlist);
+	
+	//int updateAttachment(Attachment at);
+
 	   
 	   
 	   

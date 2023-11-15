@@ -165,7 +165,7 @@ button:disabled {
 }
 
 .myPage-section4{
-   flex-direction: column;
+	flex-direction: column;
     display: flex;
     margin-left: 100px;
 
@@ -173,11 +173,14 @@ button:disabled {
 
 .myPage-section4-inner{
     border-bottom:  1px solid rgb(211, 208, 208);
-    margin: 20px 0px;
+    padding: 20px 0px;
+    display: flex;
 }
 
 .myPage-section4-1{
     margin-left: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 
 }
 
@@ -222,7 +225,32 @@ table.update  tbody tr td input{
     height: 200px;
     margin-left: 40px;
 }
+
+.dropdown-item{
+	align: right;
+}
+.myPage-section4-inner{
+    position: relative;
+}
+#lili{
+    position: absolute;
+    right: 0;
+}
+
 </style>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+<!--// 231105 박수현 jquery 추가 -->
+<!-- Swiper CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<!-- Swiper JS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 231105 박수현 jquery 추가 -->
 <!-- jquery 3.7.1 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -236,6 +264,14 @@ table.update  tbody tr td input{
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
 </head>
 
 <!-- 231105 임동건 / 마이페이지 온로드되면 내글보기 ajax실행 / 스크립트 코드 대략 380번째 줄 아래에있음 -->
@@ -265,7 +301,7 @@ table.update  tbody tr td input{
                <input type="hidden" name="filePath" value="resources/member_upfile/">
                <button type="submit" id="change-profile">프로필 사진 변경</button>
             </form>
-            
+
 	          <br>
 
                 <button id="delete-member" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
@@ -395,11 +431,52 @@ table.update  tbody tr td input{
                                  <td style="width: 100px; font-weight: 600;  font-size: 14px;">현재 주소</td>
                                  <td><input type="text" name="address" value="<%=Address%>" readonly></td>
                               </tr>
-                               <tr>
-                                   <td style="width: 100px; font-weight: 600;  font-size: 14px;">변경할 주소</td>
-                                   <td><input type="text" name="updateAddress" required></td>
-                               </tr>
+                                <tr>
+					                <form id = "form1">      
+					                    <td style="height: 300px;  "> 주소</td>
+					                   	<td style="list-style: none;">
+				                        <li><input type = "button" id = "btn" value="우편번호검색"><br> </li>
+					                   	<li><input type="text" id="zipcode" name="zipcode" size="5" placeholder = "우편번호" readonly></li>     
+										<li><input type="text" id="addr1" name="addr1" size="50" placeholder="도로명주소" readonly><br> </li>
+				                       
+										<li><input type="text" id="addr2" name="addr2" size="50" placeholder="상세주소"></li>          
+					                  <!--  <td><input type="text" name="address" placeholder="주소를 입력해주세요." ></td>
+					                    <td></td>
+					               		 --> 
+					               		 </td>
+					                </form>    
+				                </tr>
                            </table>
+                           
+                            <!-- 도로명 주소 -->
+				            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+							<script>
+								const btn = document.querySelector("#btn");
+				
+				               
+								btn.addEventListener("click", () => {
+				                    new daum.Postcode({
+							        oncomplete: function(data) {
+							            console.log(data);
+				                        let fullAddr = '';
+				                        let extraAddr = '';
+				
+				                        if(data.userSelectedType === 'R'){
+				                            fullAddr = data.roadAddress;
+				
+				                        } else{
+				                            fullAddr = data.jibunAddress;
+				                        }
+				
+				                        document.getElementById('addr1').value=fullAddr;
+				                       
+				                        document.getElementById('zipcode').value =  data.zonecode;
+							        }
+							    }).open();
+				
+				                });
+							    
+							</script>
                            <br>
                            <button id="edit-adress-btn" type="submit" class="btn btn-sm btn-secondary updatest" >주소변경</button>
                        </form>
@@ -445,16 +522,21 @@ table.update  tbody tr td input{
                        if(res.length === 0){
                           document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                        } else{
-                          for(let board of res){
-                                 str +=  "<div class='myPage-section4-inner'>"+
+                    	   for(let board of res){
+                              	str +=  "<div class='myPage-section4-inner'>"+
                                   "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
                               
                               "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
                                   "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
                                   "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
                                   "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
-                              "</div>" +
-                              "</div>"
+                                  "</div>" +
+                                    "<li id='lili'><a class='dropdown-item' href='updateForm.bo?bno=" + board.boardNo + "'>수정하기</a></li>" +
+                                    "<li><a class='dropdown-item' href='delete.bo?bno=" + board.boardNo + "'>삭제하기</a></li>" +
+                                "</div>"
+
+
+                   
                            
                                   document.querySelector(".myPage-section4").innerHTML = str;
                                     
@@ -488,7 +570,7 @@ table.update  tbody tr td input{
                          if(res.length === 0){
                             document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
-                            for(let board of res){
+                      	   for(let board of res){
                             str +=  "<div class='myPage-section4-inner'>"+
                                   "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
                               
@@ -532,7 +614,7 @@ table.update  tbody tr td input{
                          if(res.length === 0){
                             document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
-                            for(let board of res){
+                      	   for(let board of res){
                             str +=  "<div class='myPage-section4-inner'>"+
                                   "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
                               

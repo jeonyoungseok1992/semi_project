@@ -106,14 +106,14 @@ public class BoardService {
 	      return boardListCount;
 	   }
 	  
-	  public ArrayList<Board> selectBuyBoardList(int buyer){
+	  public ArrayList<Board> selectBuyBoardList(String buyer){
 		Connection conn = getConnection();
 		ArrayList<Board> list = new BoardDao().selectBuyBoardList(conn,buyer);
 		close(conn);
 		return list;
 	  }
 	  
-		public int selectBuyListCount(int buyer) {
+		public int selectBuyListCount(String buyer) {
 			Connection conn = getConnection();
 	
 			int listCount = new BoardDao().selectBuyListCount(conn,buyer);
@@ -123,7 +123,7 @@ public class BoardService {
 			return listCount;
 		}
 		
-		public ArrayList<Board> selectMyBuyDetailList(PageInfo pi, int buyer){
+		public ArrayList<Board> selectMyBuyDetailList(PageInfo pi, String buyer){
 			Connection conn = getConnection();
 			
 			ArrayList<Board> list = new BoardDao().selectMyBuyDetailList(conn, pi,buyer);

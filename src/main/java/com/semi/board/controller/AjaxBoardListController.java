@@ -36,6 +36,7 @@ public class AjaxBoardListController extends HttpServlet {
 		ArrayList<Board> list = new BoardService().selectBoardList(boardWriter);
 		//[{},{},{}] 이렇게 오고, 이거 쉽게 gson으로 꺼내라
 		//한글이니까 형식도 바꿔라
+		System.out.println(list);
 		response.setContentType("application/json; charset=utf-8");
 		new Gson().toJson(list,response.getWriter());
 	}
