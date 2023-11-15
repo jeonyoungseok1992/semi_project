@@ -8,6 +8,7 @@ public class Reply {
 	private String replyWriter;
 	private String createDate;
 	private String status;
+	private String profileUrl;
 	
 	public Reply() {}
 	
@@ -25,14 +26,15 @@ public class Reply {
 	}
 
 	//리플리스트 가져올 때
-	public Reply(int replyNo, String reply_content, String replyWriter, String createDate) {
+	public Reply(int replyNo, String replyContent, String replyWriter, String createDate, String profileUrl) {
 		super();
 		this.replyNo = replyNo;
-		this.replyContent = reply_content;
+		this.replyContent = replyContent;
 		this.replyWriter = replyWriter;
 		this.createDate = createDate;
+		this.profileUrl = profileUrl;
 	}
-
+	
 	public int getReplyNo() {
 		return replyNo;
 	}
@@ -80,10 +82,28 @@ public class Reply {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	
+	public String getProfileUrl() {
+		return profileUrl;
+	}
+
+
+
+	public void setProfileUrl(String profileUrl) {
+		this.profileUrl = profileUrl;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "Reply [replyNo=" + replyNo + ", replyContent=" + replyContent + ", refBoardNo=" + refBoardNo
-				+ ", replyWriter=" + replyWriter + ", createDate=" + createDate + ", status=" + status + "]";
+				+ ", replyWriter=" + replyWriter + ", createDate=" + createDate + ", status=" + status + ", profileUrl="
+				+ profileUrl + "]";
 	}
+
+
+
+	
 }

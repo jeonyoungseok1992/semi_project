@@ -10,6 +10,7 @@
     pageEncoding="UTF-8" import="com.semi.member.model.vo.Member, com.semi.board.model.vo.Board, com.semi.board.model.vo.Reply, java.util.ArrayList, com.semi.common.model.vo.Attachment"%>
 <%
 	Board b = (Board)request.getAttribute("b");
+	Member m = (Member)request.getAttribute("m");
 	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
 	Reply r = (Reply)request.getAttribute("r");
 	ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
@@ -402,11 +403,11 @@ z-index: 289;
                         <h3 class="sr-only">프로필</h3>
                         <div class="profile-detail-info">
                             <div class="profile-image">
-                                <img src="./resources/images/icon/profile_sample_img.png" alt="" >
+							    <img src="./<%=b.getProfileUrl()%>" alt="">
                             </div>
                             <div class="profile-left">
                                 <div class="name"><%=b.getBoardWriter()%></div>
-                                <div class="adress"><%=b.getAddress() %></div>
+                                <div class="adress"><%=b.getAddress()%></div>
                             </div>                     
                         </div>
                     </a>
@@ -481,7 +482,7 @@ z-index: 289;
                         					str += "<li>"
     	                    						+ "<div class='flex'>"
     	                    							+"<div class='profile-image'>"
-    	                    								+ "<img src='./resources/images/icon/profile_sample_img.png' alt=''>"
+    	                    								+ "<img src='./"+ reply.profileUrl +"' alt=''>"
     	                    								+  "<input class='done-reply' type='hidden' name='userId'+ value="+ reply.replyWriter + ">"
     	                    							+ "</div>"
     		                    						+ "<div class='profile-left'>"
@@ -504,11 +505,6 @@ z-index: 289;
                         				}
                         				
                         				document.querySelector("#reply-area ul").innerHTML = str;
-                        				<%-- for (let reply of res) {            	
-                        				    if (<%=loginUser%> && !(reply.replyWriter.equals("<%=loginUser.getUserId()%>"))) {
-                        				        $(".comment-contents .btns").css("display", "none");
-                        				    }
-                        				} --%>
                                         modalStart();
                                         document.getElementById('replyCount').innerHTML = replyCount;
                     				}
