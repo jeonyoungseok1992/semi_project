@@ -276,7 +276,7 @@ table.update  tbody tr td input{
                         <li><a href="<%=contextPath %>/list.no">자주묻는질문</a></li>
                     </ul>
                     
-<<<<<<< HEAD
+
                     <div id="search-area">
                         <form action="search.bo" method="get">
                             <input type="hidden" name="cpage" value="1">
@@ -285,7 +285,9 @@ table.update  tbody tr td input{
                                 <option value="title">제목</option>
                                 <option value="content">내용</option>
                             </select>
+                            
                             <input type="text" name="keyword" value="${keyword}">
+                          
                             <button type="submit">검색</button>
                         </form>
                     </div>

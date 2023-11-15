@@ -110,7 +110,7 @@
 
  <%@ include file="/views/common/header.jsp" %>
        
-       
+      
        
         <div class="container">
             <div class="contents" id="contents">
@@ -120,6 +120,7 @@
                     
                 <div class="up-nav">
                        <%for(Board b :list){ %>  
+                         	
                          	
                     <nav class="nav" >
                        
