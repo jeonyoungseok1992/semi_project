@@ -43,9 +43,24 @@ public class Board {
 	public Board() {}
 	
 	
-	
+	//메인에서 조회수높은순으로 받아오는 vo 
 	public Board(int boardNo, String boardTitle, String boardContent, String boardWriter, String createDate, int count,
-			String saleYn, int amount, String address, String profileUrl) {
+			String status, int amount, String titleImg, String address) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardWriter = boardWriter;
+		this.createDate = createDate;
+		this.count = count;
+		this.status = status;
+		this.amount = amount;
+		this.titleImg = titleImg;
+		this.address = address;
+	}
+	//selectBoard VO 
+	public Board(String profileUrl,int boardNo, String boardTitle, String boardContent, String boardWriter, String createDate, int count,
+			String saleYn, int amount, String address) {
 		super();
 		this.boardNo = boardNo;
 		this.boardTitle = boardTitle;

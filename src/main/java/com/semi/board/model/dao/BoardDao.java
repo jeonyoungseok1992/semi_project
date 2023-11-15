@@ -648,6 +648,7 @@ public class BoardDao{
 				rset = pstmt.executeQuery();
 				if(rset.next()) {
 					b = new Board(
+								rset.getString("profile_url"),
 								rset.getInt("board_no"),
 								rset.getString("board_title"),
 								rset.getString("board_content"),
@@ -656,8 +657,8 @@ public class BoardDao{
 								rset.getInt("count"),
 								rset.getString("sale_yn"),
 								rset.getInt("amount"),
-								rset.getString("address"),
-								rset.getString("profile_url")
+								rset.getString("address")
+								
 							);
 				}
 				
