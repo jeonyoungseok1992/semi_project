@@ -521,7 +521,6 @@ public class BoardDao{
                     rset.getString("reply_content"),
                     rset.getString("user_id"),
                     rset.getString("create_Date"),
-                    rset.getInt("user_no")
                     rset.getString("profile_url")
                    ));
            }

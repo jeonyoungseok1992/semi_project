@@ -39,12 +39,31 @@
 		from board
 		where status='Y'
 		and board_writer = ?
+
 	</entry>
 
-<<<<<<< HEAD
 	<entry key="selectMyBoardList">
 		SELECT *
-=======
+		FROM
+		(SELECT ROWNUM AS "RNUM", C.*
+		FROM (SELECT B.BOARD_NO,
+				B.BOARD_TITLE,
+				M.USER_ID,
+				TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+				B.COUNT,
+				B.AMOUNT,
+				A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+			FROM BOARD B
+			JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+			WHERE B.BOARD_WRITER = ?
+			and B.status='Y'
+			ORDER BY BOARD_NO DESC) C
+			)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectMyBoardList">
 	SELECT *
       FROM
          (SELECT ROWNUM AS "RNUM", A.*
@@ -100,24 +119,23 @@
 		where buyer = ?
 		</entry>
 	   <entry key="selectMyBuyDetailList">
-	           SELECT *
->>>>>>> 61ae64a3c68c4cc2bf90dba6228f08a428c116a3
-		FROM
-		(SELECT ROWNUM AS "RNUM", C.*
-		FROM (SELECT B.BOARD_NO,
-		B.BOARD_TITLE,
-		M.USER_ID,
-		TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-		B.COUNT,
-		B.AMOUNT,
-		A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
-		FROM BOARD B
-		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-		WHERE B.BOARD_WRITER = ?
-		and B.status='Y'
-		ORDER BY BOARD_NO DESC) C
-		)
+	    SELECT *
+			FROM
+			(SELECT ROWNUM AS "RNUM", C.*
+			FROM (SELECT B.BOARD_NO,
+			B.BOARD_TITLE,
+			M.USER_ID,
+			TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+			B.COUNT,
+			B.AMOUNT,
+			A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+			FROM BOARD B
+			JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+			WHERE B.BOARD_WRITER = ?
+			and B.status='Y'
+			ORDER BY BOARD_NO DESC) C
+			)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
 
@@ -227,7 +245,6 @@
 		COUNT,
 		AMOUNT,
 		FILE_PATH || CHANGE_NAME "TITLE_IMG"
-
 		FROM BOARD
 
 		JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
@@ -298,21 +315,12 @@
 		SELECT REPLY_NO
 		, REPLY_CONTENT
 		, USER_ID
-<<<<<<< HEAD
-		,
-		TO_CHAR(CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
-		, USER_NO
-		FROM
-		REPLY R
-=======
 		, TO_CHAR(CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
 		, PROFILE_URL
 		FROM REPLY R
->>>>>>> 61ae64a3c68c4cc2bf90dba6228f08a428c116a3
 		JOIN MEMBER ON (REPLY_WRITER = USER_NO)
 		WHERE R.STATUS = 'Y'
-		AND
-		REF_BNO = ?
+		AND REF_BNO = ?
 		ORDER BY REPLY_NO ASC
 	</entry>
 	<entry key="insertReply">
@@ -331,80 +339,6 @@
 		, ?
 		, ?
 		)
-<<<<<<< HEAD
-=======
-	</entry>  
-	   
-	   <entry key="insertBoard">
-      INSERT 
-      INTO BOARD (
-               BOARD_NO
-              ,BOARD_TITLE
-               ,BOARD_CONTENT
-               ,BOARD_WRITER
-               ,AMOUNT
-               
-               )
-         VALUES(
-               SEQ_BNO.NEXTVAL
-               ,?
-               ,?
-               ,?
-               ,?
-              )   
-   </entry>
-   
-    <entry key="insertAttachmentList">
-	   INSERT
-	   INTO ATTACHMENT (
-	               FILE_NO
-	               ,REF_BNO
-	               ,ORIGIN_NAME
-	               ,CHANGE_NAME
-	               ,FILE_PATH
-	               ,FILE_LEVEL
-	               )
-	         VALUES (
-	                 SEQ_FNO.NEXTVAL
-	                ,SEQ_BNO.CURRVAL
-	                ,?
-	                ,?
-	                ,?
-	                ,?
-	                )
-  	 </entry>
-
-  	 <entry key="searchBoardList">
-
-	SELECT *
-      FROM
-         (SELECT ROWNUM AS "RNUM", A.*
-          FROM (SELECT BOARD_NO,
-            BOARD_TITLE,
-            TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-            COUNT,
-            AMOUNT,
-            FILE_PATH || CHANGE_NAME "TITLE_IMG"
-            
-       FROM BOARD
-       
-       JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
-       
-     WHERE BOARD.STATUS = 'Y'
-       AND   BOARD.SALE_YN = 'N'
-   		 AND FILE_LEVEL = 1
-       
-       ORDER BY BOARD_NO DESC) A
-          )
-      WHERE RNUM BETWEEN ? AND ?
-      </entry>
-
-  	 <entry key="increaseCount">
-		UPDATE BOARD
-		   SET COUNT = COUNT + 1
-		 WHERE BOARD_NO = ?
-		   AND STATUS = 'Y'
->>>>>>> 61ae64a3c68c4cc2bf90dba6228f08a428c116a3
 	</entry>
 
 	<entry key="insertBoard">
@@ -454,19 +388,6 @@
 	</entry>
 	<entry key="selectBoard">
 		SELECT BOARD_NO
-<<<<<<< HEAD
-		, BOARD_TITLE
-		, BOARD_CONTENT
-		, USER_ID
-		, TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') "CREATE_DATE"
-		, COUNT
-		, AMOUNT
-		, SALE_YN
-		, M.ADDRESS
-		FROM BOARD
-		JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
-		WHERE BOARD_NO = ?
-=======
 		     , BOARD_TITLE
 		     , BOARD_CONTENT
 		     , USER_ID
@@ -479,7 +400,6 @@
 		  FROM BOARD
 		  JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
 		 WHERE BOARD_NO = ?
->>>>>>> 61ae64a3c68c4cc2bf90dba6228f08a428c116a3
 	</entry>
 	<entry key="selectAttachment">
 		SELECT FILE_NO
@@ -505,28 +425,6 @@
 		WHERE REPLY_NO = ?
 	</entry>
 
-<<<<<<< HEAD
-	<entry key="selectPopularBoardList">
-		SELECT *
-		FROM (SELECT ROWNUM AS "RNUM", C.*
-		FROM (SELECT B.BOARD_NO
-		,B.BOARD_TITLE
-		,B.BOARD_CONTENT
-		,M.USER_ID
-		,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
-		,B.COUNT
-		,B.STATUS
-		,B.AMOUNT
-		,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
-		,M.ADDRESS
-		FROM BOARD B
-		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-		WHERE B.STATUS = 'Y'
-		ORDER BY B.COUNT DESC)C
-		)
-		WHERE RNUM BETWEEN 1 AND 10
-=======
 
 	<entry key="selectQnaList">
 		SELECT QNA_NO
@@ -561,7 +459,6 @@
             ORDER BY B.COUNT DESC)C
             )
     WHERE RNUM BETWEEN 1 AND 10
->>>>>>> 61ae64a3c68c4cc2bf90dba6228f08a428c116a3
 	</entry>
 	<entry key="duplchk">
 		select count(*) as "count"

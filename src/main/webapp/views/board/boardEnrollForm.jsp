@@ -31,7 +31,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 450px;
-        height: 600px;
+        height: 700px;
         background: white;
         display: flex;
         justify-content: center;
@@ -57,6 +57,7 @@
 
     .mb-3{
         margin-top: 10px;
+        position: static;
     }
     .button-wrap{
         margin: 20px;
@@ -155,8 +156,9 @@
                 <input type="number" name="amount"  class="form-control" id="exampleFormControlInput1" placeholder="₩ 가격을 입력해주세요." style="margin-bottom: 40px;" required>
             </div>
             
-            <div style="margin-bottom: -35px;">
-                <label for="exampleFormControlTextarea1" class="form-label" >자세한설명</label>
+            <div  class="mb-3" align="left>
+
+                <label for="exampleFormControlTextarea1" class="form-label">자세한설명</label>
 
             </div>
             <div class="mb-3">

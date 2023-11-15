@@ -5,16 +5,6 @@
 
 <mapper namespace="boardMapper2">
 	<resultMap id="boardResultSet" type="Board">
-<<<<<<< HEAD
-		<result column="BOARD_NO" property="boardNo" />
-		<result column="BOARD_TITLE" property="boardTitle" />
-		<result column="USER_ID" property="boardWriter" />
-		<result column="AMOUNT" property="amount" />
-		<result column="COUNT" property="count" />
-		<result column="CREATE_DATE" property="createDate" />
-		<result column="BOARD_CONTENT" property="boardContent" />
-		<result column="TITLE_IMG" property="titleImg" />
-=======
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="BOARD_TITLE" property="boardTitle"/>
 		<result column="USER_ID" property="boardWriter"/>
@@ -24,7 +14,6 @@
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="BOARD_CONTENT" property="boardContent"/>
 		<result column="title_img" property="titleImg"/>	
->>>>>>> 61ae64a3c68c4cc2bf90dba6228f08a428c116a3
 	</resultMap>
 	
 
@@ -48,49 +37,16 @@
 
 
 	<select id="selectSearchCount" resultType="_int">
-<<<<<<< HEAD
-		SELECT COUNT(*)
-		FROM BOARD B
-		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-		WHERE B.STATUS = 'Y'
-		<if test="condition == 'writer'">
-			AND M.USER_ID LIKE '%' || #{keyword} || '%'
-		</if>
-		<if test="condition == 'title'">
-			AND B.BOARD_TITLE LIKE '%' || #{keyword} || '%'
-		</if>
-		<if test="condition == 'content'">
-			AND B.BOARD_CONTENT LIKE '%' || #{keyword} || '%'
-		</if>
-	</select>
-
-
-
-
-
-	<select id="selectSearchList" resultMap="boardResultSet">
-		SELECT BOARD_NO
-		, BOARD_TITLE
-		, USER_ID
-
-		,TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE"
-		,COUNT
-		,AMOUNT
-		,FILE_PATH || CHANGE_NAME "TITLE_IMG"
-		FROM BOARD B
-		JOIN MEMBER ON (BOARD_WRITER =
-		USER_NO)
-		JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
-		WHERE B.STATUS = 'Y'
-=======
-    SELECT COUNT(*)
-    FROM BOARD B
-    JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-    JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-    WHERE B.STATUS = 'Y'
-       AND   B.SALE_YN = 'N'
-   		 AND FILE_LEVEL = 1
+	    SELECT COUNT(*)
+	    
+	    FROM BOARD B
+	    
+	    JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+	    JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+	    
+	    WHERE B.STATUS = 'Y'
+	    AND   B.SALE_YN = 'N'
+	    AND FILE_LEVEL = 1
     <if test="condition == 'writer'">
         AND M.USER_ID LIKE '%' || #{keyword} || '%'
     </if>
@@ -121,7 +77,6 @@
 	  WHERE B.STATUS = 'Y'
        AND   B.SALE_YN = 'N'
    		 AND FILE_LEVEL = 1
->>>>>>> 61ae64a3c68c4cc2bf90dba6228f08a428c116a3
 		<choose>
 			<when test="condition == 'writer'">
 				AND USER_ID
@@ -136,7 +91,7 @@
 		LIKE '%' || #{keyword} || '%'
 		ORDER BY BOARD_NO DESC
 	</select>
-<<<<<<< HEAD
+	
 	<update id="detaildeleteBoard">
 		UPDATE BOARD
 		SET STATUS = 'N'
@@ -159,10 +114,7 @@
 		JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
 		WHERE BOARD_NO = #{boardNo}
 	</select>
-=======
-	
-	 
->>>>>>> 61ae64a3c68c4cc2bf90dba6228f08a428c116a3
+
 	
 	<select id="selectUpdateAttachment" resultMap="AttachmentResultSet">
 		SELECT FILE_NO
