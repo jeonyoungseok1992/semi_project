@@ -37,7 +37,6 @@
 
 
 	<select id="selectSearchCount" resultType="_int">
-<<<<<<< HEAD
     SELECT COUNT(*)
     FROM BOARD B
     JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
@@ -45,7 +44,6 @@
     WHERE B.STATUS = 'Y'
        AND   B.SALE_YN = 'N'
    		 AND FILE_LEVEL = 1
-=======
 	    SELECT COUNT(*)
 	    
 	    FROM BOARD B
@@ -56,7 +54,6 @@
 	    WHERE B.STATUS = 'Y'
 	    AND   B.SALE_YN = 'N'
 	    AND FILE_LEVEL = 1
->>>>>>> 6b5229b62a10776c532a54201e3268e0d116581b
     <if test="condition == 'writer'">
         AND M.USER_ID LIKE '%' || #{keyword} || '%'
     </if>
