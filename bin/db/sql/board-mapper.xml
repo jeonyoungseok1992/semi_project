@@ -169,7 +169,9 @@
        JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
        
        WHERE BOARD.STATUS = 'Y'
-       AND         BOARD.SALE_YN = 'N'
+       AND   BOARD.SALE_YN = 'N'
+   		 AND FILE_LEVEL = 1
+    
        
        ORDER BY BOARD_NO DESC) A
           )
@@ -195,6 +197,7 @@
 	            JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO )
 	            WHERE S.BUYER = ?
 	            	AND B.STATUS = 'Y'
+	            	
 	            ORDER BY B.BOARD_NO DESC)C
 	            )
 	    WHERE RNUM BETWEEN 1 AND 5
@@ -314,8 +317,9 @@
        
        JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
        
-       WHERE BOARD.STATUS = 'Y'
-       AND         BOARD.SALE_YN = 'N'
+     WHERE BOARD.STATUS = 'Y'
+       AND   BOARD.SALE_YN = 'N'
+   		 AND FILE_LEVEL = 1
        
        ORDER BY BOARD_NO DESC) A
           )

@@ -7,7 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.semi.board.model.vo.Board;
-import com.semi.board.model.vo.Reply;
+import com.semi.common.model.vo.Attachment;
 import com.semi.common.model.vo.PageInfo;
 
 public class BoardDao2 {
@@ -27,7 +27,9 @@ public class BoardDao2 {
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
+		  
 		return (ArrayList)sqlSession.selectList("boardMapper2.selectSearchList", map, rowBounds);
 	}
-
+	
+	
 }
