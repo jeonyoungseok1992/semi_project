@@ -190,7 +190,7 @@ public class BoardDao{
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
 		String sql =prop.getProperty("selectBoardList");
-		
+		System.out.println(sql);
 		try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, boardWriter);
@@ -204,7 +204,6 @@ public class BoardDao{
 										rset.getString("create_date"),
 										rset.getInt("count"),
 										rset.getString("status"),
-										rset.getString("sale_yn"),
 										rset.getInt("amount"),
 										rset.getString("title_img"),
 										rset.getString("address")

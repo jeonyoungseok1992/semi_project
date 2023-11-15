@@ -9,10 +9,10 @@
 		<result column="BOARD_TITLE" property="boardTitle" />
 		<result column="USER_ID" property="boardWriter" />
 		<result column="AMOUNT" property="amount" />
-
 		<result column="COUNT" property="count" />
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="BOARD_CONTENT" property="boardContent" />
+		<result column="TITLE_IMG" property="titleImg" />
 	</resultMap>
 	<resultMap id="replyResultSet" type="Reply">
 		<result column="REPLY_NO" property="replyNo" />
@@ -20,6 +20,7 @@
 		<result column="REPLY_CONTETN" property="replyContent" />
 		<result column="CREATE_DATE" property="createDate" />
 	</resultMap>
+	
 	<resultMap id="AttachmentResultSet" type="Attachment">
 		<result column="FILE_NO" property="fileNo" />
 		<result column="REF_BNO" property="refBoardNo" />
@@ -81,7 +82,7 @@
 		LIKE '%' || #{keyword} || '%'
 		ORDER BY BOARD_NO DESC
 	</select>
-	<update id="deleteBoard">
+	<update id="detaildeleteBoard">
 		UPDATE BOARD
 		SET STATUS = 'N'
 		WHERE BOARD_NO = #{boardNo}
@@ -106,13 +107,50 @@
 	
 	<select id="selectUpdateAttachment" resultMap="AttachmentResultSet">
 		SELECT FILE_NO
+		, REF_BNO
 		, ORIGIN_NAME
 		, CHANGE_NAME
 		, FILE_PATH
 		FROM ATTACHMENT
 		WHERE REF_BNO = #{boardNo}
 	</select>
+	
+	<update id="updateBoard">
+		UPDATE BOARD
+		SET 
+			BOARD_TITLE = #{boardTitle},
+			AMOUNT = #{amount},
+			BOARD_CONTENT = #{boardContent}
+		WHERE BOARD_NO = #{boardNo}
 
+	</update>
+	
+	<update id="updateAttachment">
+		UPDATE Attachment
+		SET 
+			ORIGIN_NAME = #{originName},
+			CHANGE_NAME = #{changeName},
+			FILE_PATH = #{filePath}
+		WHERE REF_BNO = #{refBoardNo}
+
+	</update>
+	
+	<update id="insertAttachment">
+		INSERT INTO Attachment(
+					FILE_NO,
+					REF_BNO,					
+				ORIGIN_NAME,
+				CHANGE_NAME,
+				FILE_PATH
+		)		VALUES (
+		SEQ_FNO.NEXTVAL
+		,#{refBoardNo}
+		,#{originName}
+		,#{changeName}
+		,#{filePath}
+		)
+
+	</update>
 
 
 </mapper>

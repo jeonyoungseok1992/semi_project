@@ -42,7 +42,7 @@ public class BoardDeleteController extends HttpServlet {
 		if (result > 0) {
 			
 			request.getSession().setAttribute("alertMsg", "성공적으로 삭제되었습니다");
-			response.sendRedirect(request.getContextPath());
+			response.sendRedirect("myPage.me");
 			
 		} else { 
 			request.setAttribute("errorMsg", "게시글 삭제에 실패하였습니다");

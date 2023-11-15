@@ -163,11 +163,14 @@ button:disabled {
 
 .myPage-section4-inner{
     border-bottom:  1px solid rgb(211, 208, 208);
-    margin: 20px 0px;
+    padding: 20px 0px;
+    display: flex;
 }
 
 .myPage-section4-1{
     margin-left: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 
 }
 
@@ -212,7 +215,32 @@ table.update  tbody tr td input{
     height: 200px;
     margin-left: 40px;
 }
+
+.dropdown-item{
+	align: right;
+}
+.myPage-section4-inner{
+    position: relative;
+}
+#lili{
+    position: absolute;
+    right: 0;
+}
+
 </style>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+<!--// 231105 박수현 jquery 추가 -->
+<!-- Swiper CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<!-- Swiper JS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 231105 박수현 jquery 추가 -->
 <!-- jquery 3.7.1 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -226,6 +254,14 @@ table.update  tbody tr td input{
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
 </head>
 
 <!-- 231105 임동건 / 마이페이지 온로드되면 내글보기 ajax실행 / 스크립트 코드 대략 380번째 줄 아래에있음 -->
@@ -442,8 +478,13 @@ table.update  tbody tr td input{
                                   "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
                                   "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
                                   "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
-                              "</div>" +
-                              "</div>"
+                                  "</div>" +
+                                    "<li id='lili'><a class='dropdown-item' href='updateForm.bo?bno=" + board.boardNo + "'>수정하기</a></li>" +
+                                    "<li><a class='dropdown-item' href='delete.bo?bno=" + board.boardNo + "'>삭제하기</a></li>" +
+                                "</div>"
+
+
+                   
                            
                                   document.querySelector(".myPage-section4").innerHTML = str;
                               		

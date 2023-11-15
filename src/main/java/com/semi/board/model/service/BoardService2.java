@@ -16,5 +16,10 @@ public interface BoardService2 {
 	
 	Board selectUpdateBoard(int boardNo);
 	
-	Attachment selectUpdateAttachment(int boardNo);
+	ArrayList<Attachment> selectUpdateAttachment(int boardNo);
+	
+	int updateBoard(Board b, ArrayList<Attachment> atlist);
+	
+	//int updateAttachment(Attachment at);
+
 }

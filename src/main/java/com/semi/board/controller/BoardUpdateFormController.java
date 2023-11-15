@@ -38,10 +38,13 @@ public class BoardUpdateFormController extends HttpServlet {
 		
 		BoardService2 bService = new BoardServiceImpl();
 		Board b = bService.selectUpdateBoard(boardNo);
-		Attachment at = bService.selectUpdateAttachment(boardNo);
+		ArrayList<Attachment> atList = bService.selectUpdateAttachment(boardNo);
+		System.out.println(b);
+		System.out.println(atList);
 		
 		request.setAttribute("b", b);
-		request.setAttribute("at", at);
+		request.setAttribute("atList", atList);
+		System.out.println(atList);
 		
 		request.getRequestDispatcher("views/board/boardUpdateForm.jsp").forward(request, response);
 		
