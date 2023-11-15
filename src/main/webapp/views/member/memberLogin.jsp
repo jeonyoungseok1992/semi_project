@@ -101,7 +101,7 @@
                 </label>
                 <br>  <br>  <br>  <br>  <br>
                 <label align="center">
-                    비밀번호  <br><input type="text" name="userPwd" required/>
+                    비밀번호  <br><input type="password" name="userPwd" required/>
                 </label>
                 <br>
         
