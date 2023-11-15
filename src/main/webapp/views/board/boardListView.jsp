@@ -108,7 +108,10 @@
 </head>
 <body>
 
-        <%@ include file="/views/common/header.jsp" %>
+ <%@ include file="/views/common/header.jsp" %>
+       
+       
+       
         <div class="container">
             <div class="contents" id="contents">
                 <div class="contents-wrap">
@@ -117,7 +120,7 @@
                     
                 <div class="up-nav">
                        <%for(Board b :list){ %>  
-                         
+                         	
                     <nav class="nav" >
                        
                         <div class = "product" onclick="location.href='<%=contextPath%>/detailPage.bo?bno=<%=b.getBoardNo() %>'" >
@@ -158,6 +161,11 @@
 
      </div>
  </div>
+
+
+
+
+
 
  <script>
    function imgClick(){

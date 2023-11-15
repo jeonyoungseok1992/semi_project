@@ -270,15 +270,33 @@ table.update  tbody tr td input{
             <div class="gnb">
                 <nav class="nav">
 
-                    <h1><a href="<%=contextPath%>"><img style="width: 130px " src="resources/images/img/dang.jpg" alt="daangn logo"><span class="sr-only">당근마켓<span></a></h1>
+                    <h1><a href="<%=contextPath%>"><img src="resources/images/icon/daangn_logo.png" alt="daangn logo"><span class="sr-only">당근마켓<span></a></h1>
                     <ul class="menu">
                         <li><a href="<%=contextPath %>/boardlist.bo?cpage=1">중고거래</a></li>
                         <li><a href="<%=contextPath %>/list.no">자주묻는질문</a></li>
                     </ul>
                     
-                    <div class="search">
-                        <a class="search" href="<%=contextPath %>/searchForm.bo"><span class="input">중고거래하실 물품을 검색해보세요</span><span class="button">검색하기</span></a>
+<<<<<<< HEAD
+                    <div id="search-area">
+                        <form action="search.bo" method="get">
+                            <input type="hidden" name="cpage" value="1">
+                            <select name="condition">
+                                <option value="writer">작성자</option>
+                                <option value="title">제목</option>
+                                <option value="content">내용</option>
+                            </select>
+                            <input type="text" name="keyword" value="${keyword}">
+                            <button type="submit">검색</button>
+                        </form>
                     </div>
+                    <c:if test="${not empty condition}">
+                        <script>
+                            window.onload = function() {
+                                const opt = document.querySelector("#search-area option[value=${condition}]")
+                                opt.setAttribute("selected", true);
+                            }
+                        </script>
+                    </c:if>
                      
                     <% if(loginUser == null) { %>
                     <div class="utill">

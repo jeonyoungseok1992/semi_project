@@ -83,8 +83,8 @@
     padding-left: 15px;
 }
 button:disabled {
-	background: #999;
-	cursor: auto;
+   background: #999;
+   cursor: auto;
 }
 
 #enroll-form table{
@@ -142,7 +142,7 @@ button:disabled {
     font-weight: 700;
  }
  .menu-nav a:hover{
- 	color: #ff6f0f;
+    color: #ff6f0f;
  }
  .menu-nav a:after {/*after 가상요소*/
     display:block;/*a요소를 블록 요소라고 선언*/
@@ -159,20 +159,26 @@ button:disabled {
 
 
 #myPage-section3{
-	
+   
     margin-left: 100px;
+    border-bottom:  1px solid rgb(211, 208, 208);;
 }
 
 .myPage-section4{
-	flex-direction: column;
-    border-top: 1px solid rgb(211, 208, 208);
-    padding: 30px 0;
+   flex-direction: column;
     display: flex;
     margin-left: 100px;
+
+}
+
+.myPage-section4-inner{
+    border-bottom:  1px solid rgb(211, 208, 208);
+    margin: 20px 0px;
 }
 
 .myPage-section4-1{
     margin-left: 40px;
+
 }
 
 .myPage-section4-contnet{
@@ -209,6 +215,13 @@ table.update  tbody tr td input{
     padding-left: 15px; 
  
 }
+
+
+.myPage-section4-img{
+    width: 200px;
+    height: 200px;
+    margin-left: 40px;
+}
 </style>
 <!-- 231105 박수현 jquery 추가 -->
 <!-- jquery 3.7.1 -->
@@ -230,8 +243,8 @@ table.update  tbody tr td input{
     <%@ include file="../common/header.jsp"%>
 
     <%
-    	String userName = loginUser.getUserName();
-    	int userNo = loginUser.getUserNo();
+       String userName = loginUser.getUserName();
+       int userNo = loginUser.getUserNo();
         String userId = loginUser.getUserId();
         String userPwd = loginUser.getUserPwd();
         String Address = loginUser.getAddress();
@@ -252,8 +265,9 @@ table.update  tbody tr td input{
                <input type="hidden" name="filePath" value="resources/member_upfile/">
                <button type="submit" id="change-profile">프로필 사진 변경</button>
             </form>
-          
+
 	          <br>
+
                 <button id="delete-member" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
             </div>
             <div id="myPage-section2-2">
@@ -434,7 +448,7 @@ table.update  tbody tr td input{
                </div>
            </div>
        </div>
-		<!-- 231105 임동건 / a태그 온클릭 되어도 ajax호출 -->
+      <!-- 231105 임동건 / a태그 온클릭 되어도 ajax호출 -->
         <div class="menu-nav" id="myPage-section3"  align="left">
             <ul>                
                 <li><a onclick="listinit()">내 글 보기</a></li>
@@ -442,15 +456,15 @@ table.update  tbody tr td input{
                 <li><a onclick="buyinit()">구매내역 보기</a></li>
              </ul>
           </div>
-		
-		<!-- 231105 임동건 / ajax 내글, 판매내역, 구매내역 그려주는 영역 -->
-		<div class="myPage-section4">
-		 
-		 </div>
-		 
-		
-		 
-		<script>
+      
+      <!-- 231105 임동건 / ajax 내글, 판매내역, 구매내역 그려주는 영역 -->
+      <div class="myPage-section4">
+       
+       </div>
+       
+      
+       
+      <script>
            function listinit(){
                     //게시글 가져와서 그려주기
                     selectBoardList();
@@ -466,27 +480,27 @@ table.update  tbody tr td input{
                        bwriter : <%=userNo %>
                    },
                    success : function(res){
-                	document.querySelector(".myPage-section4").innerHTML = "";
-                   	console.log(res.length === 0);
+                   document.querySelector(".myPage-section4").innerHTML = "";
+                      console.log(res.length === 0);
                        let str ="";
                        if(res.length === 0){
-                    	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                          document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                        } else{
-                    	   for(let board of res){
-                              	str +=  "<div>"+
-                                  "<img src='/carrot/" + board.titleImg + "'>"+
-                              "</div>"+
+                          for(let board of res){
+                                 str +=  "<div class='myPage-section4-inner'>"+
+                                  "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
+                              
                               "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
                                   "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
                                   "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
-                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"</h2>"+      
-                              "</div>" 
-                         
+                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
+                              "</div>" +
+                              "</div>"
                            
                                   document.querySelector(".myPage-section4").innerHTML = str;
-                              		
+                                    
                               }
-                             	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/detail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                                 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/detail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
                        }
                        
                        
@@ -499,37 +513,38 @@ table.update  tbody tr td input{
 
            
            function sellinit(){
-        	   selectSellBoardList();
+              selectSellBoardList();
            }
            function selectSellBoardList(){
-        	   $.ajax({
+              $.ajax({
                    url : "slist.bo",
                    data : {
-                	   /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
-                	   userNo : <%=userNo %><%-- <%=b.getBoardWriter() %> --%>
+                      /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
+                      userNo : <%=userNo %><%-- <%=b.getBoardWriter() %> --%>
                    },
                    success : function(res){
-               	   document.querySelector(".myPage-section4").innerHTML = "";
-                     	console.log(res.length === 0);
+                     document.querySelector(".myPage-section4").innerHTML = "";
+                        console.log(res.length === 0);
                          let str ="";
                          if(res.length === 0){
-                      	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                            document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
-                      	   for(let board of res){
-                                	str +=  "<div>"+
-                                    "<img src='/carrot/" + board.titleImg + "'>"+
-                                "</div>"+
-                                "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
-                                    "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
-                                    "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
-                                    "<h2  class='myPage-section4-contnet'>"+board.amount+"</h2>"+      
-                                "</div>" 
+                            for(let board of res){
+                            str +=  "<div class='myPage-section4-inner'>"+
+                                  "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
+                              
+                              "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
+                                  "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
+                                  "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
+                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
+                              "</div>" +
+                              "</div>"
                            
                              
                                     document.querySelector(".myPage-section4").innerHTML = str;
-                                		
+                                      
                                 }
-                      	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/purchase.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                          document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/purchase.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
                          }
                           
                           
@@ -541,37 +556,39 @@ table.update  tbody tr td input{
            }
           
            function buyinit(){
-        	   selectBuyBoardList();
+              selectBuyBoardList();
            }
            function selectBuyBoardList(){
-        	   $.ajax({
+              console.log("클릭");
+              $.ajax({
                    url : "buylist.bo",
                    data : {
-                	   /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
-                	   userNo : <%=userNo %><%-- <%=b.getBoardWriter() %> --%>
+                      /* userNo : userNo */ <%-- <%=b.getBoardWriter() %> --%>
+                      userId : "<%=userId %>"<%-- <%=b.getBoardWriter() %> --%>
                    },
                    success : function(res){
-                	   document.querySelector(".myPage-section4").innerHTML = "";
-                     	console.log(res.length === 0);
+                      document.querySelector(".myPage-section4").innerHTML = "";
+                        console.log(res.length === 0);
                          let str ="";
                          if(res.length === 0){
-                      	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                            document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
-                      	   for(let board of res){
-                                	str +=  "<div>"+
-                                    "<img src='/carrot/" + board.titleImg + "'>"+
-                                "</div>"+
-                                "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
-                                    "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
-                                    "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
-                                    "<h2  class='myPage-section4-contnet'>"+board.amount+"</h2>"+      
-                                "</div>" 
+                            for(let board of res){
+                            str +=  "<div class='myPage-section4-inner'>"+
+                                  "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
+                              
+                              "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
+                                  "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
+                                  "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
+                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
+                              "</div>" +
+                              "</div>"
                            
                              
                                     document.querySelector(".myPage-section4").innerHTML = str;
-                                		
+                                      
                                 }
-                      	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/buyDetail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                          document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/buyDetail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
                          }
                    },
                    error : function(){
@@ -584,12 +601,12 @@ table.update  tbody tr td input{
     </section>
     <!--  <script>
 
-    	$(function(){
-        		$(".myPage-section4 > div > img").click(function(){
-        			
-        			location.href = "<%=contextPath%>/detailPage.bo?bno=" + $(this).children().eq(0).text();
-        		})
-        	})
+       $(function(){
+              $(".myPage-section4 > div > img").click(function(){
+                 
+                 location.href = "<%=contextPath%>/detailPage.bo?bno=" + $(this).children().eq(0).text();
+              })
+           })
     
     </script>-->
     <script>
@@ -645,13 +662,13 @@ table.update  tbody tr td input{
             <form action="<%=contextPath %>/delete.me" id="pwdCheck" method="post" style="margin-top: 5px;">
               <div class="form-floating" style="width: 350px;" >
             <input type="hidden" name="userId" value="<%=loginUser.getUserId() %>">
-			  <input type="password" name="userPwd" class="form-control" id="floatingPassword" placeholder="password">
-			  <label for="floatingPassword">비밀번호</label>
-			</div>
-			<div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-	        <button type="submit" class="btn btn-primary">회원탈퇴</button>
-	      	</div>
+           <input type="password" name="userPwd" class="form-control" id="floatingPassword" placeholder="password">
+           <label for="floatingPassword">비밀번호</label>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+           <button type="submit" class="btn btn-primary">회원탈퇴</button>
+            </div>
             </form>
         </div>
       </div>
@@ -696,7 +713,7 @@ table.update  tbody tr td input{
            
 
        </script>
-			
+         
 
 
 </body>

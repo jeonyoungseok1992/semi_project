@@ -169,7 +169,9 @@
        JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
        
        WHERE BOARD.STATUS = 'Y'
-       AND         BOARD.SALE_YN = 'N'
+       AND   BOARD.SALE_YN = 'N'
+   		 AND FILE_LEVEL = 1
+    
        
        ORDER BY BOARD_NO DESC) A
           )
@@ -195,6 +197,7 @@
 	            JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO )
 	            WHERE S.BUYER = ?
 	            	AND B.STATUS = 'Y'
+	            	
 	            ORDER BY B.BOARD_NO DESC)C
 	            )
 	    WHERE RNUM BETWEEN 1 AND 5
@@ -235,6 +238,7 @@
 		, REPLY_CONTENT
 		, USER_ID
 		, TO_CHAR(CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+		, PROFILE_URL
 		FROM REPLY R
 		JOIN MEMBER ON (REPLY_WRITER = USER_NO)
 		WHERE R.STATUS = 'Y'
@@ -314,8 +318,9 @@
        
        JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
        
-       WHERE BOARD.STATUS = 'Y'
-       AND         BOARD.SALE_YN = 'N'
+     WHERE BOARD.STATUS = 'Y'
+       AND   BOARD.SALE_YN = 'N'
+   		 AND FILE_LEVEL = 1
        
        ORDER BY BOARD_NO DESC) A
           )
@@ -338,6 +343,7 @@
 		     , AMOUNT
 		     , SALE_YN
 		     , M.ADDRESS
+		     , M.PROFILE_URL
 		  FROM BOARD
 		  JOIN MEMBER M ON (BOARD_WRITER = USER_NO)
 		 WHERE BOARD_NO = ?
@@ -365,6 +371,7 @@
 		    SET STATUS = 'N'
 	      WHERE REPLY_NO = ?
 	</entry>
+
 
 	<entry key="selectQnaList">
 		SELECT QNA_NO
@@ -424,10 +431,10 @@
                    )
 	</entry>
 	<entry key="deleteFavorite">
-	DELETE 
-	FROM FAVORITE_BOARD
-	WHERE BOARD_NO = ?
-	AND USER_NO = ?
+		DELETE 
+		FROM FAVORITE_BOARD
+		WHERE BOARD_NO = ?
+		AND USER_NO = ?
 	</entry>
 
 </properties>

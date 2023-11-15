@@ -519,7 +519,8 @@ public class BoardDao{
                     rset.getInt("reply_no"),
                     rset.getString("reply_content"),
                     rset.getString("user_id"),
-                    rset.getString("create_Date")
+                    rset.getString("create_Date"),
+                    rset.getString("profile_url")
                    ));
            }
            
@@ -655,7 +656,8 @@ public class BoardDao{
 								rset.getInt("count"),
 								rset.getString("sale_yn"),
 								rset.getInt("amount"),
-								rset.getString("address")
+								rset.getString("address"),
+								rset.getString("profile_url")
 							);
 				}
 				
