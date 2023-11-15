@@ -108,15 +108,15 @@
     <h1 align="center">게시판</h1>
     <br>
 
-    <div class="container" align="center" onclick="location.href='detailPage?cpage=${b.boardNo()}'">
-        <div class="up-nav">    
+    <div class="container" align="center"  >
+        <div class="up-nav" >    
         <c:forEach var="b" items="${ list }">
             <nav class="nav">
                 <div id="product"> 
                     <ul>
-                        <li>${b.boardTitle}</li>
+                        <li><a href="detailPage?bno=${b.boardNo}">${b.boardTitle} </a></li>
                         
-                        <li><a href=""></a><img src="${b.titleImg}" style="width: 150px; height: 120px;"></li>
+                        <li><a href="detailPage?bno=${b.boardNo}"> <img src="${b.titleImg}" style="width: 150px; height: 120px;" > </a></li>
                         <li>${b.boardWriter}</li>
                         <li>${b.amount}</li>
                         <li>${b.createDate}</li>
