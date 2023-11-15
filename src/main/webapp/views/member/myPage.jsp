@@ -265,7 +265,7 @@ table.update  tbody tr td input{
                <input type="hidden" name="filePath" value="resources/member_upfile/">
                <button type="submit" id="change-profile">프로필 사진 변경</button>
             </form>
-            
+
 	          <br>
 
                 <button id="delete-member" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
@@ -395,11 +395,52 @@ table.update  tbody tr td input{
                                  <td style="width: 100px; font-weight: 600;  font-size: 14px;">현재 주소</td>
                                  <td><input type="text" name="address" value="<%=Address%>" readonly></td>
                               </tr>
-                               <tr>
-                                   <td style="width: 100px; font-weight: 600;  font-size: 14px;">변경할 주소</td>
-                                   <td><input type="text" name="updateAddress" required></td>
-                               </tr>
+                                <tr>
+					                <form id = "form1">      
+					                    <td style="height: 300px;  "> 주소</td>
+					                   	<td style="list-style: none;">
+				                        <li><input type = "button" id = "btn" value="우편번호검색"><br> </li>
+					                   	<li><input type="text" id="zipcode" name="zipcode" size="5" placeholder = "우편번호" readonly></li>     
+										<li><input type="text" id="addr1" name="addr1" size="50" placeholder="도로명주소" readonly><br> </li>
+				                       
+										<li><input type="text" id="addr2" name="addr2" size="50" placeholder="상세주소"></li>          
+					                  <!--  <td><input type="text" name="address" placeholder="주소를 입력해주세요." ></td>
+					                    <td></td>
+					               		 --> 
+					               		 </td>
+					                </form>    
+				                </tr>
                            </table>
+                           
+                            <!-- 도로명 주소 -->
+				            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+							<script>
+								const btn = document.querySelector("#btn");
+				
+				               
+								btn.addEventListener("click", () => {
+				                    new daum.Postcode({
+							        oncomplete: function(data) {
+							            console.log(data);
+				                        let fullAddr = '';
+				                        let extraAddr = '';
+				
+				                        if(data.userSelectedType === 'R'){
+				                            fullAddr = data.roadAddress;
+				
+				                        } else{
+				                            fullAddr = data.jibunAddress;
+				                        }
+				
+				                        document.getElementById('addr1').value=fullAddr;
+				                       
+				                        document.getElementById('zipcode').value =  data.zonecode;
+							        }
+							    }).open();
+				
+				                });
+							    
+							</script>
                            <br>
                            <button id="edit-adress-btn" type="submit" class="btn btn-sm btn-secondary updatest" >주소변경</button>
                        </form>
