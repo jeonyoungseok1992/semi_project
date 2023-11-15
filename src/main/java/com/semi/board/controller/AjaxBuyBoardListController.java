@@ -32,7 +32,8 @@ public class AjaxBuyBoardListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int buyer = Integer.parseInt(request.getParameter("userNo"));
+		String buyer = request.getParameter("userId");
+		System.out.println(buyer);
 		ArrayList<Board> list = new BoardService().selectBuyBoardList(buyer);
 		//[{},{},{}] 이렇게 오고, 이거 쉽게 gson으로 꺼내라
 		//한글이니까 형식도 바꿔라

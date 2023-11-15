@@ -48,7 +48,7 @@ public class MyBuyBoardList extends HttpServlet {
 		//로그인정보 가져와서 작성자 필터해야함
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("loginUser");
-		int buyer = m.getUserNo();
+		String buyer = m.getUserId();
 		
 		//*listCount : 총 게시글 수
 		listCount = new BoardService().selectBuyListCount(buyer);

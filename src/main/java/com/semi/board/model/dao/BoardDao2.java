@@ -31,5 +31,36 @@ public class BoardDao2 {
 		return (ArrayList)sqlSession.selectList("boardMapper2.selectSearchList", map, rowBounds);
 	}
 	
+	public int detaildeleteBoard(SqlSession sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper2.detaildeleteBoard", boardNo);
+	}
+	
+	public Board selectUpdateBoard(SqlSession sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper2.selectUpdateBoard", boardNo);
+		
+	}
+	
+	public ArrayList<Attachment> selectUpdateAttachment(SqlSession sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper2.selectUpdateAttachment", boardNo);
+		
+	}
+	
+	public int updateBoard(SqlSession sqlSession, Board b) {
+		return sqlSession.update("boardMapper2.updateBoard", b);
+	}
+	
+	public int updateAttachment(SqlSession sqlSession, Attachment at) {
+		return sqlSession.update("boardMapper2.updateAttachment", at);
+	}
+	
+	public int insertAttachment(SqlSession sqlSession, Attachment at) {
+		return sqlSession.insert("boardMapper2.insertAttachment", at);
+	}
+	
+
+	
+	
+	
+
 	
 }

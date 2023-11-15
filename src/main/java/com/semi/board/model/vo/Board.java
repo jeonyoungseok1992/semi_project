@@ -16,6 +16,8 @@ public class Board {
 	private String profileUrl;
 	
 	
+	
+	
 	public String getAddress() {
 		return address;
 	}

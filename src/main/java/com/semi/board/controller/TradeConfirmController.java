@@ -38,6 +38,7 @@ public class TradeConfirmController extends HttpServlet {
 		
 		int boardNo = Integer.parseInt(request.getParameter("bno"));
 		String rWriter = request.getParameter("rWriter");
+		System.out.println(rWriter);
 		Member m = ((Member)request.getSession().getAttribute("loginUser"));
 		
 		BoardService bService = new BoardService();// 여러번쓰기위해 생성해놓고 씀
