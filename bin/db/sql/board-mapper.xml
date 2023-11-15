@@ -365,6 +365,7 @@
 		    SET STATUS = 'N'
 	      WHERE REPLY_NO = ?
 	</entry>
+
 	<entry key="selectQnaList">
 		SELECT QNA_NO
 		     , QNA_TITLE
@@ -378,7 +379,6 @@
 		 SET REPLY_CONTENT = ?
 	   WHERE REPLY_NO = ?
 	</entry>
-
 	<entry key="selectPopularBoardList">
 	        SELECT *
     FROM  (SELECT ROWNUM AS "RNUM", C.*
@@ -429,11 +429,7 @@
 	WHERE BOARD_NO = ?
 	AND USER_NO = ?
 	</entry>
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 989839b621d87d729ccccb9390e0c17158ec6320
 </properties>
 
 
