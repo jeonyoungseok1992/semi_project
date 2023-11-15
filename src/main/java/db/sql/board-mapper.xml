@@ -1,159 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<entry key="selectSellListCount">
+	<entry key="selectSellListCount">
 		select count(*) as "count"
 		from board
 		where status ='Y'
 		and sale_yn = 'Y'
 		and board_writer = ?
-</entry>
-	
-<entry key="selecSellDetailList">
-    SELECT *
-	FROM
-	(SELECT ROWNUM AS "RNUM", C.*
-	FROM (SELECT B.BOARD_NO,
-	           B.BOARD_TITLE,
-	           B.BOARD_CONTENT,
-               M.USER_ID,
-	           TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-	           B.COUNT,
-	           B.STATUS,
-	           B.AMOUNT,
-	           A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG",
-	           M.ADDRESS
-	    FROM BOARD B
-        JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-	    JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-        WHERE B.BOARD_WRITER = ?
-        AND B.STATUS = 'Y'
-        AND B.SALE_YN = 'Y'
-	    ORDER BY BOARD_NO DESC) C
-	    )
-	WHERE RNUM BETWEEN ? AND ?
-</entry>
+	</entry>
 
-<entry key="selectListCount">
+	<entry key="selecSellDetailList">
+		SELECT *
+		FROM
+		(SELECT ROWNUM AS "RNUM", C.*
+		FROM (SELECT B.BOARD_NO,
+		B.BOARD_TITLE,
+		B.BOARD_CONTENT,
+		M.USER_ID,
+		TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+		B.COUNT,
+		B.STATUS,
+		B.AMOUNT,
+		A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG",
+		M.ADDRESS
+		FROM BOARD B
+		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+		WHERE B.BOARD_WRITER = ?
+		AND B.STATUS = 'Y'
+		AND B.SALE_YN = 'Y'
+		ORDER BY BOARD_NO DESC) C
+		)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectListCount">
 		select count(*) as "count"
 		from board
 		where status='Y'
 		and board_writer = ?
-</entry>
 
-<entry key="selectMyBoardList">
-    SELECT *
-	FROM
-	(SELECT ROWNUM AS "RNUM", C.*
-	FROM (SELECT B.BOARD_NO,
-	           B.BOARD_TITLE,
-               M.USER_ID,
-	           TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-	           B.COUNT,
-	           B.AMOUNT,
-	           A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
-	    FROM BOARD B
-        JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-	    JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-        WHERE B.BOARD_WRITER = ?
-        and B.status='Y'
-	    ORDER BY BOARD_NO DESC) C
-	    )
-	WHERE RNUM BETWEEN ? AND ?
-</entry>
-
- <entry key="selectBoardList">
-        SELECT *
-    FROM  (SELECT ROWNUM AS "RNUM", C.*
-    FROM        (SELECT	B.BOARD_NO
-				,B.BOARD_TITLE
-				,B.BOARD_CONTENT
-				,M.USER_ID
-				,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
-				,B.COUNT
-                ,B.STATUS
-                ,B.AMOUNT
-                ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
-                ,M.ADDRESS
-                ,B.SALE_YN
-            FROM BOARD B
-            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-            WHERE B.BOARD_WRITER = ?
-            	AND B.STATUS = 'Y'
-            ORDER BY B.BOARD_NO DESC)C
-            )
-    WHERE RNUM BETWEEN 1 AND 5
 	</entry>
-	 <entry key="selectSellBoardList">
-        SELECT *
-    FROM  (SELECT ROWNUM AS "RNUM", C.*
-    FROM        (SELECT	B.BOARD_NO
-				,B.BOARD_TITLE
-				,B.BOARD_CONTENT
-				,M.USER_ID
-				,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
-				,B.COUNT
-                ,B.STATUS
-                ,B.AMOUNT
-                ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
-                ,M.ADDRESS
-            FROM BOARD B
-            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-            WHERE B.BOARD_WRITER = ?
-            AND B.STATUS='Y'
-            AND B.SALE_YN = 'Y'
-            ORDER BY B.BOARD_NO DESC)C
-            )
-    WHERE RNUM BETWEEN 1 AND 5
-	</entry>
-	
-	<entry key="insertAttachment">
-      INSERT
-      INTO ATTACHMENT (
-                  FILE_NO
-                  ,REF_BNO
-                  ,ORIGIN_NAME
-                  ,CHANGE_NAME
-                  ,FILE_PATH
-                  )
-            VALUES (
-                    SEQ_FNO.NEXTVAL
-                   ,SEQ_BNO.CURRVAL
-                   ,?
-                   ,?
-                   ,?
-                   )
-   </entry>
-   
-   <entry key="insertNewAttachment">
-      INSERT
-      INTO ATTACHMENT (
-                  FILE_NO
-                  ,REF_BNO
-                  ,ORIGIN_NAME
-                  ,CHANGE_NAME
-                  ,FILE_PATH
-                  )
-            VALUES (
-                    SEQ_FNO.NEXTVAL
-                   ,?
-                   ,?
-                   ,?
-                   ,?
-                   )
-   </entry>
-   
-	<entry key="selectBoardListCount">
-      select count(*) as "count"
-      from board
-      where status = 'Y'
-      AND board_writer = ?
-   </entry>
-   
-   <entry key="selectAllBoardList">
 
+	<entry key="selectMyBoardList">
+		SELECT *
+		FROM
+		(SELECT ROWNUM AS "RNUM", C.*
+		FROM (SELECT B.BOARD_NO,
+				B.BOARD_TITLE,
+				M.USER_ID,
+				TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+				B.COUNT,
+				B.AMOUNT,
+				A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+			FROM BOARD B
+			JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+			WHERE B.BOARD_WRITER = ?
+			and B.status='Y'
+			ORDER BY BOARD_NO DESC) C
+			)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectMyBoardList">
 	SELECT *
       FROM
          (SELECT ROWNUM AS "RNUM", A.*
@@ -209,29 +119,197 @@
 		where buyer = ?
 		</entry>
 	   <entry key="selectMyBuyDetailList">
-	           SELECT *
+	    SELECT *
+			FROM
+			(SELECT ROWNUM AS "RNUM", C.*
+			FROM (SELECT B.BOARD_NO,
+			B.BOARD_TITLE,
+			M.USER_ID,
+			TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+			B.COUNT,
+			B.AMOUNT,
+			A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+			FROM BOARD B
+			JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+			JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+			WHERE B.BOARD_WRITER = ?
+			and B.status='Y'
+			ORDER BY BOARD_NO DESC) C
+			)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectBoardList">
+		SELECT *
+		FROM (SELECT ROWNUM AS "RNUM", C.*
+            FROM (SELECT B.BOARD_NO
+            ,B.BOARD_TITLE
+            ,B.BOARD_CONTENT
+            ,M.USER_ID
+            ,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+            ,B.COUNT
+            ,B.STATUS
+            ,B.AMOUNT
+            ,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+            ,M.ADDRESS
+            FROM BOARD B
+            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+            JOIN (select REF_BNO, 
+            max(FILE_PATH) FILE_PATH, 
+            		max(CHANGE_NAME) CHANGE_NAME
+                    from ATTACHMENT
+                    group by ref_bno) A ON (B.BOARD_NO = A.REF_BNO)
+            WHERE B.BOARD_WRITER = ?
+            AND B.STATUS = 'Y'     
+            ORDER BY B.BOARD_NO DESC ) C
+		)
+		WHERE RNUM BETWEEN 1 AND 5
+	</entry>
+	
+	
+	<entry key="selectSellBoardList">
+		SELECT *
+		FROM (SELECT ROWNUM AS "RNUM", C.*
+		FROM (SELECT B.BOARD_NO
+		,B.BOARD_TITLE
+		,B.BOARD_CONTENT
+		,M.USER_ID
+		,TO_CHAR(B.CREATE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+		,B.COUNT
+		,B.STATUS
+		,B.AMOUNT
+		,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+		,M.ADDRESS
+		FROM BOARD B
+		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+		WHERE B.BOARD_WRITER = ?
+		AND B.STATUS='Y'
+		AND B.SALE_YN = 'Y'
+		ORDER BY B.BOARD_NO DESC)C
+		)
+		WHERE RNUM BETWEEN 1 AND 5
+	</entry>
+
+	<entry key="insertAttachment">
+		INSERT
+		INTO ATTACHMENT (
+		FILE_NO
+		,REF_BNO
+		,ORIGIN_NAME
+		,CHANGE_NAME
+		,FILE_PATH
+		)
+		VALUES (
+		SEQ_FNO.NEXTVAL
+		,SEQ_BNO.CURRVAL
+		,?
+		,?
+		,?
+		)
+	</entry>
+
+	<entry key="insertNewAttachment">
+		INSERT
+		INTO ATTACHMENT (
+		FILE_NO
+		,REF_BNO
+		,ORIGIN_NAME
+		,CHANGE_NAME
+		,FILE_PATH
+		)
+		VALUES (
+		SEQ_FNO.NEXTVAL
+		,?
+		,?
+		,?
+		,?
+		)
+	</entry>
+
+	<entry key="selectBoardListCount">
+		select count(*) as "count"
+		from board
+		where status = 'Y'
+		AND board_writer = ?
+	</entry>
+
+	<entry key="selectAllBoardList">
+
+		SELECT *
+		FROM
+		(SELECT ROWNUM AS "RNUM", A.*
+		FROM (SELECT BOARD_NO,
+		BOARD_TITLE,
+		TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+		COUNT,
+		AMOUNT,
+		FILE_PATH || CHANGE_NAME "TITLE_IMG"
+		FROM BOARD
+
+		JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
+
+		WHERE BOARD.STATUS = 'Y'
+		AND BOARD.SALE_YN = 'N'
+
+		ORDER BY BOARD_NO DESC) A
+		)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectBuyBoardList">
+		SELECT *
+		FROM (SELECT ROWNUM AS "RNUM", C.*
+		FROM (SELECT B.BOARD_NO
+		,B.BOARD_TITLE
+		,B.BOARD_CONTENT
+		,M.USER_ID
+		,TO_CHAR(S.SALE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
+		,B.COUNT
+		,B.STATUS
+		,B.AMOUNT
+		,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
+		,M.ADDRESS
+		FROM BOARD B
+		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+		JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO )
+		WHERE S.BUYER = ?
+		AND B.STATUS = 'Y'
+		ORDER BY B.BOARD_NO DESC)C
+		)
+		WHERE RNUM BETWEEN 1 AND 5
+	</entry>
+
+	<entry key="selectBuyListCount">
+		select count(*) as "count"
+		from SALE_LOG
+		where buyer = ?
+	</entry>
+	<entry key="selectMyBuyDetailList">
+		SELECT *
 		FROM
 		(SELECT ROWNUM AS "RNUM", C.*
 		FROM (SELECT B.BOARD_NO,
-		           B.BOARD_TITLE,
-		           B.BOARD_CONTENT,
-	               M.USER_ID,
-		           TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-		           B.COUNT,
-		           B.AMOUNT,
-		           A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG",
-		           M.ADDRESS
-		    FROM BOARD B
-	        JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		    JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-            JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO)
-	        WHERE S.BUYER = ?
-	        and status = 'Y'
-	        and B.status = 'Y'
-		    ORDER BY BOARD_NO DESC) C
-		    )
+		B.BOARD_TITLE,
+		B.BOARD_CONTENT,
+		M.USER_ID,
+		TO_CHAR(B.CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
+		B.COUNT,
+		B.AMOUNT,
+		A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG",
+		M.ADDRESS
+		FROM BOARD B
+		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+		JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO)
+		WHERE S.BUYER = ?
+		and status = 'Y'
+		and B.status = 'Y'
+		ORDER BY BOARD_NO DESC) C
+		)
 		WHERE RNUM BETWEEN ? AND ?
-		</entry>
+	</entry>
 
 	<entry key="selectReplyList">
 		SELECT REPLY_NO
@@ -261,79 +339,54 @@
 		, ?
 		, ?
 		)
-	</entry>  
-	   
-	   <entry key="insertBoard">
-      INSERT 
-      INTO BOARD (
-               BOARD_NO
-              ,BOARD_TITLE
-               ,BOARD_CONTENT
-               ,BOARD_WRITER
-               ,AMOUNT
-               
-               )
-         VALUES(
-               SEQ_BNO.NEXTVAL
-               ,?
-               ,?
-               ,?
-               ,?
-              )   
-   </entry>
-   
-    <entry key="insertAttachmentList">
-	   INSERT
-	   INTO ATTACHMENT (
-	               FILE_NO
-	               ,REF_BNO
-	               ,ORIGIN_NAME
-	               ,CHANGE_NAME
-	               ,FILE_PATH
-	               ,FILE_LEVEL
-	               )
-	         VALUES (
-	                 SEQ_FNO.NEXTVAL
-	                ,SEQ_BNO.CURRVAL
-	                ,?
-	                ,?
-	                ,?
-	                ,?
-	                )
-  	 </entry>
-
-  	 <entry key="searchBoardList">
-
-	SELECT *
-      FROM
-         (SELECT ROWNUM AS "RNUM", A.*
-          FROM (SELECT BOARD_NO,
-            BOARD_TITLE,
-            TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-            COUNT,
-            AMOUNT,
-            FILE_PATH || CHANGE_NAME "TITLE_IMG"
-            
-       FROM BOARD
-       
-       JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
-       
-     WHERE BOARD.STATUS = 'Y'
-       AND   BOARD.SALE_YN = 'N'
-   		 AND FILE_LEVEL = 1
-       
-       ORDER BY BOARD_NO DESC) A
-          )
-      WHERE RNUM BETWEEN ? AND ?
-      </entry>
-
-  	 <entry key="increaseCount">
-		UPDATE BOARD
-		   SET COUNT = COUNT + 1
-		 WHERE BOARD_NO = ?
-		   AND STATUS = 'Y'
 	</entry>
-  	 <entry key="selectBoard">
+
+	<entry key="insertBoard">
+		INSERT
+		INTO BOARD (
+		BOARD_NO
+		,BOARD_TITLE
+		,BOARD_CONTENT
+		,BOARD_WRITER
+		,AMOUNT
+
+		)
+		VALUES(
+		SEQ_BNO.NEXTVAL
+		,?
+		,?
+		,?
+		,?
+		)
+	</entry>
+
+	<entry key="insertAttachmentList">
+		INSERT
+		INTO ATTACHMENT (
+		FILE_NO
+		,REF_BNO
+		,ORIGIN_NAME
+		,CHANGE_NAME
+		,FILE_PATH
+		,FILE_LEVEL
+		)
+		VALUES (
+		SEQ_FNO.NEXTVAL
+		,SEQ_BNO.CURRVAL
+		,?
+		,?
+		,?
+		,?
+		)
+	</entry>
+
+	<entry key="increaseCount">
+		UPDATE BOARD
+		SET COUNT = COUNT + 1
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="selectBoard">
 		SELECT BOARD_NO
 		     , BOARD_TITLE
 		     , BOARD_CONTENT
@@ -350,26 +403,26 @@
 	</entry>
 	<entry key="selectAttachment">
 		SELECT FILE_NO
-		     , ORIGIN_NAME
-		     , CHANGE_NAME
-		     , FILE_PATH
-		 FROM ATTACHMENT
-		 WHERE REF_BNO = ?
+		, ORIGIN_NAME
+		, CHANGE_NAME
+		, FILE_PATH
+		FROM ATTACHMENT
+		WHERE REF_BNO = ?
 	</entry>
 	<entry key="saleYnAlter">
 		UPDATE BOARD
-		   SET SALE_YN = 'Y'
-		 WHERE BOARD_NO = ?
-		   AND STATUS = 'Y'
+		SET SALE_YN = 'Y'
+		WHERE BOARD_NO = ?
+		AND STATUS = 'Y'
 	</entry>
 	<entry key="insertSaleLog">
-		INSERT INTO SALE_LOG 
+		INSERT INTO SALE_LOG
 		VALUES (?, ?, SYSDATE,'Y',?)
 	</entry>
 	<entry key="deleteReply">
-		 UPDATE REPLY
-		    SET STATUS = 'N'
-	      WHERE REPLY_NO = ?
+		UPDATE REPLY
+		SET STATUS = 'N'
+		WHERE REPLY_NO = ?
 	</entry>
 
 
