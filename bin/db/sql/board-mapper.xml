@@ -114,7 +114,7 @@
 	            	
 	            ORDER BY B.BOARD_NO DESC)C
 	            )
-	    WHERE RNUM BETWEEN 1 AND 5;
+	    WHERE RNUM BETWEEN 1 AND 5
 	   </entry>
 	   
 	   <entry key="selectBuyListCount">
