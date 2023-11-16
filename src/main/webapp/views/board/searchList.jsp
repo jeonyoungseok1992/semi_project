@@ -114,9 +114,9 @@
             <nav class="nav">
                 <div id="product"> 
                     <ul>
-                        <li><a href="detailPage?bno=${b.boardNo}">${b.boardTitle} </a></li>
+                        <li><a href="detailPage.bo?bno=${b.boardNo}">${b.boardTitle} </a></li>
                         
-                        <li><a href="detailPage?bno=${b.boardNo}"> <img src="${b.titleImg}" style="width: 150px; height: 120px;" > </a></li>
+                        <li><a href="detailPage.bo?bno=${b.boardNo}"> <img src="${b.titleImg}" style="width: 150px; height: 120px;" > </a></li>
                         <li>${b.boardWriter}</li>
                         <li>${b.amount}</li>
                         <li>${b.createDate}</li>

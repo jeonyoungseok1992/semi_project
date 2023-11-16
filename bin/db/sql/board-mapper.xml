@@ -103,14 +103,18 @@
 	                ,M.ADDRESS
 	            FROM BOARD B
 	            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-	            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+	            JOIN (select REF_BNO, 
+            max(FILE_PATH) FILE_PATH, 
+            		max(CHANGE_NAME) CHANGE_NAME
+                    from ATTACHMENT
+                    group by ref_bno) A ON (B.BOARD_NO = A.REF_BNO)
 	            JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO )
 	            WHERE S.BUYER = ?
 	            	AND B.STATUS = 'Y'
 	            	
 	            ORDER BY B.BOARD_NO DESC)C
 	            )
-	    WHERE RNUM BETWEEN 1 AND 5
+	    WHERE RNUM BETWEEN 1 AND 5;
 	   </entry>
 	   
 	   <entry key="selectBuyListCount">
@@ -182,7 +186,11 @@
 		,M.ADDRESS
 		FROM BOARD B
 		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
+		JOIN (select REF_BNO, 
+            max(FILE_PATH) FILE_PATH, 
+            		max(CHANGE_NAME) CHANGE_NAME
+                    from ATTACHMENT
+                    group by ref_bno) A ON (B.BOARD_NO = A.REF_BNO)
 		WHERE B.BOARD_WRITER = ?
 		AND B.STATUS='Y'
 		AND B.SALE_YN = 'Y'

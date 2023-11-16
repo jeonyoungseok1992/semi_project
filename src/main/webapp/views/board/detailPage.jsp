@@ -412,7 +412,7 @@ z-index: 289;
                         <h3 class="sr-only">프로필</h3>
                         <div class="profile-detail-info">
                             <div class="profile-image">
-							    <img src="./<%=b.getProfileUrl()%>" alt="">
+							    <img src="./<%=b.getProfileUrl()%>" alt="">  
                             </div>
                             <div class="profile-left">
                                 <div class="name"><%=b.getBoardWriter()%></div>
@@ -493,6 +493,7 @@ z-index: 289;
                     				let replyCount = res.length;
                     				if(res.length === 0){
                     					document.querySelector("#reply-area ul").innerHTML = "<p style='padding: 50px 0; text-align: center;'>등록된 댓글이 없습니다.</p>";
+                    					document.getElementById('replyCount').innerHTML = 0;
                     				} else {
                     					let str = "";
                         				for (let reply of res) {
