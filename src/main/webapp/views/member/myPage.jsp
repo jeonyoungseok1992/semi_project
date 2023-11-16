@@ -168,6 +168,7 @@ button:disabled {
     border-bottom:  1px solid rgb(211, 208, 208);
     padding: 20px 0px;
     display: flex;
+    cursor: pointer;
 }
 
 .myPage-section4-1{
@@ -193,10 +194,13 @@ button:disabled {
     padding: 0 40px;
     font-weight: 700;
     border-radius: 0;
-    margin-top: 16px;
     background-color: #ff6f0f;
     border: none;
     font-size: 16px;
+    
+}
+.btn.updatest.add{
+    margin: 40px auto;
 }
 .btn-secondary.updatest:hover{
    opacity: .8;
@@ -219,15 +223,38 @@ table.update  tbody tr td input{
     margin-left: 40px;
 }
 
-.dropdown-item{
-	align: right;
-}
 .myPage-section4-inner{
     position: relative;
 }
 #lili{
     position: absolute;
     right: 0;
+}
+.update-btn{
+    position: absolute;
+    right: 0;
+}
+.update-btn a{
+    color: #fff !important;
+    background: #ff6f0f;
+    border: none;
+    margin-left: 5px;
+}
+.update-btn a:hover{
+    background: #ff6f0f;
+    background-color: #ff6f0f;
+}
+.update-btn a:focus{
+    border-color: #ff6f0f;
+    box-shadow: none;
+    background-color: #ff6f0f;
+}
+#floatingPassword{
+    width: 100%;
+    border: 1px solid gainsboro;
+    height: 40px;
+    margin: 15px 0px;
+    padding-left: 15px;
 }
 .dropdown{
 z-index: 289;
@@ -490,20 +517,23 @@ z-index: 289;
                    	console.log(res.length === 0);
                        let str ="";
                        if(res.length === 0){
-                    	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                          document.querySelector(".myPage-section4").innerHTML = "<h1 style='padding: 150px 0; text-align: center;'>"+"조회된 목록이 없습니다."+"</h1>";
                        } else{
                     	   for(let board of res){
-                              	str +=  "<div class='myPage-section4-inner'>"+
+                              	str +=  "<div class='myPage-section4-inner' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
                                   "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
                               
-                              "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
-                                  "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
-                                  "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
-                                  "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
-                                  "</div>" +
-                                    "<li id='lili'><a class='dropdown-item' href='updateForm.bo?bno=" + board.boardNo + "'>수정하기</a></li>" +
-                                    "<li><a class='dropdown-item' href='delete.bo?bno=" + board.boardNo + "'>삭제하기</a></li>" +
+                                "<div class='myPage-section4-1'>"+
+                                    "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
+                                    "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
+                                        "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
+                                    "</div>" +
+                                    "<div class='update-btn'>" +
+                                        "<a class='btn btn-sm btn-warning' href='updateForm.bo?bno=" + board.boardNo + "'>수정하기</a>" +
+                                        "<a class='btn btn-sm btn-warning' href='delete.bo?bno=" + board.boardNo + "'>삭제하기</a>" +
+                                    "</div>"+
                                 "</div>"
+                                
 
 
 
@@ -523,7 +553,7 @@ z-index: 289;
                                   document.querySelector(".myPage-section4").innerHTML = str;
                               		
                               }
-                             	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/detail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                                 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/detail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest add' style='height: 50px;'>더보기</button>";
                        }
                        
                        
@@ -550,13 +580,13 @@ z-index: 289;
                      	console.log(res.length === 0);
                          let str ="";
                          if(res.length === 0){
-                      	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                            document.querySelector(".myPage-section4").innerHTML = "<h1 style='padding: 150px 0; text-align: center;'>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
                       	   for(let board of res){
-                            str +=  "<div class='myPage-section4-inner'>"+
+                            str +=  "<div class='myPage-section4-inner' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
                                   "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
                               
-                              "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
+                              "<div class='myPage-section4-1'>"+
                                   "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
                                   "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
                                   "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
@@ -594,13 +624,13 @@ z-index: 289;
                      	console.log(res.length === 0);
                          let str ="";
                          if(res.length === 0){
-                      	   document.querySelector(".myPage-section4").innerHTML = "<h1>"+"조회된 목록이 없습니다."+"</h1>";
+                            document.querySelector(".myPage-section4").innerHTML = "<h1 style='padding: 150px 0; text-align: center;'>"+"조회된 목록이 없습니다."+"</h1>";
                          } else{
                       	   for(let board of res){
-                            str +=  "<div class='myPage-section4-inner'>"+
+                            str +=  "<div class='myPage-section4-inner' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
                                   "<img class='myPage-section4-img' src='/carrot/" + board.titleImg + "'>"+
                               
-                              "<div class='myPage-section4-1' onclick=\"location.href='/carrot/detailPage.bo?bno=" + board.boardNo + "'\">"+
+                              "<div class='myPage-section4-1'>"+
                                   "<h2  class='myPage-section4-contnet'>"+board.boardTitle+"</h2>"+
                                   "<div  class='myPage-section4-contnet' style='color: rgba(173, 167, 167, 0.801); font-size: 15px; font-weight: 500;'>"+board.address+"</div>"+
                                   "<h2  class='myPage-section4-contnet'>"+board.amount+"원</h2>"+                           
@@ -671,27 +701,27 @@ z-index: 289;
     </script>
     
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="margin-top: 150px;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">회원 탈퇴</h5>
+<div class="modal fade" id="exampleModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+       <!-- Modal Header -->
+       <div class="modal-header" style="border-bottom: none; padding: 24px;">
+        <h4 class="modal-title updatest" id="exampleModalLabel">회원 탈퇴</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body"  >
+      <div class="modal-body" align="center" style="padding: 24px;">
         <div id="pwd-input" style="display: flex; justify-content: space-around; align-items: center; flex-direction: column;">
-            <div> <%=loginUser.getUserName()%>님, 회원탈퇴시 모든 정보가 삭제되오니,</div>
-            <div>신중하게 탈퇴 신청을 해주시기 바랍니다.</div>
+            <div style="font-size: 18px; line-height: 30px;"> <strong><%=loginUser.getUserName()%>님</strong>, 회원탈퇴시 모든 정보가 삭제되오니,<br>신중하게 탈퇴 신청을 해주시기 바랍니다.</div>
             <form action="<%=contextPath %>/delete.me" id="pwdCheck" method="post" style="margin-top: 5px;">
               <div class="form-floating" style="width: 350px;" >
             <input type="hidden" name="userId" value="<%=loginUser.getUserId() %>">
-			  <input type="password" name="userPwd" class="form-control" id="floatingPassword" placeholder="password">
-			  <label for="floatingPassword">비밀번호</label>
-			</div>
-			<div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-	        <button type="submit" class="btn btn-primary">회원탈퇴</button>
-	      	</div>
+           <input type="password" name="userPwd" class="form-control" id="floatingPassword" placeholder="password">
+           <label for="floatingPassword">비밀번호</label>
+           <div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="submit" class="btn btn-secondary" style="background-color: #ff6f0f; border: #ff6f0f;">회원탈퇴</button>
+           </div>
+         </div>
             </form>
         </div>
       </div>

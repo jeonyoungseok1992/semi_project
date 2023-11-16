@@ -34,4 +34,10 @@ pre{line-height: 1.5; white-space: pre-wrap; /* CSS3*/
     word-wrap: break-all; /* Internet Explorer 5.5+ */}
 
 
-
+/* paging-area */
+.paging-area { overflow: hidden; height: 32px; text-align: center;}
+.paging-area li { display: inline-block;}
+.paging-area li button { display: block; position: relative; min-width: 32px; height: 32px; margin: 0 2px; padding: 0 11px; border-radius: 4px; font-size: 16px; line-height: 30px; text-align: center; color: #333; overflow: hidden;}
+.paging-area li button:hover,
+.paging-area li button:active { font-weight: 700;}
+.paging-area li.current button { background-color: #ff6f0f; color: #fff; font-weight: 700;}

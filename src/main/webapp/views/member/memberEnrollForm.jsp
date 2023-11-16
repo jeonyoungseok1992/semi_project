@@ -54,7 +54,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 #userId{
 	width: 70px; background: white;  
 
-    border: 1px solid;
+    border: 1px solid #333;
     border-radius: 5px; 
     color: black; height: 45px;
 }
@@ -67,7 +67,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
     <div class="outer">
         <br>
-        <h2 align="center">회원가입</h2>
+        <h2 align="center" style="font-size: 24px; font-weight: 700; line-height: 35px;">회원가입</h2>
 
         <form action="<%=contextPath%>/insert.me" id="mem-enroll-form" >
             <table style="width:auto;">

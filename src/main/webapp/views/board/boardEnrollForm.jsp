@@ -27,7 +27,7 @@
 <style>
     .main{
         position: absolute;
-        top: 50%;
+        top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 450px;
@@ -38,6 +38,13 @@
         align-items: center;
         flex-direction: column;
         
+    }
+    .main > h2 {
+        padding-bottom: 32px;
+        font-size: 24px;
+        font-weight: 700;
+        text-align: left;
+        width: 100%;
     }
     .picture{
         display: inline-block;
@@ -68,8 +75,10 @@
 </head>
 <body>
     <%@ include file="../common/header.jsp"%>
+    
     <div class="main">
-        <form action="<%=contextPath%>/insert.bo" method="post" enctype="multipart/form-data" style="padding-left: 20px; padding-right: 20px;width: 450px; height: 450px;">
+        <h2>글 작성하기</h2>
+        <form action="<%=contextPath%>/insert.bo" method="post" enctype="multipart/form-data" style="width: 450px; height: 450px;">
             <input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
            
                <label class="picture">
@@ -156,9 +165,9 @@
                 <input type="number" name="amount"  class="form-control" id="exampleFormControlInput1" placeholder="₩ 가격을 입력해주세요." style="margin-bottom: 40px;" required>
             </div>
             
-            <div  class="mb-3" align="left>
+            <div  class="mb-3" align="left">
 
-                <label for="exampleFormControlTextarea1" class="form-label">자세한설명</label>
+                <label for="exampleFormControlTextarea1" class="form-label"></label>
 
             </div>
             <div class="mb-3">
@@ -167,7 +176,7 @@
             
             <div class="d-grid gap-2"  align="center" >
           
-            <input type="submit" value="작성완료"  class="btn btn-primary" style="width: 100%; background: rgb(255, 111, 15); border: none; height: 45px;">
+            <input type="submit" value="작성완료"  class="btn btn-primary" style="width: 100%; background: rgb(255, 111, 15); border: none; height: 50px;">
             </div>
             
             

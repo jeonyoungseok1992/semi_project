@@ -159,6 +159,7 @@
 }
 
 .prd-detail {
+	position: relative;
 	padding: 32px 0;
 	width: 677px;
 	margin: 0 auto;
@@ -171,6 +172,15 @@
 	font-weight: 600;
 	line-height: 1.5;
 	letter-spacing: -0.6px;
+}
+.prd-detail .update-btn{
+	position: absolute;
+    right: 0;
+    top: 32px;
+}
+.prd-detail .update-btn #done-button{
+	background: #ff6f0f;
+    border: 1px solid #ff6f0f;
 }
 
 .category {
@@ -266,7 +276,7 @@ section.comment h2 {
 	line-height: 1.5;
 	color: rgb(51, 51, 51);
 	font-weight: 600;
-	width: 623px;
+	width: 100%;
 	resize: none;
 	outline: none;
 }
@@ -351,7 +361,16 @@ z-index: 289;
 	width: 30px;
 	height: 30px;
 }
-
+#authorList > li{
+	cursor: pointer;
+    font-size: 18px;
+    padding: 10px 0;
+    font-weight: 700;
+}
+#authorList > li:hover{
+	background: #ff6f0f;
+	color: #fff;
+}
 </style>
 </head>
 <body>
@@ -408,7 +427,6 @@ z-index: 289;
                 </section>
                  
                 <section class="profile">
-                    <a href="#none">
                         <h3 class="sr-only">프로필</h3>
                         <div class="profile-detail-info">
                             <div class="profile-image">
@@ -419,24 +437,25 @@ z-index: 289;
                                 <div class="adress"><%=b.getAddress()%></div>
                             </div>                     
                         </div>
-                    </a>
                 </section>
                 <section class="prd-detail">
                     <h1 class="prd-title"><%=b.getBoardTitle()%></h1>
-                    <%if(loginUser != null && (b.getBoardWriter().equals(loginUser.getUserId())) && !b.getSaleYn().equals("Y")) { %>
+					<div class="update-btn">
+						<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserId()))) { %>
+							<div id="favorite-position">
+							</div>
+							<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" onclick="favorite()" >찜하기</button>
+						<%} %>
+						<%if(loginUser != null && (b.getBoardWriter().equals(loginUser.getUserId())) && !b.getSaleYn().equals("Y")) { %>
 		                    <button id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
 							    거래확정 
 							</button>
-					 <%} if(b.getSaleYn().equals("Y")) { %>
-							<button disabled id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
-							    거래완료 
-							</button>
- 					<%}  %>
-					<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserId()))) { %>
-						<div id="favorite-position">
-                        </div>
-						<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" onclick="favorite()" >찜하기</button>
-                    <%} %>
+						<%} if(b.getSaleYn().equals("Y")) { %>
+								<button disabled id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
+									거래완료 
+								</button>
+						<%}  %>
+					</div>
                     <p class="category">
                         <span><%=b.getCreateDate()%></span>
                     </p>
@@ -775,26 +794,23 @@ z-index: 289;
     </script>
 
 
-	<!-- The Modal -->
-	<div class="modal" id="openModalBtn">
-		<div class="modal-dialog">
+	<!-- 거래완료 modal -->
+	<div class="modal fade" id="openModalBtn">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 
 				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">회원 선택</h4>
+				<div class="modal-header" style="border-bottom: none; padding: 24px;">
+					<h4 class="modal-title updatest" style="display: block;text-align: center;width: 100%;padding-left: 32px;">회원 선택</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
 
-				<ul id="authorList">
-					<!-- 댓글 작성자 목록을 여기에 추가 -->
-				</ul>
-				<button id="modalSubmit">선택</button>
-
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger"
-						data-bs-dismiss="modal">Close</button>
+				<!-- Modal body -->
+				<div class="modal-body" align="center" style="padding: 24px; padding-top: 0;">
+					<ul id="authorList">
+						<!-- 댓글 작성자 목록을 여기에 추가 -->
+					</ul>
+					<button id="modalSubmit" class="btn btn-sm btn-danger updatest">선택</button>
 				</div>
 
 			</div>

@@ -88,17 +88,9 @@
 	}
 
 	.paging-area{
-		margin-top: 200px;
+		margin-top: 32px;
 	}
 
-	.paging-area button{
-		width: 40px;
-		height: 40px;
-		font-size: large;
-		font-weight: bolder;
-		font-style: italic;
-
-	}
 </style>
 </head>
 <body>
@@ -125,23 +117,23 @@
                     </nav>
 					<%} %>
                 </div>  
-				<div class="paging-area" align="center">
+				<ul class="paging-area" align="center">
 					<%if(currentPage != 1){ %>
-						<button onclick="location.href='<%=contextPath%>/buyDetail.bo?cpage=<%=currentPage - 1%>'">&lt;</button>
+						<li><button onclick="location.href='<%=contextPath%>/buyDetail.bo?cpage=<%=currentPage - 1%>'">[이전]</button></li>
 					<% }%>
 					
 					<%for(int p = startPage; p<=endPage; p++) {%>
 						<%if(p== currentPage){ %>
-							<button disabled><%=p %></button>
+							<li><button disabled><%=p %></button>
 						<%}else{ %>
-							   <button onclick="location.href='<%=contextPath%>/buyDetail.bo?cpage=<%=p%>'"><%=p %></button>
+							<li class="current"><button onclick="location.href='<%=contextPath%>/buyDetail.bo?cpage=<%=p%>'"><%=p %></button></li>
 						   <%} %>
 					   <%} %>
 					   
 					   <%if(currentPage != maxPage){ %>
-						   <button onclick="location.href='<%=contextPath%>/buyDetail.bo?cpage=<%=currentPage + 1%>'">&gt;</button>
+						<li><button onclick="location.href='<%=contextPath%>/buyDetail.bo?cpage=<%=currentPage + 1%>'">[다음]</button></li>
 					   <% }%>
-					</div>              
+				</ul>              
                     
      </div>
  </div>
