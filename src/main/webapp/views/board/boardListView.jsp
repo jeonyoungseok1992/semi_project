@@ -15,26 +15,73 @@
 <title>Insert title here</title>
 
     <style>
+      .Usedtrade{
+         height: 230px;
+         padding: 0 16px 0 16px;
+         background-color: #f7f1eb;
+         margin-top: 72px;
+      }
+      .Usedtrade .content{
+         padding-top: 50px;
+         max-width: 768px;
+         margin: 0 auto;
+         position: relative;
+         height: 100%;
+         box-sizing: border-box;
+      }
+      .Usedtrade .content h1{
+         font-weight: 700;
+         line-height: 1.5;
+         font-size: 34px;
+         letter-spacing: -0.32px;
+         text-align: right;
+      }
+      .Usedtrade .content span{
+         line-height: 1.32;
+         font-size: 18px;
+         letter-spacing: -0.18px;
+         margin-top: 16px;
+         display: block;
+         text-align: right;
+      }
    
-   /* contents */
-   .contents{
-       padding-top: 80px;
-       width: 80%;
-       height : 850px;
-       margin: 0 auto;
-   }
+      .card-all {
+         width: 677px;
+         margin: 0 auto;
+      }
+      .card-all h2{
+         padding-top: 60px;
+         padding-bottom: 32px;
+         font-size: 24px;
+         font-weight: 700;
+      }
+
+      .up-nav{
+         display: flex;
+         justify-content: flex-start;
+         flex-wrap: wrap;
+         width: 100%;
+         margin: 0 auto;
+         width: 757px;
+         gap: 44px;
+      }
+
+      .nav {
+         width: 223px;
+         margin-bottom: 56px;
+         border: none;
+      }
+
    
    .product:hover{cursor : pointer};
    
-   .contents .contents-wrap{
+   .contents-wrap{
        font-size: 30px;
        padding-top: 30px;
        display: flex;
        justify-content: center;
    }
-   .sales-detail {
-      font-weight: 700;
-   }
+
    
    /* 이미지 */
    /* .container .nav img{
@@ -49,18 +96,7 @@
    } */
    
    
-   
-   .product  {
-       padding-top: 50px;
-       flex: 1;
-       
-        /* flex-grow : 1; */
-       display: flex;
-       flex-direction: column;
-       align-items: center;
-         hover{cursor : pointer};
-       
-   }
+
    
    .product img{
        width: 200px;
@@ -68,99 +104,100 @@
        background-position: center;
        border-radius: 12px;      
    }
+   .product-menu{
+      margin-top: 12px;
+   }
    
-   .contents .nav .product-menu li{
-       text-align: center;
-       font-size: 16px;
-       color: black;
-       align-items: center;
-       justify-content: center;
+   .product-menu .card-title {
+      font-size: 16px;
+      letter-spacing: -0.02px;
+      color: #212529;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+      line-height: 1.5;
+      font-weight: normal;
    }
-   .contents .nav .product-menu li.price a{
+   
+   .product-menu .card-price {
+      font-size: 15px;
       font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 4px;
    }
-
-   .up-nav{
-      margin-top: 100px;
-      display: flex;
-      justify-content: space-evenly;
-      align-items:center;
-
+   .product-menu .card-state {
+      font-size: 13px;
+      color: #212529;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+      line-height: 1.5;
    }
 
    .paging-area{
-      margin-top: 200px;
+      margin-top: 32px;
    }
 
-   .paging-area button{
-      width: 40px;
-      height: 40px;
-      font-size: large;
-      font-weight: bolder;
-      font-style: italic;
 
-   }
 
-   .product-menu{
-      font-size: 20px;
-   }
+   
 </style>
 </head>
 <body>
 
  <%@ include file="/views/common/header.jsp" %>
        
-      
+      <section class="Usedtrade">
+         <div class="content">
+            <h1 class="title">중고거래의 모든것<br>이곳에서 확인하세요!</h1>
+         </div>
+      </section>
        
-        <div class="container">
-            <div class="contents" id="contents">
-                <div class="contents-wrap">
-                    <div class = "sales-detail">전체내역</div>
-                </div>
+        <section class="card-all">
+            <div class="contents-wrap">
+               <h2>중고거래</h2>
+
                     
                 <div class="up-nav">
                        <%for(Board b :list){ %>  
-                         	
-                         	
-                    <nav class="nav" >
-                       
-                        <div class = "product" onclick="location.href='<%=contextPath%>/detailPage.bo?bno=<%=b.getBoardNo() %>'" >
-                     <img src="<%=contextPath %>/<%=b.getTitleImg() %>">
-                            <ul class="product-menu">
-                                <li ><%=b.getBoardTitle() %></li>
-                        <br>
-                                <li>판매중</li>
-                        <br>
-                                <li class="price"><%=b.getAmount() %>원</li>      
-                            </ul>   
-                        </div>      
-                    </nav>
-               <%} %>
+                        <nav class="nav">
+                              <div class = "product" onclick="location.href='<%=contextPath%>/detailPage.bo?bno=<%=b.getBoardNo() %>'" >
+                                 <img src="<%=contextPath %>/<%=b.getTitleImg() %>">
+                                    <ul class="product-menu">
+                                       <li class="card-title"><%=b.getBoardTitle() %></li>
+                                       <li class="card-price"><%=b.getAmount() %>원</li>      
+                                       <li class="card-state">판매중</li>
+                                    </ul>   
+                              </div>      
+                        </nav>
+                  <%} %>
                 </div>  
+              
                 
                 
-                
-            <div class="paging-area" align="center">
+            <ul class="paging-area" align="center">
                <%if(currentPage != 1){ %>
-                  <button onclick="location.href='<%=contextPath%>/boardlist.bo?cpage=<%=currentPage - 1%>'">&lt;</button>
+                  <li><button onclick="location.href='<%=contextPath%>/boardlist.bo?cpage=<%=currentPage - 1%>'">[이전]</button></li>
                <% }%>
                
                <%for(int p = startPage; p<=endPage; p++) {%>
                   <%if(p== currentPage){ %>
-                     <button disabled><%=p %></button>
+                     <li><button disabled><%=p %></button></li>
                   <%}else{ %>
-                        <button onclick="location.href='<%=contextPath%>/boardlist.bo?cpage=<%=p%>'"><%=p %></button>
+                     <li><button onclick="location.href='<%=contextPath%>/boardlist.bo?cpage=<%=p%>'"><%=p %></button></li>
                      <%} %>
                   <%} %>
                   
                   <%if(currentPage != maxPage){ %>
-                     <button onclick="location.href='<%=contextPath%>/boardlist.bo?cpage=<%=currentPage + 1%>'">&gt;</button>
+                     <li><button onclick="location.href='<%=contextPath%>/boardlist.bo?cpage=<%=currentPage + 1%>'">[다음]</button></li>
                   <% }%>
-               </div>              
+                  </ul>              
                     
 
      </div>
- </div>
+ </section>
 
 
 

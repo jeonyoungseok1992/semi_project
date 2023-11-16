@@ -7,9 +7,96 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+   .board_main {
+        padding-top: 64px;
+        margin-top: 72px;
+    }
+   .board_main .title{
+       text-align: center;
+       font-size: 32px;
+       font-weight: 700;
+   }
+   .board_main .cards-wrap {
+      display: flex;
+       justify-content: flex-start;
+       flex-wrap: wrap;
+       width: 100%;
+       margin: 0 auto;
+       margin-top: 40px;
+       width: 757px;
+       gap: 44px;
+   }
+   .board_main .cards-wrap .cards {
+       width: 223px;
+       margin-bottom: 56px;
+       border: none;
+   }
+   .board_main .cards-wrap .cards > a {
+       text-decoration: none;
+       color: #212529;
+   }
+   .card-photo {
+      width: 100%;
+       padding-top: 100%;
+       position: relative;
+       overflow: hidden;
+       border-radius: 12px;
+       background-color: #F8F9FA;
+       box-sizing: border-box;
+   }
+   .card-photo > img {
+      position: absolute;
+       top: 0;
+       bottom: 0;
+       width: 100%;
+       height: 100%;
+       box-sizing: border-box;
+       border-radius: 12px;
+       border: 1px solid transparent;
+   }
+   .card-desc {
+      margin-top: 12px;
+   }
+   .card-desc .card-title {
+      font-size: 16px;
+       letter-spacing: -0.02px;
+       color: #212529;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+       margin-bottom: 4px;
+       line-height: 1.5;
+       font-weight: normal;
+   }
+   .card-desc .card-price {
+      font-size: 15px;
+       font-weight: 700;
+       line-height: 1.5;
+       margin-bottom: 4px;
+   }
+   .card-desc .card-address{
+      font-size: 13px;
+       color: #212529;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+       margin-bottom: 4px;
+       line-height: 1.5;
+   }
+   .card-desc .card-counts{
+      color: #868e96;
+       font-size: 13px;
+   }
+
+
+
+
+
+
+
+
+
    
-  
-   <style>
    
    /* contents */
    .contents{
@@ -84,17 +171,9 @@
    }
 
    .paging-area{
-      margin-top: 200px;
+      margin-top: 32px;
    }
 
-   .paging-area button{
-      width: 40px;
-      height: 40px;
-      font-size: large;
-      font-weight: bolder;
-      font-style: italic;
-
-   }
 
    .product-menu{
       font-size: 20px;
@@ -104,27 +183,39 @@
 <body>
     <jsp:include page="../common/header.jsp" />
 
-    <br>
-    <h1 align="center">게시판</h1>
-    <br>
+    <section class="board_main">
+        <h1 class="title">검색결과</h1>
+        <div class="cards-wrap">
+            <c:forEach var="b" items="${ list }">
+                <div class="cards" id="product">
+                    <a href="detailPage?bno=${b.boardNo}"> 
+                       <div class="card-photo ">
+                        <img src="${b.titleImg}">
+                     </div>
+                    <div class="card-desc">
+                       <h2 class="card-title">${b.boardTitle}</h2>
+                       <div class="card-price">
+                        ${b.amount}
+                       </div>
+                       <div class="card-address">
+                        ${b.boardWriter}
+                       </div>
+                       <div class="card-counts">
+                           <span>
+                            ${b.createDate}
+                           </span>
+                       </div>
+                     </div>
+                    </a>
+                 </div>
+            </c:forEach>
+            
+        </div>
+    </section>
 
     <div class="container" align="center"  >
         <div class="up-nav" >    
-        <c:forEach var="b" items="${ list }">
-            <nav class="nav">
-                <div id="product"> 
-                    <ul>
-                        <li><a href="detailPage?bno=${b.boardNo}">${b.boardTitle} </a></li>
-                        
-                        <li><a href="detailPage?bno=${b.boardNo}"> <img src="${b.titleImg}" style="width: 150px; height: 120px;" > </a></li>
-                        <li>${b.boardWriter}</li>
-                        <li>${b.amount}</li>
-                        <li>${b.createDate}</li>
-                        <br>
-                        <br>
-                    </ul>
-            </nav>
-        </c:forEach>
+        
 
         </div>
                                
@@ -133,14 +224,14 @@
                 
             </div >
          
-                <div id="paging-area" align="center">
+                <ul id="paging-area" align="center">
                     <c:if test="${ pi.currentPage ne 1}">
                         <c:choose>
                             <c:when test="${empty condition}">
-                                <a href="list.bo?cpage=${ pi.currentPage - 1 }">[이전]</a>
+                                <li><a href="list.bo?cpage=${ pi.currentPage - 1 }">[이전]</a></li>
                             </c:when>
                             <c:otherwise>
-                                <a href="search.bo?cpage=${ pi.currentPage - 1 }&condition=${condition}&keyword=${keyword}">[이전]</a>
+                                <li><a href="search.bo?cpage=${ pi.currentPage - 1 }&condition=${condition}&keyword=${keyword}">[이전]</a></li>
                             </c:otherwise>
                         </c:choose>
                     </c:if>
@@ -149,10 +240,10 @@
                     <c:forEach var="i" begin="${ pi.startPage }" end="${ pi.endPage }">
                         <c:choose>
                             <c:when test="${empty condition}">
-                                <a href="list.bo?cpage=${ i }">${ i }</a>
+                                <li class="current"><a href="list.bo?cpage=${ i }">${ i }</a></li>
                             </c:when>
                             <c:otherwise>
-                                <a href="search.bo?cpage=${ i }&condition=${condition}&keyword=${keyword}">${ i }</a>
+                                <li class="current"><a href="search.bo?cpage=${ i }&condition=${condition}&keyword=${keyword}">${ i }</a></li>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -161,14 +252,14 @@
                     <c:if test="${ pi.currentPage ne pi.maxPage}">
                         <c:choose>
                             <c:when test="${empty condition}">
-                                <a href="list.bo?cpage=${ pi.currentPage + 1 }">[다음]</a>
+                                <li><a href="list.bo?cpage=${ pi.currentPage + 1 }">[다음]</a></li>
                             </c:when>
                             <c:otherwise>
-                                <a href="search.bo?cpage=${ pi.currentPage + 1 }&condition=${condition}&keyword=${keyword}">[다음]</a>
+                                <li><a href="search.bo?cpage=${ pi.currentPage + 1 }&condition=${condition}&keyword=${keyword}">[다음]</a></li>
                             </c:otherwise>
                         </c:choose>
                     </c:if>
-                </div>
+                </ul>
 
            
 	            

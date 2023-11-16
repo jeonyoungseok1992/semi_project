@@ -132,15 +132,15 @@ header .gnb .menu li a:hover{
 header .gnb .search {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
 header .gnb .search .input {
-    width: 300px;
+    width: 250px;
     background: #f2f3f6;
     border: none;
     border-radius: 0.6rem;
-    padding: 0.8rem 1.4rem;
+    padding: 0.65rem 1.4rem;
     box-sizing: border-box;
 }
 
@@ -288,17 +288,18 @@ table.update  tbody tr td input{
                     <div id="search-area">
                         <form action="search.bo" method="get">
                             <input type="hidden" name="cpage" value="1">
-                            <select name="condition">
-                                <option value="writer">작성자</option>
-                                <option value="title">제목</option>
-                                <option value="content">내용</option>
-                            </select>
-                            
-                            <input type="text" name="keyword" value="${keyword}">
-                          
-                            <button type="submit">검색</button>
-                        </form>
+                            <div class="search">
+                                <select name="condition" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 85px;">
+                                    <option value="writer">작성자</option>
+                                    <option value="title">제목</option>
+                                    <option value="content">내용</option>
+                                </select>
+                                <input class="input" type="text" name="keyword" value="${keyword}" placeholder="키워드를 검색하세요.">   
+                                <button type="submit" class="button">검색</button>
+                            </div>
+                        </form> 
                     </div>
+
                     <c:if test="${not empty condition}">
                         <script>
                             window.onload = function() {
@@ -342,7 +343,7 @@ table.update  tbody tr td input{
                    		<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
                    </div>
                    <!-- Modal body -->
-                   <div class="modal-body login" align="center" style="padding: 24px;">
+                   <div class="modal-body login" align="center" style="padding: 24px; padding-top: 0;">
 				        <form action="<%=contextPath %>/login.me" id="login-form" method="post">
 			                <label align="center">아이디</label>
 			                <input type="text" name="userId" placeholder="아이디를 입력해주세요" required/>

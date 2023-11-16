@@ -13,10 +13,39 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <style>
+	.Usedtrade{
+		height: 230px;
+    	padding: 0 16px 0 16px;
+		background-color: #d2edfa;
+		margin-top: 72px;
+	}
+	.Usedtrade .content{
+		padding-top: 50px;
+		max-width: 768px;
+		margin: 0 auto;
+		position: relative;
+		height: 100%;
+		box-sizing: border-box;
+	}
+	.Usedtrade .content h1{
+		font-weight: 700;
+		line-height: 1.5;
+		font-size: 34px;
+		letter-spacing: -0.32px;
+		text-align: right;
+	}
+	.Usedtrade .content span{
+		line-height: 1.32;
+		font-size: 18px;
+		letter-spacing: -0.18px;
+		margin-top: 16px;
+		display: block;
+		text-align: right;
+	}
 	.accordion-qna{
 	    position: relative;
 		width: 677px;
-    	margin: 72px auto 0 auto;
+    	margin: 0 auto;
 	}
 	.accordion-qna a.insert{
 		position: absolute;
@@ -88,6 +117,11 @@
 </style>
 <body>
 	<jsp:include page="../common/header.jsp" />
+	<section class="Usedtrade">
+		<div class="content">
+			<h1 class="title">자주 묻는 질문을<br>확인하세요!</h1>
+		</div>
+	</section>
 		<section class="accordion-qna">
 			<h2>자주 묻는 질문</h2>
 			<% if (loginUser != null && loginUser.getUserId().equals("admin")) {%>

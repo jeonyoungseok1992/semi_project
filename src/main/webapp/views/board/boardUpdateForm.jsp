@@ -23,7 +23,7 @@
 <style>
     .main{
         position: absolute;
-        top: 50%;
+        top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 450px;
@@ -33,6 +33,13 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+    }
+    .main > h2 {
+        padding-bottom: 32px;
+        font-size: 24px;
+        font-weight: 700;
+        text-align: left;
+        width: 100%;
     }
     .picture{
         display: flex;
@@ -57,14 +64,18 @@
 </head>
  <%@ include file="../common/header.jsp"%>
     <div class="main">
-        <form action="update.bo?bno=${b.boardNo}" method="post" enctype="multipart/form-data" style="padding-left: 20px; padding-right: 20px;width: 450px; height: 450px;">
+        <h2>글 수정하기</h2>
+        <form action="update.bo?bno=${b.boardNo}" method="post" enctype="multipart/form-data" style="width: 450px; height: 450px;">
             <input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
             <input type="hidden" name="bno" value="${b.boardNo }">
             <input type="hidden" name="atList" value="${atList}">
-      		 <img id="content-img1" width="150" height="120" onclick="chooseFile(1);" src="${atList[0].filePath}${atList[0].changeName}">
-      		 <img id="content-img2" width="150" height="120" onclick="chooseFile(2);" src="${atList[1].filePath}${atList[1].changeName}">
-	         <img id="content-img3" width="150" height="120" onclick="chooseFile(3);" src="${atList[2].filePath}${atList[2].changeName}">
-	         <img id="content-img4" width="150" height="120" onclick="chooseFile(4);" src="${atList[3].filePath}${atList[3].changeName}">
+            <div>
+                <img id="content-img1" width="150" height="120" onclick="chooseFile(1);" src="${atList[0].filePath}${atList[0].changeName}">
+                <img id="content-img2" width="150" height="120" onclick="chooseFile(2);" src="${atList[1].filePath}${atList[1].changeName}">
+                <img id="content-img3" width="150" height="120" onclick="chooseFile(3);" src="${atList[2].filePath}${atList[2].changeName}">
+                <img id="content-img4" width="150" height="120" onclick="chooseFile(4);" src="${atList[3].filePath}${atList[3].changeName}">
+            </div>
+      		
 
 
 
@@ -89,7 +100,7 @@
             </div>
             
             <div style="margin-bottom: -35px;">
-                <label for="exampleFormControlTextarea1" class="form-label" >자세한설명</label>
+                <label for="exampleFormControlTextarea1" class="form-label" ></label>
 
             </div>
             <div class="mb-3">
