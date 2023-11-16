@@ -124,7 +124,7 @@
 					
 					<%for(int p = startPage; p<=endPage; p++) {%>
 						<%if(p== currentPage){ %>
-							<li class="current"><button disabled><%=p %></button></li>
+							<li><button disabled><%=p %></button></li>
 						<%}else{ %>
 							<li class="current"><button onclick="location.href='<%=contextPath%>/detail.bo?cpage=<%=p%>'"><%=p %></button></li>
 						   <%} %>

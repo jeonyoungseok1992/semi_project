@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8" import="com.semi.board.model.vo.Board, com.semi.board.model.vo.Reply, java.util.ArrayList, com.semi.common.model.vo.Attachment"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%
+
    Board b = (Board)request.getAttribute("b");
    Member m = (Member)request.getAttribute("m");
    ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
@@ -8,6 +10,7 @@
    ArrayList<Attachment> atlist = (ArrayList<Attachment>)request.getAttribute("atlist");
 
 %>
+ 
 
 <!DOCTYPE html>
 <html>
@@ -427,7 +430,7 @@ z-index: 289;
                         <h3 class="sr-only">프로필</h3>
                         <div class="profile-detail-info">
                             <div class="profile-image">
-							    <img src="./<%=b.getProfileUrl()%>" alt="">
+							    <img src="./<%=b.getProfileUrl()%>" alt="">  
                             </div>
                             <div class="profile-left">
                                 <div class="name"><%=b.getBoardWriter()%></div>
@@ -439,11 +442,19 @@ z-index: 289;
                     <h1 class="prd-title"><%=b.getBoardTitle()%></h1>
 					<div class="update-btn">
 						<%if(loginUser != null && !(b.getBoardWriter().equals(loginUser.getUserId()))) { %>
+							<div id="favorite-position">
+							</div>
 							<button id="favorite-Btn" type="button" class="btn btn-primary" style="background: rgb(255, 111, 15); border: none;" onclick="favorite()" >찜하기</button>
 						<%} %>
-						<button id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
-							거래완료 
-						</button>
+						<%if(loginUser != null && (b.getBoardWriter().equals(loginUser.getUserId())) && !b.getSaleYn().equals("Y")) { %>
+		                    <button id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
+							    거래확정 
+							</button>
+						<%} if(b.getSaleYn().equals("Y")) { %>
+								<button disabled id="done-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#openModalBtn">
+									거래완료 
+								</button>
+						<%}  %>
 					</div>
                     <p class="category">
                         <span><%=b.getCreateDate()%></span>
@@ -489,6 +500,9 @@ z-index: 289;
                     		selectFavoriteBtn();
                     	}
                     	function selectReplyList(){
+                    		
+                    		const userId = "<%=loginUser.getUserId()%>";
+                    		console.log(userId);
                     		$.ajax({
                     			url: "rlist.bo",
                     			data: {
@@ -498,6 +512,7 @@ z-index: 289;
                     				let replyCount = res.length;
                     				if(res.length === 0){
                     					document.querySelector("#reply-area ul").innerHTML = "<p style='padding: 50px 0; text-align: center;'>등록된 댓글이 없습니다.</p>";
+                    					document.getElementById('replyCount').innerHTML = 0;
                     				} else {
                     					let str = "";
                         				for (let reply of res) {
@@ -517,15 +532,22 @@ z-index: 289;
     	                    						+ "<div class='comment-contents'>"
     	                    							+ "<p class='detail comment'>"
     	                    								+ reply.replyContent
-    	                    							+ "</p>"
-    	                    							+ "<div class='btns'>"
+    	                    							+ "</p>";
+    	                    							
+    	                    							if(reply.replyWriter === userId){
+    	                    								str +="<div class='btns'>"           		                   
 		                            						+ "<button type='button' data-bs-toggle='modal' data-bs-target='#replyUpdateModal' onclick='initingup(" + reply.replyNo + ")'>수정</button>"
 		                            						+ "<button id='replydel' type='button' data-bs-toggle='modal' data-bs-target='#replyDeleteModal' onclick='initing(" + reply.replyNo + ")'>삭제</button>"
-	                           							+ "</div>"
-    	                    						+ "</div>"                   						
-                        						+ "</li>";
+	                           								+ "</div>";
+    	                    							}
+    	                    							str +="</div>"                   						
+    	                        						+ "</li>";
+    	                    							
+    	                    							
+    	                    					
                         						
                         				}
+
                         				
                         				document.querySelector("#reply-area ul").innerHTML = str;
                                         modalStart();
@@ -547,11 +569,13 @@ z-index: 289;
                                 },
                                 type:"post",
                                 success:function(res){
+                                	let replyCo = res.length;
                                    console.log(res)
                                     if (res > 0) {//댓글작성 성공
                                        document.getElementById("reply-content").value = "";
                                        selectReplyList();
                                     }
+                                   document.getElementById('replyCount').innerHTML = replyCo;
                                 },
                                 error:function(){
                              console.log("댓글 작성중 ajax통신 실패")
@@ -658,12 +682,16 @@ z-index: 289;
                                     
                                 },
                                 success:function(result){
+                                	let replyC =  document.getElementById('replyCount').innerHTML;
                                 	console.log(result)
                                     console.log(result > 0)
                                     if (result > 0) {//댓글삭제 성공
                                         document.getElementById("reply-content").value = "";
                                         selectReplyList();
+                                        
+                                       
                                     }
+                                	 
                                 },
                                 error:function(){
         							console.log("댓글 삭제중 ajax통신 실패")
@@ -673,6 +701,7 @@ z-index: 289;
 
                         function initing(num){
                             document.getElementById('replydelete').value=num;
+                            
                           
                         }
 

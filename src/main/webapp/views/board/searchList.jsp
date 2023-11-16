@@ -215,8 +215,21 @@
 
     <div class="container" align="center"  >
         <div class="up-nav" >    
-        
-
+        <c:forEach var="b" items="${ list }">
+            <nav class="nav">
+                <div id="product"> 
+                    <ul>
+                        <li><a href="detailPage.bo?bno=${b.boardNo}">${b.boardTitle} </a></li>
+                        
+                        <li><a href="detailPage.bo?bno=${b.boardNo}"> <img src="${b.titleImg}" style="width: 150px; height: 120px;" > </a></li>
+                        <li>${b.boardWriter}</li>
+                        <li>${b.amount}</li>
+                        <li>${b.createDate}</li>
+                        <br>
+                        <br>
+                    </ul>
+            </nav>
+        </c:forEach>
         </div>
                                
                      
@@ -240,7 +253,7 @@
                     <c:forEach var="i" begin="${ pi.startPage }" end="${ pi.endPage }">
                         <c:choose>
                             <c:when test="${empty condition}">
-                                <li class="current"><a href="list.bo?cpage=${ i }">${ i }</a></li>
+                                <li><a href="list.bo?cpage=${ i }">${ i }</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="current"><a href="search.bo?cpage=${ i }&condition=${condition}&keyword=${keyword}">${ i }</a></li>
