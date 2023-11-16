@@ -37,6 +37,7 @@
 
 
 	<select id="selectSearchCount" resultType="_int">
+
     SELECT COUNT(*)
     FROM BOARD B
     JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
