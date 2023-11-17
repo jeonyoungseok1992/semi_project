@@ -168,6 +168,8 @@ public Member selectMember(Connection conn, String userId) {
        close(pstmt);
     }
     
+    System.out.println(m);
+    
     return m;
  }
  

@@ -158,7 +158,6 @@ public class BoardDao{
 			
 			int startRow = (pi.getCurrentPage() -1) * pi.getBoardLimit() + 1;
 			int endRow = startRow + pi.getBoardLimit() -1;
-			
 			pstmt.setInt(1, bwriter);
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
@@ -182,7 +181,6 @@ public class BoardDao{
 			close(rset);
 			close(pstmt);
 		}
-		
 		return list;
 	}
 	public ArrayList<Board> selectBoardList(Connection conn, int boardWriter){

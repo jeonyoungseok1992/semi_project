@@ -300,9 +300,6 @@ z-index: 289;
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-	crossorigin="anonymous"></script>
 </head>
 
 <!-- 231105 임동건 / 마이페이지 온로드되면 내글보기 ajax실행 / 스크립트 코드 대략 380번째 줄 아래에있음 -->
@@ -328,7 +325,7 @@ z-index: 289;
 			        <img src="${loginUser.profileUrl}" id="title-img" width="250" height="170" onclick="chooseFile()">
 			    </c:when>
 			    <c:otherwise>
-			        <img src="resources/member_upfile/KakaoTalk_20231116_134926747.png" alt="" onclick="chooseFile()">
+			        <img src="resources/member_upfile/KakaoTalk_20231116_134926747.png" alt="" onclick="chooseFile()" >
 			    </c:otherwise>
 			</c:choose>
                 <br>
@@ -450,7 +447,7 @@ z-index: 289;
            </div>
        </div>
        
-      <!-- 주소 변경용 Modal -->
+     <!-- 주소 변경용 Modal -->
        <div class="modal fade" id="updateAdModal">
            <div class="modal-dialog modal-dialog-centered">
                <div class="modal-content">
@@ -469,11 +466,52 @@ z-index: 289;
                                  <td style="width: 100px; font-weight: 600;  font-size: 14px;">현재 주소</td>
                                  <td><input type="text" name="address" value="<%=Address%>" readonly></td>
                               </tr>
-                               <tr>
-                                   <td style="width: 100px; font-weight: 600;  font-size: 14px;">변경할 주소</td>
-                                   <td><input type="text" name="updateAddress" required></td>
-                               </tr>
+                                <tr>
+                               <form id = "form1">      
+                                   <td style="height: 300px;  "> 주소</td>
+                                     <td style="list-style: none;">
+                                    <li><input type = "button" id = "btn" value="우편번호검색"><br> </li>
+                                     <li><input type="text" id="zipcode" name="zipcode" size="5" placeholder = "우편번호" readonly></li>     
+                              <li><input type="text" id="addr1" name="addr1" size="50" placeholder="도로명주소" readonly><br> </li>
+                                   
+                              <li><input type="text" id="addr2" name="addr2" size="50" placeholder="상세주소"></li>          
+                                 <!--  <td><input type="text" name="address" placeholder="주소를 입력해주세요." ></td>
+                                   <td></td>
+                                     --> 
+                                     </td>
+                               </form>    
+                            </tr>
                            </table>
+                           
+                            <!-- 도로명 주소 -->
+                        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                     <script>
+                        const btn = document.querySelector("#btn");
+            
+                           
+                        btn.addEventListener("click", () => {
+                                new daum.Postcode({
+                             oncomplete: function(data) {
+                                 console.log(data);
+                                    let fullAddr = '';
+                                    let extraAddr = '';
+            
+                                    if(data.userSelectedType === 'R'){
+                                        fullAddr = data.roadAddress;
+            	
+                                    } else{
+                                        fullAddr = data.jibunAddress;
+                                    }
+            
+                                    document.getElementById('addr1').value=fullAddr;
+                                   
+                                    document.getElementById('zipcode').value =  data.zonecode;
+                             }
+                         }).open();
+            
+                            });
+                         
+                     </script>
                            <br>
                            <button id="edit-adress-btn" type="submit" class="btn btn-sm btn-secondary updatest" >주소변경</button>
                        </form>
@@ -535,19 +573,6 @@ z-index: 289;
                                 "</div>"
                                 
 
-
-
-                                <div class="container mt-3">
-						<div class="dropdown">
-						  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color: transparent; border: none;" >
-						   <img id="alter-btn" src="resources/images/icon/free-icon-menu-483345.png">
-						  </button>
-						  <ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="updateForm.bo?bno=${b.boardNo}">수정하기</a></li>
-							<li><a class="dropdown-item" href="delete.bo?bno=${b.boardNo}">삭제하기</a></li>
-						  </ul>
-						</div>
-					  </div>
                    
                            
                                   document.querySelector(".myPage-section4").innerHTML = str;
@@ -597,7 +622,7 @@ z-index: 289;
                                     document.querySelector(".myPage-section4").innerHTML = str;
                                 		
                                 }
-                      	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/purchase.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                      	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/purchase.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest add' style='height: 50px;'>더보기</button>";
                          }
                           
                           
@@ -641,7 +666,7 @@ z-index: 289;
                                     document.querySelector(".myPage-section4").innerHTML = str;
                                 		
                                 }
-                      	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/buyDetail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest' style='height: 40px;'>더보기</button>";
+                      	 document.querySelector(".myPage-section4").innerHTML += "<button id='more-list-btn' type='button' onclick=\"location.href='/carrot/buyDetail.bo?cpage=1'\" class='btn btn-sm btn-secondary updatest add' style='height: 50px;'>더보기</button>";
                          }
                    },
                    error : function(){
@@ -765,6 +790,11 @@ z-index: 289;
            }
            
 
+           
+           
+       
+           
+           
        </script>
 			
 

@@ -371,6 +371,9 @@ z-index: 289;
 	background: #ff6f0f;
 	color: #fff;
 }
+.dropdown-toggle::after {
+	opacity: 0;
+}
 </style>
 </head>
 <body>
@@ -383,7 +386,7 @@ z-index: 289;
                 <section class="swiper-images">
 					<!--수정삭제버튼-->
 					<div class="container mt-3">
-						<div class="dropdown">
+						<div class="dropdown" style="display: inline;">
 						  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color: transparent; border: none;" >
 						   <img id="alter-btn" src="resources/images/icon/free-icon-menu-483345.png">
 						  </button>
@@ -429,14 +432,25 @@ z-index: 289;
                 <section class="profile">
                         <h3 class="sr-only">프로필</h3>
                         <div class="profile-detail-info">
+                        <c:choose>
+			    			<c:when test="${!empty loginUser.profileUrl}">
                             <div class="profile-image">
 							    <img src="./<%=b.getProfileUrl()%>" alt="">  
                             </div>
+                            </c:when>
+                            <c:otherwise>
+                            	<div class="profile-image">
+			        			<img src="resources/member_upfile/KakaoTalk_20231116_134926747.png" alt="" onclick="chooseFile()">
+			    				</div>
+			    			</c:otherwise>
+							</c:choose>
                             <div class="profile-left">
                                 <div class="name"><%=b.getBoardWriter()%></div>
                                 <div class="adress"><%=b.getAddress()%></div>
                             </div>                     
                         </div>
+               
+                        
                 </section>
                 <section class="prd-detail">
                     <h1 class="prd-title"><%=b.getBoardTitle()%></h1>
@@ -502,6 +516,7 @@ z-index: 289;
                     	function selectReplyList(){
                     		
                     		const userId = "<%=loginUser.getUserId()%>";
+                    		let prof = "<%=loginUser.getProfileUrl()%>";
                     		console.log(userId);
                     		$.ajax({
                     			url: "rlist.bo",
@@ -515,33 +530,59 @@ z-index: 289;
                     					document.getElementById('replyCount').innerHTML = 0;
                     				} else {
                     					let str = "";
+                    					
                         				for (let reply of res) {
-                        					
                         					str += "<li>"
-    	                    						+ "<div class='flex'>"
-    	                    							+"<div class='profile-image'>"
-    	                    								+ "<img src='./"+ reply.profileUrl +"' alt=''>"
-    	                    								+  "<input class='done-reply' type='hidden' name='userId'+ value="+ reply.replyWriter + ">"
-    	                    							+ "</div>"
-    		                    						+ "<div class='profile-left'>"
-    		                    							+ "<div class='name'>" + reply.replyWriter + "</div>"
-    		                    							+ "<p class='category'><span>" + reply.createDate + "</span></p>"
-    		                    							+ "</p>"
-    		                    						+ "</div>"
-    	                    						+ "</div>"
-    	                    						+ "<div class='comment-contents'>"
-    	                    							+ "<p class='detail comment'>"
-    	                    								+ reply.replyContent
-    	                    							+ "</p>";
-    	                    							
-    	                    							if(reply.replyWriter === userId){
-    	                    								str +="<div class='btns'>"           		                   
-		                            						+ "<button type='button' data-bs-toggle='modal' data-bs-target='#replyUpdateModal' onclick='initingup(" + reply.replyNo + ")'>수정</button>"
-		                            						+ "<button id='replydel' type='button' data-bs-toggle='modal' data-bs-target='#replyDeleteModal' onclick='initing(" + reply.replyNo + ")'>삭제</button>"
-	                           								+ "</div>";
-    	                    							}
-    	                    							str +="</div>"                   						
-    	                        						+ "</li>";
+                        					    + "<div class='flex'>"
+                        					    + "<div class='profile-image'>";
+
+                        					if (!(reply.profileUrl == null)) {
+                        					    str += "<img src='" + reply.profileUrl + "' alt=''>";
+                        					} else {
+                        					    str += "<img src='resources/member_upfile/KakaoTalk_20231116_134926747.png' onclick='chooseFile()'>";
+                        					}
+
+                        					str += "<input class='done-reply' type='hidden' name='userId' value='" + reply.replyWriter + "'>"
+                        					    + "</div>"
+                        					    + "<div class='profile-left'>"
+                        					    + "<div class='name'>" + reply.replyWriter + "</div>"
+                        					    + "<p class='category'><span>" + reply.createDate + "</span></p>"
+                        					    + "</p>"
+                        					    + "</div>"
+                        					    + "</div>"
+                        					    + "<div class='comment-contents'>"
+                        					    + "<p class='detail comment'>" + reply.replyContent + "</p>";
+
+                        					if (reply.replyWriter === userId) {
+                        					    str += "<div class='btns'>"
+                        					        + "<button type='button' data-bs-toggle='modal' data-bs-target='#replyUpdateModal' onclick='initingup(" + reply.replyNo + ")'>수정</button>"
+                        					        + "<button id='replydel' type='button' data-bs-toggle='modal' data-bs-target='#replyDeleteModal' onclick='initing(" + reply.replyNo + ")'>삭제</button>"
+                        					        + "</div>";
+                        					}
+
+                        					str += "</div>"
+                        					    + "</li>";
+
+   
+    
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                      
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
     	                    							
     	                    							
     	                    					
@@ -836,6 +877,7 @@ z-index: 289;
 	    uniqueAuthors.forEach(author => {
 	        const listItem = document.createElement("li");
 	        listItem.textContent = author;		//author : 중복체크 된 댓글작성자
+	        authorList.innerHTML = "";
 	        authorList.appendChild(listItem);
 	        
 	        listItem.addEventListener("click", function() {

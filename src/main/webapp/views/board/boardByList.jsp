@@ -15,7 +15,86 @@
 <title>Insert title here</title>
 
     <style>
-	
+	.board_main{
+      padding-top: 64px;
+   }
+   .title{
+       text-align: center;
+       font-size: 32px;
+       font-weight: 700;
+   }
+   .cards-wrap {
+      display: flex;
+       justify-content: flex-start;
+       flex-wrap: wrap;
+       width: 100%;
+       margin: 0 auto;
+       margin-top: 40px;
+       width: 757px;
+       gap: 44px;
+   }
+   .cards-wrap .cards {
+       width: 223px;
+       margin-bottom: 56px;
+       border: none;
+   }
+   .cards-wrap .cards > a {
+       text-decoration: none;
+       color: #212529;
+   }
+   .card-photo {
+      width: 100%;
+       padding-top: 100%;
+       position: relative;
+       overflow: hidden;
+       border-radius: 12px;
+       background-color: #F8F9FA;
+       box-sizing: border-box;
+   }
+   .card-photo > img {
+      position: absolute;
+       top: 0;
+       bottom: 0;
+       width: 100%;
+       height: 100%;
+       box-sizing: border-box;
+       border-radius: 12px;
+       border: 1px solid transparent;
+   }
+   .card-desc {
+      margin-top: 12px;
+   }
+   .card-desc .card-title {
+      font-size: 16px;
+       letter-spacing: -0.02px;
+       color: #212529;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+       margin-bottom: 4px;
+       line-height: 1.5;
+       font-weight: normal;
+   }
+   .card-desc .card-price {
+      font-size: 15px;
+       font-weight: 700;
+       line-height: 1.5;
+       margin-bottom: 4px;
+   }
+   .card-desc .card-address{
+      font-size: 13px;
+       color: #212529;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+       margin-bottom: 4px;
+       line-height: 1.5;
+   }
+   .card-desc .card-counts{
+      color: #868e96;
+       font-size: 13px;
+   }
+
 	/* contents */
 	.contents{
 	    padding-top: 80px;
@@ -89,6 +168,8 @@
 
 	.paging-area{
 		margin-top: 32px;
+		margin-bottom: 100px;
+		width: 100%;
 	}
 
 </style>
@@ -99,41 +180,47 @@
         <div class="container">
             <div class="contents" id="contents">
                 <div class="contents-wrap">
-                    <div class = "sales-detail">나의 판매내역</div>
+                    <div class="sales-detail">나의 판매내역</div>
                 </div>
-           			
-                <div class="up-nav">
-                       <%for(Board b :list){ %>    
-                    <nav class="nav" onclick="imgClick()">
-                       
-                        <div class = "product">
-							<a href="#none"><img src="<%=contextPath %>/<%=b.getTitleImg() %>"></a>
-                            <ul class="product-menu">
-                                <li><a href="#none"><%=b.getBoardTitle() %></a></li>
-                                <li><a href="#none">판매완료</a></li>
-                                <li class="price"><a href="#none"><%=b.getAmount() %>원</a></li>
-                            </ul>
-                        </div>		
-                    </nav>
-					<%} %>
+
+					<div class="cards-wrap">
+					<%for(Board b :list){ %>
+						<div class="cards" onclick="location.href='<%=contextPath%>/detailPage.bo?bno=<%=b.getBoardNo() %>'">
+							<a>
+								<div class="card-photo ">
+									<img src="<%=contextPath %>/<%=b.getTitleImg() %>">
+								</div>
+								<div class="card-desc">
+									<h2 class="card-title"><%=b.getBoardTitle() %></h2>
+									<div class="card-price">
+										<%=b.getAmount() %>원
+									</div>
+									<div class="card-address">
+									판매완료
+									</div>
+								</div>
+							</a>
+							</div>
+						<%} %>
+						<ul class="paging-area" align="center">
+							<%if(currentPage != 1){ %>
+								<li><button onclick="location.href='<%=contextPath%>/purchase.bo?cpage=<%=currentPage - 1%>'">[이전]</button></li>
+							<% }%>
+							
+							<%for(int p = startPage; p<=endPage; p++) {%>
+								<%if(p== currentPage){ %>
+									<li class="current"><button disabled><%=p %></button></li>
+								<%}else{ %>
+									<li><button onclick="location.href='<%=contextPath%>/purchase.bo?cpage=<%=p%>'"><%=p %></button></li>
+								   <%} %>
+							   <%} %>
+							   
+							   <%if(currentPage != maxPage){ %>
+								<li><button onclick="location.href='<%=contextPath%>/purchase.bo?cpage=<%=currentPage + 1%>'">[다음]</button></li>
+							   <% }%>
+						</ul> 
                 </div>  
-				<ul class="paging-area" align="center">
-					<%if(currentPage != 1){ %>
-						<li><button onclick="location.href='<%=contextPath%>/purchase.bo?cpage=<%=currentPage - 1%>'">[이전]</button></li>
-					<% }%>
-					
-					<%for(int p = startPage; p<=endPage; p++) {%>
-						<%if(p== currentPage){ %>
-							<li><button disabled><%=p %></button></li>
-						<%}else{ %>
-							<li class="current"><button onclick="location.href='<%=contextPath%>/purchase.bo?cpage=<%=p%>'"><%=p %></button></li>
-						   <%} %>
-					   <%} %>
-					   
-					   <%if(currentPage != maxPage){ %>
-						<li><button onclick="location.href='<%=contextPath%>/purchase.bo?cpage=<%=currentPage + 1%>'">[다음]</button></li>
-					   <% }%>
-				</ul>              
+				             
                     
 
      </div>

@@ -58,35 +58,12 @@
 			JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
 			WHERE B.BOARD_WRITER = ?
 			and B.status='Y'
+			AND FILE_LEVEL = 1
 			ORDER BY BOARD_NO DESC) C
 			)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
 
-	<entry key="selectMyBoardList">
-	SELECT *
-      FROM
-         (SELECT ROWNUM AS "RNUM", A.*
-          FROM (SELECT BOARD_NO,
-            BOARD_TITLE,
-            TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE",
-            COUNT,
-            AMOUNT,
-            FILE_PATH || CHANGE_NAME "TITLE_IMG"
-            
-       FROM BOARD
-       
-       JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
-       
-       WHERE BOARD.STATUS = 'Y'
-       AND   BOARD.SALE_YN = 'N'
-   		 AND FILE_LEVEL = 1
-    
-       
-       ORDER BY BOARD_NO DESC) A
-          )
-      WHERE RNUM BETWEEN ? AND ?
-      </entry>
       
 	  <entry key="selectBuyBoardList">
              SELECT *
@@ -103,14 +80,11 @@
 	                ,M.ADDRESS
 	            FROM BOARD B
 	            JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-	            JOIN (select REF_BNO, 
-            max(FILE_PATH) FILE_PATH, 
-            		max(CHANGE_NAME) CHANGE_NAME
-                    from ATTACHMENT
-                    group by ref_bno) A ON (B.BOARD_NO = A.REF_BNO)
+	            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
 	            JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO )
 	            WHERE S.BUYER = ?
 	            	AND B.STATUS = 'Y'
+	            	AND A.FILE_LEVEL = 1
 	            	
 	            ORDER BY B.BOARD_NO DESC)C
 	            )
@@ -158,13 +132,11 @@
             ,M.ADDRESS
             FROM BOARD B
             JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-            JOIN (select REF_BNO, 
-            max(FILE_PATH) FILE_PATH, 
-            		max(CHANGE_NAME) CHANGE_NAME
-                    from ATTACHMENT
-                    group by ref_bno) A ON (B.BOARD_NO = A.REF_BNO)
+            JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
             WHERE B.BOARD_WRITER = ?
-            AND B.STATUS = 'Y'     
+            AND B.STATUS = 'Y' 
+            AND A.FILE_LEVEL = 1  
+            AND SALE_YN = 'N'  
             ORDER BY B.BOARD_NO DESC ) C
 		)
 		WHERE RNUM BETWEEN 1 AND 5
@@ -186,14 +158,11 @@
 		,M.ADDRESS
 		FROM BOARD B
 		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		JOIN (select REF_BNO, 
-            max(FILE_PATH) FILE_PATH, 
-            		max(CHANGE_NAME) CHANGE_NAME
-                    from ATTACHMENT
-                    group by ref_bno) A ON (B.BOARD_NO = A.REF_BNO)
+		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
 		WHERE B.BOARD_WRITER = ?
 		AND B.STATUS='Y'
 		AND B.SALE_YN = 'Y'
+		AND A.FILE_LEVEL = 1
 		ORDER BY B.BOARD_NO DESC)C
 		)
 		WHERE RNUM BETWEEN 1 AND 5
@@ -239,7 +208,7 @@
 		select count(*) as "count"
 		from board
 		where status = 'Y'
-		AND board_writer = ?
+		and SALE_YN = 'N'
 	</entry>
 
 	<entry key="selectAllBoardList">
@@ -259,35 +228,14 @@
 
 		WHERE BOARD.STATUS = 'Y'
 		AND BOARD.SALE_YN = 'N'
+		AND FILE_LEVEL = 1
 
 		ORDER BY BOARD_NO DESC) A
 		)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
 
-	<entry key="selectBuyBoardList">
-		SELECT *
-		FROM (SELECT ROWNUM AS "RNUM", C.*
-		FROM (SELECT B.BOARD_NO
-		,B.BOARD_TITLE
-		,B.BOARD_CONTENT
-		,M.USER_ID
-		,TO_CHAR(S.SALE_DATE, 'YY/MM/DD HH:MI') "CREATE_DATE"
-		,B.COUNT
-		,B.STATUS
-		,B.AMOUNT
-		,A.FILE_PATH || A.CHANGE_NAME "TITLE_IMG"
-		,M.ADDRESS
-		FROM BOARD B
-		JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
-		JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
-		JOIN SALE_LOG S on (B.BOARD_NO = S.BOARD_NO )
-		WHERE S.BUYER = ?
-		AND B.STATUS = 'Y'
-		ORDER BY B.BOARD_NO DESC)C
-		)
-		WHERE RNUM BETWEEN 1 AND 5
-	</entry>
+
 
 	<entry key="selectBuyListCount">
 		select count(*) as "count"
@@ -314,6 +262,7 @@
 		WHERE S.BUYER = ?
 		and status = 'Y'
 		and B.status = 'Y'
+		AND FILE_LEVEL = 1
 		ORDER BY BOARD_NO DESC) C
 		)
 		WHERE RNUM BETWEEN ? AND ?
@@ -464,9 +413,10 @@
             JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
             JOIN ATTACHMENT A ON (B.BOARD_NO = A.REF_BNO)
             WHERE B.STATUS = 'Y'
+            AND   B.SALE_YN = 'N'
             ORDER BY B.COUNT DESC)C
             )
-    WHERE RNUM BETWEEN 1 AND 10
+    WHERE RNUM BETWEEN 1 AND 12
 	</entry>
 	<entry key="duplchk">
 		select count(*) as "count"

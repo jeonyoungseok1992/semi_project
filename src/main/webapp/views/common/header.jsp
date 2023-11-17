@@ -348,7 +348,7 @@ table.update  tbody tr td input{
 			                <label align="center">아이디</label>
 			                <input type="text" name="userId" placeholder="아이디를 입력해주세요" required/>
 			                <label align="center">비밀번호</label>
-			                <input type="text" name="userPwd" placeholder="비밀번호를 입력해주세요" required/>
+			                <input type="password" name="userPwd" placeholder="비밀번호를 입력해주세요" required/>
 		                    <button type="submit" id="mem" class="btn btn-sm btn-secondary updatest">로그인</button>
 		                    <button id="join"><a href="<%=contextPath%>/enrollForm.me">회원가입</a> </button>
         				</form>
