@@ -96,15 +96,6 @@ public class BoardService {
 	      return list;
 	   }
 	
-	  public int selectBoardListCount() {
-	      Connection conn = getConnection();
-	      
-	      int boardListCount = new BoardDao().selectBoardListCount(conn);
-	      
-	      close(conn);
-	      
-	      return boardListCount;
-	   }
 	  
 	  public ArrayList<Board> selectBuyBoardList(String buyer){
 		Connection conn = getConnection();
@@ -168,7 +159,7 @@ public class BoardService {
 		   }		    
 		
 		
-		 public int searchBoardListCount() {
+		 public int selectBoardListCount() {
 		      Connection conn = getConnection();
 		      
 		      int boardListCount = new BoardDao().selectBoardListCount(conn);

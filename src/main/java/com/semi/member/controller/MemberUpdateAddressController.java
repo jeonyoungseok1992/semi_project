@@ -39,7 +39,8 @@ public class MemberUpdateAddressController extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String address = request.getParameter("address");
 		String updateAddress = request.getParameter("addr1") + " " + request.getParameter("addr2");
-		
+		System.out.println(request.getParameter("addr1"));
+		System.out.println(request.getParameter("addr2"));
 		
 
 		Member updateAdMem = new MemberService().updateAdMember(userId, address, updateAddress);

@@ -170,9 +170,15 @@
 
    }
 
-   .paging-area{
+   #paging-area{
+   		display : flex;
       margin-top: 32px;
+      margin-bottom: 100px;
+      width: 100%;
+      padding-left : 400px
    }
+   
+ 
 
 
    .product-menu{
@@ -188,7 +194,7 @@
         <div class="cards-wrap">
             <c:forEach var="b" items="${ list }">
                 <div class="cards" id="product">
-                    <a href="detailPage?bno=${b.boardNo}"> 
+                    <a href="detailPage.bo?bno=${b.boardNo}"> 
                        <div class="card-photo ">
                         <img src="${b.titleImg}">
                      </div>
@@ -209,77 +215,47 @@
                     </a>
                  </div>
             </c:forEach>
-            
+       
+            <ul id="paging-area" align="center">
+                <c:if test="${ pi.currentPage ne 1}">
+                    <c:choose>
+                        <c:when test="${empty condition}">
+                            <li><a href="list.bo?cpage=${ pi.currentPage - 1 }">[이전]</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="search.bo?cpage=${ pi.currentPage - 1 }&condition=${condition}&keyword=${keyword}">[이전]</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+                
+                
+                <c:forEach var="i" begin="${ pi.startPage }" end="${ pi.endPage }">
+                    <c:choose>
+                        <c:when test="${empty condition}">
+                            <li class="current"><a href="list.bo?cpage=${ i }">${ i }</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="search.bo?cpage=${ i }&condition=${condition}&keyword=${keyword}">${ i }</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                
+                
+                <c:if test="${ pi.currentPage ne pi.maxPage}">
+                    <c:choose>
+                        <c:when test="${empty condition}">
+                            <li><a href="list.bo?cpage=${ pi.currentPage + 1 }">[다음]</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="search.bo?cpage=${ pi.currentPage + 1 }&condition=${condition}&keyword=${keyword}">[다음]</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </ul>
+          
+
         </div>
     </section>
 
-    <div class="container" align="center"  >
-        <div class="up-nav" >    
-        <c:forEach var="b" items="${ list }">
-            <nav class="nav">
-                <div id="product"> 
-                    <ul>
-                        <li><a href="detailPage.bo?bno=${b.boardNo}">${b.boardTitle} </a></li>
-                        
-                        <li><a href="detailPage.bo?bno=${b.boardNo}"> <img src="${b.titleImg}" style="width: 150px; height: 120px;" > </a></li>
-                        <li>${b.boardWriter}</li>
-                        <li>${b.amount}</li>
-                        <li>${b.createDate}</li>
-                        <br>
-                        <br>
-                    </ul>
-            </nav>
-        </c:forEach>
-        </div>
-                               
-                     
-                 
-                
-            </div >
-         
-                <ul id="paging-area" align="center">
-                    <c:if test="${ pi.currentPage ne 1}">
-                        <c:choose>
-                            <c:when test="${empty condition}">
-                                <li><a href="list.bo?cpage=${ pi.currentPage - 1 }">[이전]</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li><a href="search.bo?cpage=${ pi.currentPage - 1 }&condition=${condition}&keyword=${keyword}">[이전]</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:if>
-                    
-                    
-                    <c:forEach var="i" begin="${ pi.startPage }" end="${ pi.endPage }">
-                        <c:choose>
-                            <c:when test="${empty condition}">
-                                <li><a href="list.bo?cpage=${ i }">${ i }</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li class="current"><a href="search.bo?cpage=${ i }&condition=${condition}&keyword=${keyword}">${ i }</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                    
-                    
-                    <c:if test="${ pi.currentPage ne pi.maxPage}">
-                        <c:choose>
-                            <c:when test="${empty condition}">
-                                <li><a href="list.bo?cpage=${ pi.currentPage + 1 }">[다음]</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li><a href="search.bo?cpage=${ pi.currentPage + 1 }&condition=${condition}&keyword=${keyword}">[다음]</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:if>
-                </ul>
-
-           
-	            
-          
-       
-
-       
-    </div>
 </body>
 </html>

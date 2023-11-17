@@ -46,7 +46,7 @@ public class SearchBoardList extends HttpServlet {
 		int searchCount = bService.selectSearchCount(map);
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 	
-		PageInfo pi = Pagenation.getPageInfo(searchCount, currentPage, 10, 5);
+		PageInfo pi = Pagenation.getPageInfo(searchCount, currentPage, 10, 6);
 		ArrayList<Board> list = bService.selectSearchList(map, pi);
 		
 		request.setAttribute("list", list);
