@@ -6,7 +6,7 @@
 ![로고](src/main/webapp/resources/images/img/dang.jpg)
 
 - 개발 기간: 2023-10-16 ~ 2023-11-17
-- 개발자 링크: (https://www.notion.so/bc3c7471e459461fbabde1a07a4337b9)
+- 개발자 링크: (https://www.notion.so/62332567112f4378a1dd1880ff0c3df1)
 
 ## 기술 스택
 `Front-End` 
