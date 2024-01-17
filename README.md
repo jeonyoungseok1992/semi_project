@@ -64,7 +64,7 @@ $ git clone https://github.com/dglimmm/semiProject.git
 | 이름 | 담당역할 | Contact |
 | --- | --- | --- |
 | 임동건 | 조    장 | nathomme@naver.com |
-| 전영석 | 이슈관리자 | jeonyoungseok1992@gmail.com |
-| 박수현 | 형상관리자 | Hyunsu4522@gmail.com |
+| 전영석 | Git관리자 | jeonyoungseok1992@gmail.com |
+| 박수현 | 이슈관리자 | Hyunsu4522@gmail.com |
 | 안이삭 | 일정관리자 | SAKsak22@gmail.com |
 | 최창영 |  DB관리자 | Choechang@gmail.com |
