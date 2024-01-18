@@ -51,7 +51,7 @@ $ git clone https://github.com/dglimmm/semiProject.git
   + 프로필 수정 및 회원탈퇴 가능 
 
 + 중고거래 게시판
-  + 글관련 CRUD가능
+  + 글관련 CRUD기능
   + 댓글 기능
   + 찜하기 기능
   + 키워드검색, 페이징 처리
